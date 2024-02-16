@@ -131,7 +131,7 @@
                                             <i class="bx bx-edit-alt me-1"></i> Approve
                                         </a> --}}
                                         <a class="dropdown-item" href="javascript:void(0);" onclick="disApprove({{ $item->revenue_id }})">
-                                            <i class="bx bxs-like bx-rotate-180 me-1"></i> Dis-approve
+                                            <i class="bx bxs-like bx-rotate-180 me-1"></i> Reject
                                         </a>
                                       </div>
                                     </div>

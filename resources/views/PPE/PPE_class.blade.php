@@ -7,7 +7,7 @@
 
       <div class="col-md-6">
         <div class="card mb-4">
-          <h5 class="card-header">PPEClass(s)</h5>
+          {{-- <h5 class="card-header">PPEClass(s)</h5> --}}
           <div class="card-body">
             <form action="{{ route('post.ppe.class') }}" method="post">
                 @csrf
@@ -49,7 +49,7 @@
 
       <div class="col-md-6">
         <div class="card mb-4">
-          <h5 class="card-header">Expenditure Type(s)</h5>
+          <h5 class="card-header">PPEclass</h5>
           <div class="card-body">
                 <table class="table table-stripe">
                     <thead>

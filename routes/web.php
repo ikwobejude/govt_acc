@@ -13,6 +13,7 @@ use App\Http\Controllers\FinalAccount\GeneralLedgerController;
 use App\Http\Controllers\FinalAccount\TrialBalanceController;
 use App\Http\Controllers\Liability\LiabilityController;
 use App\Http\Controllers\PPE\PPECLassController;
+use App\Http\Controllers\PPE\PPEController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Revenue\RevenueController;
 use App\Http\Controllers\Settings\AssetCategoryController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\Settings\AssetSizeController;
 use App\Http\Controllers\Settings\AssetTypeController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\Uploads\RevenueUploadController;
+use App\Http\Controllers\Vendors\VendorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -118,11 +120,15 @@ Route::group(['prefix' => 'asset'], function () {
 });
 
 
-Route::group(['prefix' => 'ppe_class'], function () {
+Route::group(['prefix' => 'ppe'], function () {
     Route::middleware(['auth'])->group(function () {
         // Account payable
-        Route::get('/', [PPECLassController::class, 'index'])->name('get.ppeclass');
-        Route::post('/', [PPECLassController::class, 'store'])->name('post.ppe.class');
+        Route::get('/_class', [PPECLassController::class, 'index'])->name('get.ppeclass');
+        Route::post('/_class', [PPECLassController::class, 'store'])->name('post.ppe.class');
+
+
+        Route::get('/', [PPEController::class, 'index'])->name('get.ppe');
+        Route::post('/', [PPEController::class, 'store'])->name('post.ppe');
     });
 });
 
@@ -185,5 +191,12 @@ Route::group(['prefix' => 'trial_balance'], function () {
     });
 });
 
+Route::group(['prefix' => 'vendor'], function () {
+    Route::middleware(['auth'])->group(function () {
+        // Account payable
+        Route::get('/', [VendorController::class, 'index'])->name('view.vendor');
+        // Route::get('/', [GeneralLedgerController::class, 'accountReceivable'])->name('view.account_receivable');
+    });
+});
 
 
