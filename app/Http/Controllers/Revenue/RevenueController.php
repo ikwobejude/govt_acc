@@ -12,7 +12,35 @@ use Illuminate\Validation\Rule;
 class RevenueController extends Controller
 {
     public function index(Request $request) {
-        $revenues = DB::table('acc_revenue')->get();
+        $economicCode = $request->query('revenuecode');
+        $from = $request->query("dateFrom");
+        $to = $request->query('dateTo');
+        $doc_ref_no = $request->query('doc_ref_no');
+        $received_from = $request->query('received_from');
+        $approvalLevels = $request->query('approvalLevels');
+
+        $revenues = DB::table('acc_revenue')
+        ->where('service_id', 37483)
+        ->when(!empty($economicCode) , function ($query) use ($economicCode) {
+            return $query->where('revenue_code', $economicCode);
+        })
+        ->when(!empty($from), function ($query) use ($from) {
+            return $query->whereDate('created_at', '>=', $from);
+        })
+        ->when(!empty($to), function ($query) use ($to) {
+           return $query->whereDate('created_at', '<=', $to);
+        })
+        ->when(!empty($doc_ref_no), function ($query) use ($doc_ref_no) {
+            return $query->where('authority_document_ref_no', '=', $doc_ref_no);
+         })
+         ->when(!empty($approvalLevels), function ($query) use ($approvalLevels) {
+            return $query->where('approved', '=', $approvalLevels);
+         })
+         ->when(!empty($received_from), function ($query) use ($received_from) {
+            return $query->where('received_from', 'LIKE', "%{$received_from}%");
+         })
+        ->orderBy('revenue_line', 'ASC')
+        ->get();
         $revenue_lines = DB::table('revenue_line')->where('type', 1)->get();
         return view('Revenue.revenue', compact('revenues','revenue_lines'));
     }

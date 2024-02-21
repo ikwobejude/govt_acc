@@ -8,103 +8,83 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card mb-4">
-          <h5 class="card-header">Revenue(s)</h5>
+          {{-- <h5 class="card-header">Revenue(s)</h5> --}}
           <div class="card-body">
-            <form action="{{ route('post.revenue') }}" method="post">
+            <form action="" method="get">
                 @csrf
                 <div class="fieldset">
-                    <h1>Revenue</h1>
+                    <h1>Search</h1>
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <select name="revenue_code" id="revenue_code" class="form-control">
+                                <input type="text" class="form-control " id="doc_ref_no" name="doc_ref_no" placeholder="Authority Document Ref. No" value="{{ old('authority_document_ref_no')}}" />
+                                <label for="floatingInput">Authority Document Ref. No</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <select name="revenuecode" id="revenuecode" class="form-control">
                                     <option value="">Select option</option>
                                     @foreach ($revenue_lines as $item)
-                                        <option value="{{ $item->description.",".$item->economic_code.",".$item->type  }}" {{ old('revenue_code') == $item->description ? 'selected': ''}}>
+                                        <option value="{{ $item->economic_code }}" {{ old('revenue_code') == $item->economic_code ? 'selected': ''}}>
                                             {{ $item->description." :: ".$item->economic_code  }}
                                         </option>
                                     @endforeach
                                 </select>
                                 <label for="floatingInput">Revenue Line/Economic Code</label>
-
-                                @error('revenue_code')
-                                <span class="text-danger"> {{ $message }} </span>
-                                @enderror
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input type="text" class="form-control @error('received_from') is-invalid @enderror" id="floatingInput" name="received_from" placeholder="Received From" value="{{ old('received_from')}}" />
+                                <input type="text" class="form-control " id="floatingInput" name="received_from" placeholder="Received From" value="{{ old('received_from')}}" />
                                 <label for="floatingInput">Received From</label>
-
-                                @error('received_from')
-                                <span class="text-danger"> {{ $message }} </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-floating">
-                                <input type="text" class="form-control @error('description') is-invalid @enderror" id="floatingInput" name="description" placeholder="Description/Details of Receipt" value="{{ old('description')}}" />
-                                <label for="floatingInput">Description</label>
-
-                                @error('description')
-                                <span class="text-danger"> {{ $message }} </span>
-                                @enderror
                             </div>
                         </div>
                     </div>
                     <div class="row mb-3">
+
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input type="text" class="form-control @error('revenue_amount') is-invalid @enderror" id="floatingInput" name="revenue_amount" placeholder="Amount Recieved" value="{{ old('revenue_amount')}}" />
-                                <label for="floatingInput">Amount Received</label>
-
-                                @error('revenue_amount')
-                                <span class="text-danger"> {{ $message }} </span>
-                                @enderror
+                                <input type="date" class="form-control" id="dateFrom" name="dateFrom" placeholder="" value="{{ old('dateFrom')}}" />
+                                <label for="floatingInput">From</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input type="date" class="form-control @error('settlement_date') is-invalid @enderror" id="floatingInput" name="settlement_date" placeholder="" value="{{ old('settlement_date')}}" />
-                                <label for="floatingInput">Date</label>
-
-                                @error('settlement_date')
-                                <span class="text-danger"> {{ $message }} </span>
-                                @enderror
+                                <input type="date" class="form-control" id="dateTo" name="dateTo" placeholder="" value="{{ old('dateTo')}}" />
+                                <label for="floatingInput">To</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input type="text" class="form-control @error('authority_document_ref_no') is-invalid @enderror" id="floatingInput" name="authority_document_ref_no" placeholder="Authority Document Ref. No" value="{{ old('authority_document_ref_no')}}" />
-                                <label for="floatingInput">Authority Document Ref. No</label>
+                                <select name="approvalLevels" id="approvalLevels" class="form-control">
+                                    <option value="">Select option</option>
+                                    <option value="0">Pending</option>
+                                    <option value="1">Reveiewer Approavl</option>
+                                    <option value="2">Approved</option>
+                                    <option value="3">Rejected</option>
+                                </select>
+                                <label for="floatingInput">Approvals</label>
 
-                                @error('authority_document_ref_no')
-                                <span class="text-danger"> {{ $message }} </span>
-                                @enderror
                             </div>
                         </div>
 
-                        <div class="col-md-2">
-                            <div class="form-check form-switch mt-3 mb-3">
-                                <input class="form-check-input" type="checkbox" name="rrr_status" class="checkSingle" id="checkSingle" onclick="chk()"/>
-                                <label class="form-check-label" for="flexSwitchCheckChecked">Has RRR </label>
-                            </div>
-                        </div>
-                        <div class="col-md-6" id="rrr_input_field">
-
-                        </div>
 
                     </div>
 
 
 
                     <div class="row">
-                        <div class="col-2" style="text-align: right">
-                            <button type="submit" class="btn btn-primary me-2">Submit</button>
-                        </div>
-                        <div class="col-10">.</div>
 
+                        <div class="col-6">
+                            <div class="form-floating mb-3" >
+                                <input type="text" class="form-control" id="floatingInput" name="rrr" placeholder="" value="{{ old('rrr')}}" />
+                                <label for="floatingInput">RRR</label>
+                            </div>
+                        </div>
+                        <div class="col-6" style="text-align: right">
+                            <button type="submit" class="btn btn-primary me-2">Search</button>
+                        </div>
                     </div>
                 </div>
 
@@ -116,7 +96,18 @@
 
       <div class="col-md-12">
         <div class="card mb-4">
-          <h5 class="card-header">Revenue(s)</h5>
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="card-header">Revenue(s)</h5>
+                </div>
+                <div class="col-6">
+                    <div style="text-align: right; padding: 20px">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newRevenue">Add new revenue</button>
+                    </div>
+                </div>
+            </div>
+
+
           <div class="card-body">
                 <table class="table table-stripe">
                     <thead>
@@ -212,6 +203,130 @@
       </div>
     </div>
   </div>
+
+     <!-- Modal -->
+     <div class="modal fade" id="newRevenue" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalCenterTitle">Add New Revenue</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('post.revenue') }}" method="post">
+                    @csrf
+                    <div class="fieldset">
+                        <h1>Revenue</h1>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <select name="revenue_code" id="revenue_code" class="form-control">
+                                        <option value="">Select option</option>
+                                        @foreach ($revenue_lines as $item)
+                                            <option value="{{ $item->description.",".$item->economic_code.",".$item->type  }}" {{ old('revenue_code') == $item->description ? 'selected': ''}}>
+                                                {{ $item->description." :: ".$item->economic_code  }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <label for="floatingInput">Revenue Line/Economic Code</label>
+
+                                    @error('revenue_code')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control @error('received_from') is-invalid @enderror" id="floatingInput" name="received_from" placeholder="Received From" value="{{ old('received_from')}}" />
+                                    <label for="floatingInput">Received From</label>
+
+                                    @error('received_from')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control @error('description') is-invalid @enderror" id="floatingInput" name="description" placeholder="Description/Details of Receipt" value="{{ old('description')}}" />
+                                    <label for="floatingInput">Description</label>
+
+                                    @error('description')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control @error('revenue_amount') is-invalid @enderror" id="floatingInput" name="revenue_amount" placeholder="Amount Recieved" value="{{ old('revenue_amount')}}" />
+                                    <label for="floatingInput">Amount Received</label>
+
+                                    @error('revenue_amount')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input type="date" class="form-control @error('settlement_date') is-invalid @enderror" id="floatingInput" name="settlement_date" placeholder="" value="{{ old('settlement_date')}}" />
+                                    <label for="floatingInput">Date</label>
+
+                                    @error('settlement_date')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control @error('authority_document_ref_no') is-invalid @enderror" id="floatingInput" name="authority_document_ref_no" placeholder="Authority Document Ref. No" value="{{ old('authority_document_ref_no')}}" />
+                                    <label for="floatingInput">Authority Document Ref. No</label>
+
+                                    @error('authority_document_ref_no')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-check form-switch mt-3 mb-3">
+                                    <input class="form-check-input" type="checkbox" name="rrr_status" class="checkSingle" id="checkSingle" onclick="chk()"/>
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">Has RRR </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="rrr_input_field">
+
+                            </div>
+
+                        </div>
+
+
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                              Close
+                            </button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                          </div>
+                    </div>
+
+                </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
 
 
 

@@ -21,13 +21,51 @@ class AssetController extends Controller
         $asset_values = AssetValues::all();
         $revenue_lines = DB::table('revenue_line')->where('type', 3)->get();
 
+        // dd($request->query());
+        $revenue_code = $request->query('revenue_code');
+        $asset_type = $request->query('asset_type');
+        $asset_category = $request->query('asset_category');
+        $asset_size = $request->query('asset_size');
+        $assest_name = $request->query('assest_name');
+        $authority_document_ref_no = $request->query('authority_document_ref_no');
+        $from = $request->query('from');
+        $to = $request->query('to');
+        $approvalLevels = $request->query('approvalLevels');
+
+
+
         $assets = Assets::latest()
         ->select('acct_assests.*', 'acct_assest_categories.assest_category', 'acct_assest_types.assest_type', 'acct_assest_sizes.assest_size' )
         ->leftJoin('acct_assest_categories', 'acct_assest_categories.assest_category_id', 'acct_assests.assest_category_id')
         ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
         ->leftJoin('acct_assest_sizes', 'acct_assest_sizes.id', 'acct_assests.assest_size_id')
-        ->where('acct_assests.service_id', 37483)->get();
-        
+        ->where('acct_assests.service_id', 37483)
+        ->when($revenue_code, function ($query, string $revenue_code) {
+            $query->where('acct_assests.asset_rev', $revenue_code);
+        })
+        ->when($asset_category, function ($query, string $asset_category) {
+            $query->where('acct_assests.assest_category_id', $asset_category);
+        })
+        ->when($asset_type, function ($query, string $asset_type) {
+            $query->where('acct_assests.assest_type_id', $asset_type);
+        })
+        ->when($asset_size, function ($query, string $asset_size) {
+            $query->where('acct_assests.assest_size_id', $asset_size);
+        })
+        ->when($assest_name, function ($query, string $assest_name) {
+            $query->where('acct_assests.assest_name', 'like', "%{$assest_name}%");
+        })
+        ->when($from, function ($query, string $from) {
+            $query->whereDate('acct_assests.created_at', '>=', $from);
+        })
+        ->when($to, function ($query, string $to) {
+            $query->whereDate('acct_assests.created_at', '<=', $to);
+        })
+        ->when($approvalLevels, function ($query, string $approvalLevels) {
+            $query->where('acct_assests.approved', $approvalLevels);
+        })
+        ->get();
+
 
         return view('AccAsset.acc_asset', compact('categories', 'types', 'sizes', 'asset_values', 'assets', 'revenue_lines'));
 

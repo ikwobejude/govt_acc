@@ -13,14 +13,51 @@ use App\Models\Revenue\RevenueLine;
 
 class ExpenditurePayRegisterController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // return view('Expenditure.view_expenditure_payregister');
+
+        // dd($request->query());
+
+        $expenditureType = $request->query('expenditureType');
+        // dd($expenditureType);
+        $from = $request->query("dateFrom");
+        $to = $request->query('dateTo');
+        $doc_ref_no = $request->query('document_ref_no');
+        // $received_from = $request->query('received_from');
+        $approvalLevels = $request->query('approvalLevels');
+        $batchType = $request->query('batchType');
+        $name = $request->query('name');
+
         $months = DB::table('_months')->orderBy('month')->get();
         $expenditureType = RevenueLine::where('type', 2)->get();
         $batchName = ExpenditureBatchName::all();
-        $ExpenditureRegister = ExpenditureRegister::where('service_id', 37483)->where('approved',0)->get();
-        // dd($expenditureType);
+        $ExpenditureRegister = db::table('expenditure_payregister')
+        ->where('service_id', 37483)
+        // ->when(!empty($expenditureType), function ($query) use ($expenditureType) {
+        //     return $query->where('expenditure_code', $expenditureType);
+        // })
+        ->when(!empty($name), function ($query) use ($name) {
+            return $query->where('name', 'like', "%{$name}%");
+        })
+        ->when(!empty($batchType), function ($query) use ($batchType) {
+            return $query->where('batch_name', '=', $batchType);
+        })
+        ->when(!empty($doc_ref_no), function ($query) use ($doc_ref_no) {
+            return $query->where('payment_ref', '=', $doc_ref_no);
+        })
+        ->when(!empty($approvalLevels), function ($query) use ($approvalLevels) {
+            return $query->where('approved', '=', $approvalLevels);
+        })
+        ->when(!empty($from), function ($query) use ($from) {
+            return $query->whereDate('created_at', '>=', $from);
+        })
+        ->when(!empty($to), function ($query) use ($to) {
+            return $query->whereDate('created_at', '<=', $to);
+        })
+        ->orderBy('expenditure_name', 'ASC')
+        ->get();
+        // dd($ExpenditureRegister);
         return view('Expenditure.expenditure_payregister', compact('ExpenditureRegister', 'months', 'expenditureType', 'batchName'));
     }
 
