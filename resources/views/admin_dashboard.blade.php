@@ -40,11 +40,7 @@
 
     <!-- Page CSS -->
 
-    <!-- Helpers -->
-    <script src="{{ asset('back/assets/vendor/js/helpers.js') }}"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="{{ asset('back/assets/js/config.js') }}"></script>
+
 
      <!-- Toaster js -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
@@ -160,6 +156,11 @@
       animation: spin .8s linear infinite;
     }
 
+
+    .required {
+        color: red
+    }
+
 </style>
   <!-- End Sweet Alert -->
 </head>
@@ -209,9 +210,14 @@
     </div>
   <!-- / Layout wrapper -->
 
+    <!-- Helpers -->
+    <script src="{{ asset('back/assets/vendor/js/helpers.js') }}"></script>
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="{{ asset('back/assets/js/config.js') }}"></script>
+  <script src="{{ asset('back/assets/vendor/libs/jquery/jquery.js') }}"></script>
 
-  {{-- <script src="{{ asset('back/assets/vendor/libs/jquery/jquery.js') }}"></script> --}}
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  {{-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script> --}}
   <script src="{{ asset('back/assets/vendor/libs/popper/popper.js') }}"></script>
   <script src="{{ asset('back/assets/vendor/js/bootstrap.js') }}"></script>
   <script src="{{ asset('back/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
@@ -249,6 +255,9 @@
   <!-- toaster js -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
 
   <script>

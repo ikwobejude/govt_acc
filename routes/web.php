@@ -1,29 +1,31 @@
 <?php
 
-use App\Http\Controllers\Ajax\fetchController;
-use App\Http\Controllers\Approvals\AssetApprovalController;
-use App\Http\Controllers\Approvals\ExpenditureApprovalController;
-use App\Http\Controllers\Approvals\RevenueApprovalsController;
-use App\Http\Controllers\Asset\AssetController;
-use App\Http\Controllers\Expenditure\ExpenditureBatchName;
-use App\Http\Controllers\Expenditure\ExpenditureBatchNameController;
-use App\Http\Controllers\Expenditure\ExpenditurePayRegisterController;
-use App\Http\Controllers\Expenditure\ExpenditureTypeController;
-use App\Http\Controllers\FinalAccount\GeneralLedgerController;
-use App\Http\Controllers\FinalAccount\TrialBalanceController;
-use App\Http\Controllers\Liability\LiabilityController;
-use App\Http\Controllers\PPE\PPECLassController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PPE\PPEController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Ajax\fetchController;
+use App\Http\Controllers\Asset\AssetController;
+use App\Http\Controllers\PPE\PPECLassController;
+use App\Http\Controllers\Vendors\VendorController;
 use App\Http\Controllers\Revenue\RevenueController;
-use App\Http\Controllers\Settings\AssetCategoryController;
-use App\Http\Controllers\Settings\AssetLocationController;
+use App\Http\Controllers\Budgeting\BudgetController;
+use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\Settings\AssetSizeController;
 use App\Http\Controllers\Settings\AssetTypeController;
-use App\Http\Controllers\Settings\SettingsController;
+use App\Http\Controllers\Liability\LiabilityController;
 use App\Http\Controllers\Uploads\RevenueUploadController;
-use App\Http\Controllers\Vendors\VendorController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Expenditure\ExpenditureBatchName;
+use App\Http\Controllers\Settings\AssetCategoryController;
+use App\Http\Controllers\Settings\AssetLocationController;
+use App\Http\Controllers\Approvals\AssetApprovalController;
+use App\Http\Controllers\FinalAccount\TrialBalanceController;
+use App\Http\Controllers\Approvals\RevenueApprovalsController;
+use App\Http\Controllers\FinalAccount\GeneralLedgerController;
+use App\Http\Controllers\Expenditure\ExpenditureTypeController;
+use App\Http\Controllers\Approvals\ExpenditureApprovalController;
+use App\Http\Controllers\Expenditure\ExpenditureBatchNameController;
+use App\Http\Controllers\Expenditure\ExpenditurePayRegisterController;
+use App\Http\Controllers\User\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,6 +88,7 @@ Route::group(['prefix' => 'settings'], function () {
         // fetch get Location [State, Lga]
         Route::get('/lga/{id}', [fetchController::class, 'localGovernmentArea'])->name('fetch.lga');
         Route::get('/state', [fetchController::class, 'state'])->name('fetch.state');
+        Route::get('/economic_lines', [fetchController::class, 'economicLines'])->name('economic_lines');
         // Route::get('/')
 
         // asset Location
@@ -196,6 +199,24 @@ Route::group(['prefix' => 'vendor'], function () {
         // Account payable
         Route::get('/', [VendorController::class, 'index'])->name('view.vendor');
         // Route::get('/', [GeneralLedgerController::class, 'accountReceivable'])->name('view.account_receivable');
+    });
+});
+
+Route::group(['prefix' => 'budget'], function () {
+    Route::middleware(['auth'])->group(function () {
+        // Account payable
+        Route::get('/', [BudgetController::class, 'index'])->name('index_budget');
+        Route::post('/', [BudgetController::class, 'store'])->name('store.budget');
+    });
+});
+
+
+Route::group(['prefix' => 'user'], function () {
+    Route::middleware(['auth'])->group(function () {
+        // Account payable
+        Route::get('/', [UserController::class, 'index'])->name('view.user');
+        Route::post('/', [UserController::class, 'store'])->name('user.store');
+        Route::post('/edit', [UserController::class, 'update'])->name('user.edit');
     });
 });
 

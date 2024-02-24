@@ -180,7 +180,7 @@
         </a>
         <ul class="menu-sub">
           <li class="menu-item">
-            <a href="#" class="menu-link" target="_blank">
+            <a href="{{ route('index_budget')}}" class="menu-link" target="_blank">
               <div data-i18n="Basic">Budgeting</div>
             </a>
           </li>

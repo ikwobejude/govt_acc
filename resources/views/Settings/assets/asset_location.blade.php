@@ -157,34 +157,49 @@
 
 
   @endsection
+
+  {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> --}}
 <script>
-   document.getElementById("state2").onchange = async() => {
-        // const stateID = document.getElementById('state').value;
+    const select = document.getElementById('state2');
 
-        console.log("ho")
-        // const lgawait = document.getElementById('stateWait');
+    select.addEventListener('change', function handleChange(event) {
+    el.addEventListener('click', swapper, false);
+    console.log(event.target.value); // 👉️ get selected VALUE
 
-        // const.log(stateID)
-        // return
-        // lgawait.textContent = '';
-        // lgawait.textContent = 'Fetching Local Governments Areas...';
-        // try {
-        //     const res = await fetch('/settings/lga/'+stateID);
-        //     const data = await res.json();
+    // 👇️ get selected VALUE even outside event handler
+    console.log(select.options[select.selectedIndex].value);
 
-        //     if (data.status == "error") {
-        //         lgawait.style = "color:red";
-        //         lgawait.textContent = data.data;
-        //     } else {
-        //         lgawait.textContent = ' ';
-        //         populateLgas(data.data)
-        //     }
-        // } catch (error) {
-        //     lgawait.style = "color:red";
-        //     lgawait.textContent = error.message;
-        // }
+    // 👇️ get selected TEXT in or outside event handler
+    console.log(select.options[select.selectedIndex].text);
+    });
 
-    })
+//    document.getElementById("state2").onchange = async() => {
+//         // const stateID = document.getElementById('state').value;
+
+//         console.log("ho")
+//         // const lgawait = document.getElementById('stateWait');
+
+//         // const.log(stateID)
+//         // return
+//         // lgawait.textContent = '';
+//         // lgawait.textContent = 'Fetching Local Governments Areas...';
+//         // try {
+//         //     const res = await fetch('/settings/lga/'+stateID);
+//         //     const data = await res.json();
+
+//         //     if (data.status == "error") {
+//         //         lgawait.style = "color:red";
+//         //         lgawait.textContent = data.data;
+//         //     } else {
+//         //         lgawait.textContent = ' ';
+//         //         populateLgas(data.data)
+//         //     }
+//         // } catch (error) {
+//         //     lgawait.style = "color:red";
+//         //     lgawait.textContent = error.message;
+//         // }
+
+//     }
 
     function populateLgas(data) {
         if (data.length > 0) {
