@@ -14,18 +14,33 @@ class ExpenditureApprovalController extends Controller
 {
     public function index(Request $request) {
          // return view('Expenditure.view_expenditure_payregister');
+
+        $batch_type = $request->query('batch_type');
+        $authority_document_ref_no = $request->query('authority_document_ref_no');
+        $expenditure_type = $request->query('expenditure_type');
+        $from = $request->query('from');
+        $to = $request->query('to');
+        // dd($batch_type,
+        // $authority_document_ref_no,
+        // $expenditure_type,
+        // $from,
+        // $to);
+
          $months = DB::table('_months')->orderBy('month')->get();
          $expenditureType = RevenueLine::where('type', 2)->get();
          $batchName = ExpenditureBatchName::all();
 
-         $economicCode = $request->query('revenue_code');
-         $from = $request->query("from");
-         $to = $request->query('to');
 
          $ExpenditureRegister = DB::table('expenditure_payregister')
          ->where('service_id', 37483)
-         ->when(!empty($economicCode) , function ($query) use ($economicCode) {
-             return $query->where('revenue_code', $economicCode);
+         ->when(!empty($batch_type) , function ($query) use ($batch_type) {
+            return $query->where('batch_name', $batch_type);
+         })
+         ->when(!empty($authority_document_ref_no) , function ($query) use ($authority_document_ref_no) {
+            return $query->where('payment_ref', $authority_document_ref_no);
+         })
+         ->when(!empty($expenditure_type) , function ($query) use ($expenditure_type) {
+             return $query->where('expenditure_code', $expenditure_type);
           })
           ->when(!empty($from), function ($query) use ($from) {
              return $query->whereDate('created_at', '>=', $from);
@@ -33,9 +48,10 @@ class ExpenditureApprovalController extends Controller
           ->when(!empty($to), function ($query) use ($to) {
             return $query->whereDate('created_at', '<=', $to);
            })
-
+        //    ->toSql();
         ->paginate(20);
 
+        // dd($ExpenditureRegister);
         return view('Approvals.expenditure_approvals', compact('months', 'expenditureType', 'batchName', 'ExpenditureRegister'));
     }
 

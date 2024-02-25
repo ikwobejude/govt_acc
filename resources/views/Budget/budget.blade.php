@@ -6,82 +6,92 @@
     <h4 class="py-3 mb-4"><span class="text-muted fw-light">Account /</span> Budgeting</h4>
 
     <div class="row">
-      <div class="col-md-12">
-        <div class="card mb-4">
-          {{-- <h5 class="card-header">Revenue(s)</h5> --}}
-          <div class="card-body">
-            <form action="" method="get">
-                @csrf
-                <div class="fieldset">
-                    <h1>Search</h1>
-                    <div class="row mb-3">
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <div class="form-floating">
-                                <select name="budgetType" id="sbudgetType" class="form-control" onchange="getRevenueType('sbudgetType')">
-                                    <option value="">Select option</option>
-                                    <option value="2">Personnel</option>
-                                    <option value="3">Overhead</option>
-                                    <option value="4">Capital</option>
-                                </select>
-                                <label for="floatingInput">Budget Type<span class="required">*</span></label>
+      <div class="col-md-12 mb-3">
+        <div class="accordion mt-3" id="accordionExample">
+            <div class="card accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="true" aria-controls="accordionOne">
+                  Search
+                </button>
+              </h2>
 
-                                @error('budgetType')
-                                <span class="text-danger"> {{ $message }} </span>
-                                @enderror
+              <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <form action="" method="get" class="mt-3">
+                        @csrf
+                        <div class="fieldset">
+                            <h1>Search</h1>
+                            <div class="row mb-3">
+                                <div class="col-md-6 col-sm-12 mb-3">
+                                    <div class="form-floating">
+                                        <select name="budgetType" id="sbudgetType" class="form-control" onchange="getRevenueType('sbudgetType')">
+                                            <option value="">Select option</option>
+                                            <option value="2">Personnel</option>
+                                            <option value="3">Overhead</option>
+                                            <option value="4">Capital</option>
+                                        </select>
+                                        <label for="floatingInput">Budget Type<span class="required">*</span></label>
+
+                                        @error('budgetType')
+                                        <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 mb-3">
+                                    <span id="seco_noti"></span>
+                                    <div class="form-floating">
+                                        <select name="economicCode" id="seconomicCode" class="form-control">
+                                            <option value="">Select option</option>
+
+                                        </select>
+                                        <label for="floatingInput">Economic Code<span class="required">*</span></label>
+
+                                        @error('economicCode')
+                                        <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-sm-12 mb-3">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control " id="project" name="project" placeholder="Received From" value="{{ old('project')}}" />
+                                        <label for="floatingInput">Project</label>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4 col-sm-12 mb-3">
+                                    <div class="form-floating">
+                                        <input type="date" class="form-control" id="from" name="from" placeholder="" value="{{ old('dateFrom')}}" />
+                                        <label for="floatingInput">From</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12 mb-3">
+                                    <div class="form-floating">
+                                        <input type="date" class="form-control" id="to" name="to" placeholder="" value="{{ old('dateTo')}}" />
+                                        <label for="floatingInput">To</label>
+                                    </div>
+                                </div>
+
+
+                                <div class="modal-footer" >
+                                    <button type="submit" class="btn btn-primary me-2">Search</button>
+                                    {{-- <button type="reset" class="btn btn-outline-secondary">Discard</button> --}}
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <span id="seco_noti"></span>
-                            <div class="form-floating">
-                                <select name="economicCode" id="seconomicCode" class="form-control">
-                                    <option value="">Select option</option>
 
-                                </select>
-                                <label for="floatingInput">Economic Code<span class="required">*</span></label>
 
-                                @error('economicCode')
-                                <span class="text-danger"> {{ $message }} </span>
-                                @enderror
-                            </div>
+
+
                         </div>
 
-                        <div class="col-md-4 col-sm-12 mb-3">
-                            <div class="form-floating">
-                                <input type="text" class="form-control " id="project" name="project" placeholder="Received From" value="{{ old('project')}}" />
-                                <label for="floatingInput">Project</label>
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-4 col-sm-12 mb-3">
-                            <div class="form-floating">
-                                <input type="date" class="form-control" id="from" name="from" placeholder="" value="{{ old('dateFrom')}}" />
-                                <label for="floatingInput">From</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-12 mb-3">
-                            <div class="form-floating">
-                                <input type="date" class="form-control" id="to" name="to" placeholder="" value="{{ old('dateTo')}}" />
-                                <label for="floatingInput">To</label>
-                            </div>
-                        </div>
-
-
-                        <div class="modal-footer" >
-                            <button type="submit" class="btn btn-primary me-2">Search</button>
-                            {{-- <button type="reset" class="btn btn-outline-secondary">Discard</button> --}}
-                        </div>
-                    </div>
-
-
-
-
+                    </form>
                 </div>
+              </div>
 
-            </form>
-
-          </div>
+            </div>
         </div>
+
       </div>
 
       <div class="col-md-12">
@@ -218,7 +228,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="modalCenterTitle">Add New Revenue</h5>
+              <h5 class="modal-title" id="modalCenterTitle">New Budget</h5>
               <button
                 type="button"
                 class="btn-close"
@@ -229,7 +239,7 @@
                 <form action="{{ route('store.budget') }}" method="post" id="budgeting">
                     @csrf
                     <div class="fieldset">
-                        <h1>Revenue</h1>
+                        <h1>Budget</h1>
                         <div class="row mb-3">
                             <div class="col-md-6 col-sm-12 mb-3">
                                 <div class="form-floating">
@@ -260,7 +270,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 col-sm-12 mb-3">
+                            <div class="col-md-4 col-sm-12 mb-3">
                                 <div class="form-floating">
                                     <input type="text" required class="form-control @error('received_from') is-invalid @enderror" id="project" name="project" placeholder="Project" value="{{ old('project')}}" />
                                     <label for="floatingInput">Project<span class="required">*</span></label>
@@ -272,10 +282,28 @@
                             </div>
 
 
-                            <div class="col-md-6 col-sm-12 mb-3">
+                            <div class="col-md-4 col-sm-12 mb-3">
                                 <div class="form-floating">
-                                    <input type="text" required class="form-control @error('received_from') is-invalid @enderror" id="current_budget" name="current_budget" placeholder="Received From" value="{{ old('current_budget')}}" />
+                                    <input type="text" required
+                                    class="form-control @error('received_from') is-invalid @enderror"
+                                    id="current_budget" name="current_budget" placeholder="Received From"
+                                    value="{{ old('current_budget')}}"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                                     <label for="floatingInput">Current Budget<span class="required">*</span></label>
+
+                                    @error('current_budget')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12 mb-3">
+                                <div class="form-floating">
+                                    <input type="text" required
+                                    class="form-control @error('received_from') is-invalid @enderror"
+                                    id="actual_expenditure" name="actual_expenditure"
+                                    placeholder="Actual Expenditure" value="{{ old('actual_expenditure')}}"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                                    <label for="floatingInput">Actual Expenditure<span class="required">*</span></label>
 
                                     @error('current_budget')
                                     <span class="text-danger"> {{ $message }} </span>

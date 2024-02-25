@@ -12,7 +12,10 @@ function serviceId()
 }
 
 function Role() {
-    return auth()->user()->group_id ?? auth('sanctum')->user()->group_id;
+     $userId = auth()->user()->group_id ?? auth('sanctum')->user()->group_id;
+     $role = DB::table('user_groups')->where('group_id', $userId)->value('group_name');
+    //  dd($role);
+     return $role;
 }
 
 function permission() {

@@ -18,11 +18,13 @@ use App\Http\Controllers\Expenditure\ExpenditureBatchName;
 use App\Http\Controllers\Settings\AssetCategoryController;
 use App\Http\Controllers\Settings\AssetLocationController;
 use App\Http\Controllers\Approvals\AssetApprovalController;
+use App\Http\Controllers\Approvals\BudgetApprovalsController;
 use App\Http\Controllers\FinalAccount\TrialBalanceController;
 use App\Http\Controllers\Approvals\RevenueApprovalsController;
 use App\Http\Controllers\FinalAccount\GeneralLedgerController;
 use App\Http\Controllers\Expenditure\ExpenditureTypeController;
 use App\Http\Controllers\Approvals\ExpenditureApprovalController;
+use App\Http\Controllers\Budgeting\BudgetReportController;
 use App\Http\Controllers\Expenditure\ExpenditureBatchNameController;
 use App\Http\Controllers\Expenditure\ExpenditurePayRegisterController;
 use App\Http\Controllers\User\UserController;
@@ -172,6 +174,12 @@ Route::group(['prefix' => 'approve'], function () {
         Route::get('/asset', [AssetApprovalController::class, 'index'])->name('view.approve.asset');
         Route::get('/asset/approval',  [AssetApprovalController::class, 'approveAsset'])->name('approve.asset');
         Route::get('/asset/disapproval',  [AssetApprovalController::class, 'rejected'])->name('rejected.asset');
+
+
+        // Budget approval
+        Route::get('/budget', [BudgetApprovalsController::class, 'index'])->name('view.approve.budget');
+        Route::get('/budget/approval',  [BudgetApprovalsController::class, 'approveAsset'])->name('approve.asset');
+        Route::get('/budget/disapproval',  [BudgetApprovalsController::class, 'rejected'])->name('rejected.asset');
     });
 });
 
@@ -207,6 +215,8 @@ Route::group(['prefix' => 'budget'], function () {
         // Account payable
         Route::get('/', [BudgetController::class, 'index'])->name('index_budget');
         Route::post('/', [BudgetController::class, 'store'])->name('store.budget');
+
+        Route::get('/report', [BudgetReportController::class, 'index'])->name('report_budget');
     });
 });
 

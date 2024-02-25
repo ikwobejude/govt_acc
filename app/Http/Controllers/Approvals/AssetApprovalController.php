@@ -24,7 +24,9 @@ class AssetApprovalController extends Controller
         $assetType = $request->query('asset_type');
         $assetCategory = $request->query('asset_category');
         $assetSize = $request->query('asset_size');
-        $economicCode = $request->query('economic_code');
+        $economicCode = $request->query('revenue_code');
+
+        // dd($economicCode);
 
         $to = $request->query('to');
         $from = $request->query('from');

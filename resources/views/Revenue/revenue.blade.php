@@ -6,92 +6,101 @@
     <h4 class="py-3 mb-4"><span class="text-muted fw-light">Chart of Account /</span> Revenue</h4>
 
     <div class="row">
-      <div class="col-md-12">
-        <div class="card mb-4">
-          {{-- <h5 class="card-header">Revenue(s)</h5> --}}
-          <div class="card-body">
-            <form action="" method="get">
-                @csrf
-                <div class="fieldset">
-                    <h1>Search</h1>
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <div class="form-floating">
-                                <input type="text" class="form-control " id="doc_ref_no" name="doc_ref_no" placeholder="Authority Document Ref. No" value="{{ old('authority_document_ref_no')}}" />
-                                <label for="floatingInput">Authority Document Ref. No</label>
+      <div class="col-md-12 mb-3">
+        <div class="accordion mt-3" id="accordionExample">
+            <div class="card accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="true" aria-controls="accordionOne">
+                  Search
+                </button>
+              </h2>
+
+              <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <form action="" method="get" class="mt-3">
+                        @csrf
+                        <div class="fieldset">
+                            <h1>Search</h1>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control " id="doc_ref_no" name="doc_ref_no" placeholder="Authority Document Ref. No" value="{{ old('authority_document_ref_no')}}" />
+                                        <label for="floatingInput">Authority Document Ref. No</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <select name="revenuecode" id="revenuecode" class="form-control">
+                                            <option value="">Select option</option>
+                                            @foreach ($revenue_lines as $item)
+                                                <option value="{{ $item->economic_code }}" {{ old('revenue_code') == $item->economic_code ? 'selected': ''}}>
+                                                    {{ $item->description." :: ".$item->economic_code  }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <label for="floatingInput">Revenue Line/Economic Code</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control " id="floatingInput" name="received_from" placeholder="Received From" value="{{ old('received_from')}}" />
+                                        <label for="floatingInput">Received From</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="date" class="form-control" id="dateFrom" name="dateFrom" placeholder="" value="{{ old('dateFrom')}}" />
+                                        <label for="floatingInput">From</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="date" class="form-control" id="dateTo" name="dateTo" placeholder="" value="{{ old('dateTo')}}" />
+                                        <label for="floatingInput">To</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <select name="approvalLevels" id="approvalLevels" class="form-control">
+                                            <option value="">Select option</option>
+                                            <option value="0">Pending</option>
+                                            <option value="1">Reveiewer Approavl</option>
+                                            <option value="2">Approved</option>
+                                            <option value="3">Rejected</option>
+                                        </select>
+                                        <label for="floatingInput">Approvals</label>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="row">
+
+                                <div class="col-6">
+                                    <div class="form-floating mb-3" >
+                                        <input type="text" class="form-control" id="floatingInput" name="rrr" placeholder="" value="{{ old('rrr')}}" />
+                                        <label for="floatingInput">RRR</label>
+                                    </div>
+                                </div>
+                                <div class="col-6" style="text-align: right">
+                                    <button type="submit" class="btn btn-primary me-2">Search</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-floating">
-                                <select name="revenuecode" id="revenuecode" class="form-control">
-                                    <option value="">Select option</option>
-                                    @foreach ($revenue_lines as $item)
-                                        <option value="{{ $item->economic_code }}" {{ old('revenue_code') == $item->economic_code ? 'selected': ''}}>
-                                            {{ $item->description." :: ".$item->economic_code  }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label for="floatingInput">Revenue Line/Economic Code</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-floating">
-                                <input type="text" class="form-control " id="floatingInput" name="received_from" placeholder="Received From" value="{{ old('received_from')}}" />
-                                <label for="floatingInput">Received From</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
 
-                        <div class="col-md-4">
-                            <div class="form-floating">
-                                <input type="date" class="form-control" id="dateFrom" name="dateFrom" placeholder="" value="{{ old('dateFrom')}}" />
-                                <label for="floatingInput">From</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-floating">
-                                <input type="date" class="form-control" id="dateTo" name="dateTo" placeholder="" value="{{ old('dateTo')}}" />
-                                <label for="floatingInput">To</label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-floating">
-                                <select name="approvalLevels" id="approvalLevels" class="form-control">
-                                    <option value="">Select option</option>
-                                    <option value="0">Pending</option>
-                                    <option value="1">Reveiewer Approavl</option>
-                                    <option value="2">Approved</option>
-                                    <option value="3">Rejected</option>
-                                </select>
-                                <label for="floatingInput">Approvals</label>
-
-                            </div>
-                        </div>
-
-
-                    </div>
-
-
-
-                    <div class="row">
-
-                        <div class="col-6">
-                            <div class="form-floating mb-3" >
-                                <input type="text" class="form-control" id="floatingInput" name="rrr" placeholder="" value="{{ old('rrr')}}" />
-                                <label for="floatingInput">RRR</label>
-                            </div>
-                        </div>
-                        <div class="col-6" style="text-align: right">
-                            <button type="submit" class="btn btn-primary me-2">Search</button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
-
-            </form>
-
-          </div>
+              </div>
+            </div>
         </div>
+
       </div>
 
       <div class="col-md-12">

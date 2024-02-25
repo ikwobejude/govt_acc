@@ -6,138 +6,147 @@
     <div class="row">
 
       <div class="col-md-12">
-        <div class="card mb-4">
-          {{-- <h5 class="card-header">Asset(s)</h5> --}}
-          <div class="card-body">
-            <form action="" method="get">
-                @csrf
-                <div class="fieldset">
-                    <h1>Search Asset</h1>
-                    <div class="row">
-                        <div class="col-md-3 col-sm-6">
-                            <div class="form-floating">
-                                <select name="revenue_code" id="revenue_code" class="form-control">
-                                    <option value="">Select option</option>
-                                    @foreach ($revenue_lines as $item)
-                                        <option value="{{ $item->economic_code }}" {{ old('revenue_code') == $item->economic_code ? 'selected': ''}}>
-                                            {{ $item->description." :: ".$item->economic_code  }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label for="floatingInput">Revenue Line/Economic Code</label>
+        <div class="accordion mb-4" id="accordionExample">
+            <div class="card accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="true" aria-controls="accordionOne">
+                  Search
+                </button>
+              </h2>
+
+              <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <form action="" method="get" class="mt-3">
+                        @csrf
+                        <div class="fieldset">
+                            <h1>Search Asset</h1>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-floating">
+                                        <select name="revenue_code" id="revenue_code" class="form-control">
+                                            <option value="">Select option</option>
+                                            @foreach ($revenue_lines as $item)
+                                                <option value="{{ $item->economic_code }}" {{ old('revenue_code') == $item->economic_code ? 'selected': ''}}>
+                                                    {{ $item->description." :: ".$item->economic_code  }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <label for="floatingInput">Revenue Line/Economic Code</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-floating mb-3">
+                                        <select name="asset_type" id="asset_type" class="form-control">
+                                            <option value="">-- Select Option --</option>
+                                            @foreach ($types as $item)
+                                                <option value="{{ $item->id}}" {{ old('asset_type') == $item->id ? 'selected': ''}}>
+                                                    {{ $item->assest_type}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <label for="floatingInput">ASSET TYPE</label>
+                                        <div id="floatingInputHelp" class="form-text"></div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-floating mb-3">
+                                        <select name="asset_category" id="asset_category" class="form-control">
+                                            <option value="">-- Select Option --</option>
+                                            @foreach ($categories as $item)
+                                                <option value="{{ $item->assest_category_id}}" {{ old('asset_category') == $item->assest_category_id ? 'selected': ''}}>
+                                                    {{ $item->assest_category}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <label for="floatingInput">ASSET CATEGORIES</label>
+                                        <div id="floatingInputHelp" class="form-text"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-floating mb-3">
+                                        <select name="asset_size" id="asset_size" class="form-control">
+                                            <option value="">-- Select Option --</option>
+                                            @foreach ($sizes as $item)
+                                                <option value="{{ $item->id}}" {{ old('asset_size') == $item->id ? 'selected': ''}}>
+                                                    {{ $item->assest_size}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <label for="floatingInput">ASSET SIZE</label>
+                                        <div id="floatingInputHelp" class="form-text"></div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" name="assest_name" id="assest_name" value="{{ old('assest_name')}}" placeholder="Asset Name" class="form-control" >
+                                        <label for="floatingInput">Asset Name</label>
+                                        <div id="floatingInputHelp" class="form-text"></div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-floating">
+                                        <input type="date" class="form-control" id="from" name="from" placeholder="" value="{{ old('from')}}" />
+                                        <label for="floatingInput">From</label>
+                                        <div id="floatingInputHelp" class="form-text"> </div>
+                                        @error('date_purchased')
+                                            <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-floating">
+                                        <input type="date" class="form-control" id="to" name="to" placeholder="" value="{{ old('from')}}" />
+                                        <label for="floatingInput">To</label>
+                                        <div id="floatingInputHelp" class="form-text"> </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-floating">
+                                        <select name="approvalLevels" id="approvalLevels" class="form-control">
+                                            <option value="">Select option</option>
+                                            <option value="0">Pending</option>
+                                            <option value="1">Reveiewer Approavl</option>
+                                            <option value="2">Approved</option>
+                                            <option value="3">Rejected</option>
+                                        </select>
+                                        <label for="floatingInput">Approvals</label>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            {{-- <div id="addw">
+
+                            </div> --}}
+
+
+
+
+                            <div class="row">
+                                <div class="col">
+                                    {{-- <button type="button" class="btn btn-outline-secondary" onclick="add()">Add</button> --}}
+                                </div>
+                                <div class="col" style="text-align: right">
+                                    <button type="submit" class="btn btn-primary me-2">Search</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="form-floating mb-3">
-                                <select name="asset_type" id="asset_type" class="form-control">
-                                    <option value="">-- Select Option --</option>
-                                    @foreach ($types as $item)
-                                        <option value="{{ $item->id}}" {{ old('asset_type') == $item->id ? 'selected': ''}}>
-                                            {{ $item->assest_type}}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label for="floatingInput">ASSET TYPE</label>
-                                <div id="floatingInputHelp" class="form-text"></div>
 
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="form-floating mb-3">
-                                <select name="asset_category" id="asset_category" class="form-control">
-                                    <option value="">-- Select Option --</option>
-                                    @foreach ($categories as $item)
-                                        <option value="{{ $item->assest_category_id}}" {{ old('asset_category') == $item->assest_category_id ? 'selected': ''}}>
-                                            {{ $item->assest_category}}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label for="floatingInput">ASSET CATEGORIES</label>
-                                <div id="floatingInputHelp" class="form-text"></div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-sm-6">
-                            <div class="form-floating mb-3">
-                                <select name="asset_size" id="asset_size" class="form-control">
-                                    <option value="">-- Select Option --</option>
-                                    @foreach ($sizes as $item)
-                                        <option value="{{ $item->id}}" {{ old('asset_size') == $item->id ? 'selected': ''}}>
-                                            {{ $item->assest_size}}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label for="floatingInput">ASSET SIZE</label>
-                                <div id="floatingInputHelp" class="form-text"></div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-floating mb-3">
-                                <input type="text" name="assest_name" id="assest_name" value="{{ old('assest_name')}}" placeholder="Asset Name" class="form-control" >
-                                <label for="floatingInput">Asset Name</label>
-                                <div id="floatingInputHelp" class="form-text"></div>
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-3 col-sm-6">
-                            <div class="form-floating">
-                                <input type="date" class="form-control" id="from" name="from" placeholder="" value="{{ old('from')}}" />
-                                <label for="floatingInput">From</label>
-                                <div id="floatingInputHelp" class="form-text"> </div>
-                                @error('date_purchased')
-                                    <span class="text-danger"> {{ $message }} </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="form-floating">
-                                <input type="date" class="form-control" id="to" name="to" placeholder="" value="{{ old('from')}}" />
-                                <label for="floatingInput">To</label>
-                                <div id="floatingInputHelp" class="form-text"> </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-floating">
-                                <select name="approvalLevels" id="approvalLevels" class="form-control">
-                                    <option value="">Select option</option>
-                                    <option value="0">Pending</option>
-                                    <option value="1">Reveiewer Approavl</option>
-                                    <option value="2">Approved</option>
-                                    <option value="3">Rejected</option>
-                                </select>
-                                <label for="floatingInput">Approvals</label>
-
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    {{-- <div id="addw">
-
-                    </div> --}}
-
-
-
-
-                    <div class="row">
-                        <div class="col">
-                            {{-- <button type="button" class="btn btn-outline-secondary" onclick="add()">Add</button> --}}
-                        </div>
-                        <div class="col" style="text-align: right">
-                            <button type="submit" class="btn btn-primary me-2">Search</button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
-
-            </form>
-
-          </div>
+              </div>
+            </div>
         </div>
+
       </div>
 
       <div class="col-md-12">

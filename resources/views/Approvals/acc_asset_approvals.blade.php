@@ -6,148 +6,157 @@
     <div class="row">
 
       <div class="col-md-12">
-        <div class="card mb-4">
-          {{-- <h5 class="card-header">Asset(s)</h5> --}}
-          <div class="card-body">
-            <form action="{{ route('view.approve.asset') }}" method="get">
-                @csrf
-                <div class="fieldset">
-                    <h1>Search</h1>
-                    <div class="row">
-                        <div class="col-md-3 col-sm-6">
-                            <div class="form-floating">
-                                <select name="revenue_code" id="revenue_code" class="form-control">
-                                    <option value="">Select option</option>
-                                    @foreach ($revenue_lines as $item)
-                                        <option value="{{ $item->economic_code }}" {{ old('revenue_code') == $item->economic_code ? 'selected': ''}}>
-                                            {{ $item->description." :: ".$item->economic_code  }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label for="floatingInput">Revenue Line/Economic Code</label>
+        <div class="accordion mb-4" id="accordionExample">
+            <div class="card accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="true" aria-controls="accordionOne">
+                  Search
+                </button>
+              </h2>
 
-                                @error('revenue_code')
-                                <span class="text-danger"> {{ $message }} </span>
-                                @enderror
+              <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <form action="{{ route('view.approve.asset') }}" method="get" class="mt-3">
+                        @csrf
+                        <div class="fieldset">
+                            <h1>Search</h1>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-floating">
+                                        <select name="revenue_code" id="revenue_code" class="form-control">
+                                            <option value="">Select option</option>
+                                            @foreach ($revenue_lines as $item)
+                                                <option value="{{ $item->economic_code }}" {{ old('revenue_code') == $item->economic_code ? 'selected': ''}}>
+                                                    {{ $item->description." :: ".$item->economic_code  }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <label for="floatingInput">Revenue Line/Economic Code</label>
+
+                                        @error('revenue_code')
+                                        <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-floating mb-3">
+                                        <select name="asset_type" id="asset_type" class="form-control @error('asset_type') is-invalid @enderror">
+                                            <option value="">-- Select Option --</option>
+                                            @foreach ($types as $item)
+                                                <option value="{{ $item->id}}" {{ old('asset_type') == $item->id ? 'selected': ''}}>
+                                                    {{ $item->assest_type}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <label for="floatingInput">ASSET TYPE</label>
+                                        <div id="floatingInputHelp" class="form-text"></div>
+                                        @error('asset_type')
+                                            <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-floating mb-3">
+                                        <select name="asset_category" id="asset_category" class="form-control @error('expenditure_category') is-invalid @enderror">
+                                            <option value="">-- Select Option --</option>
+                                            @foreach ($categories as $item)
+                                                <option value="{{ $item->assest_category_id}}" {{ old('asset_category') == $item->assest_category_id ? 'selected': ''}}>
+                                                    {{ $item->assest_category}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <label for="floatingInput">ASSET CATEGORIES</label>
+                                        <div id="floatingInputHelp" class="form-text"></div>
+                                        @error('expenditure_category')
+                                            <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-floating mb-3">
+                                        <select name="asset_size" id="asset_size" class="form-control @error('asset_size') is-invalid @enderror">
+                                            <option value="">-- Select Option --</option>
+                                            @foreach ($sizes as $item)
+                                                <option value="{{ $item->id}}" {{ old('asset_size') == $item->id ? 'selected': ''}}>
+                                                    {{ $item->assest_size}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <label for="floatingInput">Asset size</label>
+                                        <div id="floatingInputHelp" class="form-text"></div>
+                                        @error('asset_size')
+                                            <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control @error('authority_document_ref_no') is-invalid @enderror" id="floatingInput" name="authority_document_ref_no" placeholder="Authority Document Ref. No" value="{{ old('authority_document_ref_no')}}" />
+                                        <label for="floatingInput">Authority Document Ref. No</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-floating">
+                                        <input type="date" class="form-control" id="date_purchased" name="date_purchased" placeholder="Date of purchase" value="{{ old('date_purchased')}}" />
+                                        <label for="floatingInput">Date of purchase</label>
+                                        <div id="floatingInputHelp" class="form-text"> </div>
+                                        @error('date_purchased')
+                                            <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-floating">
+                                        <input type="date" class="form-control" id="from" name="from" placeholder="From" value="{{ old('from')}}" />
+                                        <label for="floatingInput">from</label>
+                                        <div id="floatingInputHelp" class="form-text"> </div>
+                                        @error('date_purchased')
+                                            <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-floating">
+                                        <input type="date" class="form-control" id="to" name="to" placeholder="To" value="{{ old('to')}}" />
+                                        <label for="floatingInput">To</label>
+                                        <div id="floatingInputHelp" class="form-text"> </div>
+                                        @error('date_purchased')
+                                            <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                            {{-- <div id="addw">
+
+                            </div> --}}
+
+
+
+
+                            <div class="row">
+                                <div class="col">
+                                    {{-- <button type="button" class="btn btn-outline-secondary" onclick="add()">Add</button> --}}
+                                </div>
+                                <div class="col" style="text-align: right">
+                                    <button type="submit" class="btn btn-primary me-2">Search</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="form-floating mb-3">
-                                <select name="asset_type" id="asset_type" class="form-control @error('asset_type') is-invalid @enderror">
-                                    <option value="">-- Select Option --</option>
-                                    @foreach ($types as $item)
-                                        <option value="{{ $item->id}}" {{ old('asset_type') == $item->id ? 'selected': ''}}>
-                                            {{ $item->assest_type}}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label for="floatingInput">ASSET TYPE</label>
-                                <div id="floatingInputHelp" class="form-text"></div>
-                                @error('asset_type')
-                                    <span class="text-danger"> {{ $message }} </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="form-floating mb-3">
-                                <select name="asset_category" id="asset_category" class="form-control @error('expenditure_category') is-invalid @enderror">
-                                    <option value="">-- Select Option --</option>
-                                    @foreach ($categories as $item)
-                                        <option value="{{ $item->assest_category_id}}" {{ old('asset_category') == $item->assest_category_id ? 'selected': ''}}>
-                                            {{ $item->assest_category}}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label for="floatingInput">ASSET CATEGORIES</label>
-                                <div id="floatingInputHelp" class="form-text"></div>
-                                @error('expenditure_category')
-                                    <span class="text-danger"> {{ $message }} </span>
-                                @enderror
-                            </div>
-                        </div>
 
-                        <div class="col-md-3 col-sm-6">
-                            <div class="form-floating mb-3">
-                                <select name="asset_size" id="asset_size" class="form-control @error('asset_size') is-invalid @enderror">
-                                    <option value="">-- Select Option --</option>
-                                    @foreach ($sizes as $item)
-                                        <option value="{{ $item->id}}" {{ old('asset_size') == $item->id ? 'selected': ''}}>
-                                            {{ $item->assest_size}}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label for="floatingInput">Asset size</label>
-                                <div id="floatingInputHelp" class="form-text"></div>
-                                @error('asset_size')
-                                    <span class="text-danger"> {{ $message }} </span>
-                                @enderror
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-3">
-                            <div class="form-floating">
-                                <input type="text" class="form-control @error('authority_document_ref_no') is-invalid @enderror" id="floatingInput" name="authority_document_ref_no" placeholder="Authority Document Ref. No" value="{{ old('authority_document_ref_no')}}" />
-                                <label for="floatingInput">Authority Document Ref. No</label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-sm-6">
-                            <div class="form-floating">
-                                <input type="date" class="form-control" id="date_purchased" name="date_purchased" placeholder="Date of purchase" value="{{ old('date_purchased')}}" />
-                                <label for="floatingInput">Date of purchase</label>
-                                <div id="floatingInputHelp" class="form-text"> </div>
-                                @error('date_purchased')
-                                    <span class="text-danger"> {{ $message }} </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="form-floating">
-                                <input type="date" class="form-control" id="from" name="from" placeholder="From" value="{{ old('from')}}" />
-                                <label for="floatingInput">from</label>
-                                <div id="floatingInputHelp" class="form-text"> </div>
-                                @error('date_purchased')
-                                    <span class="text-danger"> {{ $message }} </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="form-floating">
-                                <input type="date" class="form-control" id="to" name="to" placeholder="To" value="{{ old('to')}}" />
-                                <label for="floatingInput">To</label>
-                                <div id="floatingInputHelp" class="form-text"> </div>
-                                @error('date_purchased')
-                                    <span class="text-danger"> {{ $message }} </span>
-                                @enderror
-                            </div>
-                        </div>
-
-
-
-                    </div>
-
-                    {{-- <div id="addw">
-
-                    </div> --}}
-
-
-
-
-                    <div class="row">
-                        <div class="col">
-                            {{-- <button type="button" class="btn btn-outline-secondary" onclick="add()">Add</button> --}}
-                        </div>
-                        <div class="col" style="text-align: right">
-                            <button type="submit" class="btn btn-primary me-2">SAVE</button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
-
-            </form>
-
-          </div>
+              </div>
+            </div>
         </div>
+
       </div>
 
       <div class="col-md-12">

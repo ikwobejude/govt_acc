@@ -16,6 +16,7 @@ class RevenueApprovalsController extends Controller
         $economicCode = $request->query('revenue_code');
         $from = $request->query("from");
         $to = $request->query('to');
+        // dd($economicCode);
 
         $revenue = DB::table('acc_revenue')
         ->where('service_id', 37483)

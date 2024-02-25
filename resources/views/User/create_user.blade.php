@@ -6,91 +6,101 @@
     <div class="row">
 
       <div class="col-md-12">
-        <div class="card mb-4">
-          <h5 class="card-header">User</h5>
-          <div class="card-body">
-            <form action="" method="get">
-                @csrf
-                <div class="fieldset">
-                    <h1>Search</h1>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12 mb-1">
-                            <div class="form-floating">
-                                <select name="user_role" id="user_role" class="form-control">
-                                    <option value="">Select option</option>
-                                    @foreach ($groupId as $role)
-                                        <option value="{{ $role->group_id  }}" {{ old('user_role') == $role->group_id ? 'selected': ''}}>
-                                            {{ $role->group_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label for="floatingInput">User Role</label>
+        <div class="accordion mb-4" id="accordionExample">
+            <div class="card accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="true" aria-controls="accordionOne">
+                  Search
+                </button>
+              </h2>
 
-                                @error('user_role')
-                                <span class="text-danger"> {{ $message }} </span>
-                                @enderror
+              <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <form action="" method="get" class="mt-3">
+                        @csrf
+                        <div class="fieldset">
+                            <h1>Search</h1>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 mb-1">
+                                    <div class="form-floating">
+                                        <select name="user_role" id="user_role" class="form-control">
+                                            <option value="">Select option</option>
+                                            @foreach ($groupId as $role)
+                                                <option value="{{ $role->group_id  }}" {{ old('user_role') == $role->group_id ? 'selected': ''}}>
+                                                    {{ $role->group_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <label for="floatingInput">User Role</label>
+
+                                        @error('user_role')
+                                        <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-6 col-sm-12 mb-1">
+                                    <div class="form-floating">
+                                        <input type="text" name="name" id="name" value="{{ old('name')}}" placeholder="Username" class="form-control" >
+                                        <label for="floatingInput">Name</label>
+                                        <div id="floatingInputHelp" class="form-text"></div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-12 mb-1">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" name="email_phone" id="email_phone" value="{{ old('email_phone')}}" placeholder="Username" class="form-control" >
+                                        <label for="floatingInput">Email/Phone Number</label>
+                                        <div id="floatingInputHelp" class="form-text"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-12 mb-1">
+                                    <div class="form-floating">
+                                        <input type="date" class="form-control" id="to" name="to" placeholder="" />
+                                        <label for="floatingInput">From</label>
+                                        <div id="floatingInputHelp" class="form-text"> </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-12 mb-1">
+                                    <div class="form-floating">
+                                        <input type="date" class="form-control" id="to" name="to" placeholder="" />
+                                        <label for="floatingInput">From</label>
+                                        <div id="floatingInputHelp" class="form-text"> </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- <div id="addw">
+
+                            </div> --}}
+
+
+
+
+                            <div class="row">
+                                <div class="col">
+                                    {{-- <button type="button" class="btn btn-outline-secondary" onclick="add()">Add</button> --}}
+                                </div>
+                                <div class="col" style="text-align: right">
+                                    <button type="submit" class="btn btn-primary me-2">Search</button>
+                                </div>
                             </div>
                         </div>
 
-
-
-                        <div class="col-md-6 col-sm-12 mb-1">
-                            <div class="form-floating">
-                                <input type="text" name="name" id="name" value="{{ old('name')}}" placeholder="Username" class="form-control" >
-                                <label for="floatingInput">Name</label>
-                                <div id="floatingInputHelp" class="form-text"></div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 col-sm-12 mb-1">
-                            <div class="form-floating mb-3">
-                                <input type="text" name="email_phone" id="email_phone" value="{{ old('email_phone')}}" placeholder="Username" class="form-control" >
-                                <label for="floatingInput">Email/Phone Number</label>
-                                <div id="floatingInputHelp" class="form-text"></div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 col-sm-12 mb-1">
-                            <div class="form-floating">
-                                <input type="date" class="form-control" id="to" name="to" placeholder="" />
-                                <label for="floatingInput">From</label>
-                                <div id="floatingInputHelp" class="form-text"> </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 col-sm-12 mb-1">
-                            <div class="form-floating">
-                                <input type="date" class="form-control" id="to" name="to" placeholder="" />
-                                <label for="floatingInput">From</label>
-                                <div id="floatingInputHelp" class="form-text"> </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- <div id="addw">
-
-                    </div> --}}
-
-
-
-
-                    <div class="row">
-                        <div class="col">
-                            {{-- <button type="button" class="btn btn-outline-secondary" onclick="add()">Add</button> --}}
-                        </div>
-                        <div class="col" style="text-align: right">
-                            <button type="submit" class="btn btn-primary me-2">Search</button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
-
-            </form>
-
-          </div>
+              </div>
+            </div>
         </div>
+
+
       </div>
 
       <div class="col-md-12">
