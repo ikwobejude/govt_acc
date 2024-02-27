@@ -25,7 +25,7 @@
         </a>
       </li>
 
-
+      @if (groupId() == 111111)
       <li class="menu-header small text-uppercase">
         <span class="menu-header-text">User Management</span>
       </li>
@@ -115,97 +115,99 @@
           </li>
         </ul>
       </li>
+      @endif
 
-      <li class="menu-header small text-uppercase">
-        <span class="menu-header-text">Chart of Accounts</span>
-      </li>
-      <!-- Apps -->
-      <li class="menu-item {{
-        (url()->current() == route('get.revenue') ? 'active open' :
-        (url()->current() == route('get.expenditure') ? 'active open' :
-        (url()->current() == route('get.asset') ? 'active open' :
-        (url()->current() == route('get.liabilities') ? 'active open' :''))))
-        }}">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-          <i class="menu-icon tf-icons bx bx-dock-top"></i>
-          <div data-i18n="Account Settings">Accounts</div>
-        </a>
-        <ul class="menu-sub">
-          <li class="menu-item {{ url()->current() == route('get.revenue') ? 'active' : ''}}">
-            <a href="{{ route('get.revenue') }}" class="menu-link">
-              <div data-i18n="Account">Revenue Chart of Accounts</div>
+      @if (groupId() == 111111 || groupId() == 3500)
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Chart of Accounts</span>
+        </li>
+        <!-- Apps -->
+        <li class="menu-item {{
+            (url()->current() == route('get.revenue') ? 'active open' :
+            (url()->current() == route('get.expenditure') ? 'active open' :
+            (url()->current() == route('get.asset') ? 'active open' :
+            (url()->current() == route('get.liabilities') ? 'active open' :''))))
+            }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bx bx-dock-top"></i>
+            <div data-i18n="Account Settings">Accounts</div>
             </a>
-          </li>
-          <li class="menu-item {{ url()->current() == route('get.expenditure') ? 'active' : ''}}">
-            <a href="{{ route('get.expenditure') }}" class="menu-link">
-              <div data-i18n="Notifications" >Expenditure Chart of Accounts</div>
+            <ul class="menu-sub">
+            <li class="menu-item {{ url()->current() == route('get.revenue') ? 'active' : ''}}">
+                <a href="{{ route('get.revenue') }}" class="menu-link">
+                <div data-i18n="Account">Revenue Chart of Accounts</div>
+                </a>
+            </li>
+            <li class="menu-item {{ url()->current() == route('get.expenditure') ? 'active' : ''}}">
+                <a href="{{ route('get.expenditure') }}" class="menu-link">
+                <div data-i18n="Notifications" >Expenditure Chart of Accounts</div>
+                </a>
+            </li>
+            <li class="menu-item {{ url()->current() == route('get.asset') ? 'active' : ''}}">
+                <a href="{{ route('get.asset') }}" class="menu-link">
+                <div data-i18n="Connections">Assets Chart of Accounts</div>
+                </a>
+            </li>
+            <li class="menu-item {{ url()->current() == route('get.liabilities') ? 'active' : ''}}">
+                <a href="{{ route('get.liabilities') }}" class="menu-link">
+                <div data-i18n="Connections">Liability Chart of Accounts</div>
+                </a>
+            </li>
+            </ul>
+        </li>
+        <li class="menu-item {{
+            (url()->current() == route('index_budget') ? 'active open' : '')
+            }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+            <div data-i18n="Authentications">Budget Management</div>
             </a>
-          </li>
-          <li class="menu-item {{ url()->current() == route('get.asset') ? 'active' : ''}}">
-            <a href="{{ route('get.asset') }}" class="menu-link">
-              <div data-i18n="Connections">Assets Chart of Accounts</div>
+            <ul class="menu-sub">
+            <li class="menu-item {{ url()->current() == route('index_budget') ? 'active' : ''}}">
+                <a href="{{ route('index_budget')}}" class="menu-link" target="_blank">
+                <div data-i18n="Basic">Budgeting</div>
+                </a>
+            </li>
+            {{-- <li class="menu-item">
+                <a href="auth-register-basic.html" class="menu-link" target="_blank">
+                <div data-i18n="Basic">Budget Report</div>
+                </a>
+            </li> --}}
+            {{--<li class="menu-item">
+                <a href="auth-forgot-password-basic.html" class="menu-link" target="_blank">
+                <div data-i18n="Basic">Forgot Password</div>
+                </a>
+            </li> --}}
+            </ul>
+        </li>
+        <li class="menu-item {{
+            (url()->current() == route('get.ppeclass') ? 'active open' :
+            (url()->current() == route('get.ppe') ? 'active open' : ''))
+            }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+            <div data-i18n="Fixed Assets Register">Fixed Assets Register</div>
             </a>
-          </li>
-          <li class="menu-item {{ url()->current() == route('get.liabilities') ? 'active' : ''}}">
-            <a href="{{ route('get.liabilities') }}" class="menu-link">
-              <div data-i18n="Connections">Liability Chart of Accounts</div>
-            </a>
-          </li>
-        </ul>
-      </li>
-      <li class="menu-item {{
-        (url()->current() == route('index_budget') ? 'active open' : '')
-        }}">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-          <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
-          <div data-i18n="Authentications">Budget Management</div>
-        </a>
-        <ul class="menu-sub">
-          <li class="menu-item {{ url()->current() == route('index_budget') ? 'active' : ''}}">
-            <a href="{{ route('index_budget')}}" class="menu-link" target="_blank">
-              <div data-i18n="Basic">Budgeting</div>
-            </a>
-          </li>
-           {{-- <li class="menu-item">
-            <a href="auth-register-basic.html" class="menu-link" target="_blank">
-              <div data-i18n="Basic">Budget Report</div>
-            </a>
-          </li> --}}
-          {{--<li class="menu-item">
-            <a href="auth-forgot-password-basic.html" class="menu-link" target="_blank">
-              <div data-i18n="Basic">Forgot Password</div>
-            </a>
-          </li> --}}
-        </ul>
-      </li>
-      <li class="menu-item {{
-        (url()->current() == route('get.ppeclass') ? 'active open' :
-        (url()->current() == route('get.ppe') ? 'active open' : ''))
-        }}">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-          <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-          <div data-i18n="Fixed Assets Register">Fixed Assets Register</div>
-        </a>
-        <ul class="menu-sub">
-          <li class="menu-item {{ url()->current() == route('get.ppeclass') ? 'active' : ''}}">
-            <a href="{{ route('get.ppeclass')}}" class="menu-link">
-                <div data-i18n="Depreciation Rate">PPE clasee</div>
-            </a>
-          </li>
-          {{-- <li class="menu-item">
-            <a href="#" class="menu-link">
-              <div data-i18n="Depreciation Rate">Depreciation Rate</div>
-            </a>
-          </li> --}}
-          <li class="menu-item {{ url()->current() == route('get.ppe') ? 'active' : ''}}">
-            <a href="{{ route('get.ppe') }}" class="menu-link">
-              <div data-i18n="Asset Register">Asset Register</div>
-            </a>
-          </li>
-        </ul>
+            <ul class="menu-sub">
+            <li class="menu-item {{ url()->current() == route('get.ppeclass') ? 'active' : ''}}">
+                <a href="{{ route('get.ppeclass')}}" class="menu-link">
+                    <div data-i18n="Depreciation Rate">PPE clasee</div>
+                </a>
+            </li>
+            {{-- <li class="menu-item">
+                <a href="#" class="menu-link">
+                <div data-i18n="Depreciation Rate">Depreciation Rate</div>
+                </a>
+            </li> --}}
+            <li class="menu-item {{ url()->current() == route('get.ppe') ? 'active' : ''}}">
+                <a href="{{ route('get.ppe') }}" class="menu-link">
+                <div data-i18n="Asset Register">Asset Register</div>
+                </a>
+            </li>
+            </ul>
 
-      </li>
-
+        </li>
+      @endif
       {{-- <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
@@ -225,34 +227,7 @@
         </ul>
       </li> --}}
       <!-- Components -->
-      <li class="menu-header small text-uppercase"><span class="menu-header-text">Transactions</span></li>
-      <!-- Cards -->
 
-      <!-- User interface -->
-      <li class="menu-item {{ url()->current() == route('expenditure') ? 'active' : ''}}">
-        <a href="javascript:void(0)" class="menu-link menu-toggle">
-          <i class="menu-icon tf-icons bx bx-box"></i>
-          <div data-i18n="Revenue Receipts">Revenue Receipts</div>
-        </a>
-        <ul class="menu-sub">
-          <li class="menu-item">
-            <a href="#" class="menu-link">
-              <div data-i18n="Revenue Receipts">Revenue Receipts</div>
-            </a>
-          </li>
-          <li class="menu-item {{ url()->current() == route('expenditure') ? 'active' : ''}}">
-            <a href="{{ route('expenditure') }}" class="menu-link">
-              <div data-i18n="Payment Voucher">Payment Voucher</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="#" class="menu-link">
-              <div data-i18n="Journal Voucher">Journal Voucher</div>
-            </a>
-          </li>
-
-        </ul>
-      </li>
 
       <!-- Extended components -->
       {{-- <li class="menu-item">
@@ -282,6 +257,7 @@
       </li> --}}
 
       <!-- Forms & Tables -->
+      @if (groupId() == 111111 || groupId() == 3000 || groupId()== 1500)
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Approvals</span></li>
       <!-- Forms -->
       <li class="menu-item {{
@@ -316,24 +292,41 @@
               <div data-i18n="Budgets">Budgets</div>
             </a>
           </li>
-          {{-- <li class="menu-item">
+
+        </ul>
+      </li>
+
+      @endif
+
+      @if (groupId() == 111111 || groupId() == 3500 || groupId() == 3000 || groupId()== 1500)
+      <li class="menu-header small text-uppercase"><span class="menu-header-text">Transactions</span></li>
+
+      <!-- User interface -->
+      <li class="menu-item {{ url()->current() == route('expenditure') ? 'active' : ''}}">
+        <a href="javascript:void(0)" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons bx bx-box"></i>
+          <div data-i18n="Revenue Receipts">Revenue Receipts</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
             <a href="#" class="menu-link">
-              <div data-i18n="Fixed Assets Register">Fixed Assets Register</div>
+              <div data-i18n="Revenue Receipts">Revenue Receipts</div>
+            </a>
+          </li>
+          <li class="menu-item {{ url()->current() == route('expenditure') ? 'active' : ''}}">
+            <a href="{{ route('expenditure') }}" class="menu-link">
+              <div data-i18n="Payment Voucher">Payment Voucher</div>
             </a>
           </li>
           <li class="menu-item">
             <a href="#" class="menu-link">
-              <div data-i18n="Vendors">Vendors</div>
+              <div data-i18n="Journal Voucher">Journal Voucher</div>
             </a>
           </li>
 
-          <li class="menu-item">
-            <a href="#" class="menu-link">
-              <div data-i18n="Journal Vouchers">Journal Vouchers</div>
-            </a>
-          </li> --}}
         </ul>
       </li>
+      @endif
 
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Final Accounts</span></li>
       <li class="menu-item {{
@@ -368,6 +361,44 @@
           <li class="menu-item {{ url()->current() == route('view.trial_balcance') ? 'active' : ''}}">
             <a href="{{ route('view.trial_balcance') }}" class="menu-link">
               <div data-i18n="Horizontal Form">Trial Balance</div>
+            </a>
+          </li>
+
+
+
+        </ul>
+      </li>
+
+      <li class="menu-item {{ url()->current() == route('financial_position') ? 'active' : ''}}">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons bx bx-detail"></i>
+          <div data-i18n="Final Accounts">Statement of Financial Position</div>
+        </a>
+        <ul class="menu-sub">
+
+          <li class="menu-item {{ url()->current() == route('financial_position') ? 'active' : ''}}">
+            <a href="{{ route('financial_position') }}" class="menu-link">
+              <div data-i18n="Horizontal Form">Financial Position</div>
+            </a>
+          </li>
+
+
+
+        </ul>
+      </li>
+
+
+
+      <li class="menu-item {{ url()->current() == route('report_budget') ? 'active' : ''}}">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons bx bx-detail"></i>
+          <div data-i18n="Final Accounts">Report</div>
+        </a>
+        <ul class="menu-sub">
+
+          <li class="menu-item {{ url()->current() == route('report_budget') ? 'active' : ''}}">
+            <a href="{{ route('report_budget') }}" class="menu-link">
+              <div data-i18n="Horizontal Form">Budget Report</div>
             </a>
           </li>
 

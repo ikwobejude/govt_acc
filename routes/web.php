@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PPE\PPEController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Ajax\fetchController;
 use App\Http\Controllers\Asset\AssetController;
 use App\Http\Controllers\PPE\PPECLassController;
@@ -14,6 +16,7 @@ use App\Http\Controllers\Settings\AssetSizeController;
 use App\Http\Controllers\Settings\AssetTypeController;
 use App\Http\Controllers\Liability\LiabilityController;
 use App\Http\Controllers\Uploads\RevenueUploadController;
+use App\Http\Controllers\Budgeting\BudgetReportController;
 use App\Http\Controllers\Expenditure\ExpenditureBatchName;
 use App\Http\Controllers\Settings\AssetCategoryController;
 use App\Http\Controllers\Settings\AssetLocationController;
@@ -24,10 +27,9 @@ use App\Http\Controllers\Approvals\RevenueApprovalsController;
 use App\Http\Controllers\FinalAccount\GeneralLedgerController;
 use App\Http\Controllers\Expenditure\ExpenditureTypeController;
 use App\Http\Controllers\Approvals\ExpenditureApprovalController;
-use App\Http\Controllers\Budgeting\BudgetReportController;
 use App\Http\Controllers\Expenditure\ExpenditureBatchNameController;
 use App\Http\Controllers\Expenditure\ExpenditurePayRegisterController;
-use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\FinalAccount\FinancialPositionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,9 +46,9 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -55,6 +57,9 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('/dashboard', [HomeController::class, 'Home'])->middleware(['auth', 'verified'])->name('dashboard');
+
 
 // controlled with middleware so everything is protected
 Route::group(['prefix' => 'settings'], function () {
@@ -216,7 +221,8 @@ Route::group(['prefix' => 'budget'], function () {
         Route::get('/', [BudgetController::class, 'index'])->name('index_budget');
         Route::post('/', [BudgetController::class, 'store'])->name('store.budget');
 
-        Route::get('/report', [BudgetReportController::class, 'index'])->name('report_budget');
+        Route::get('/personnel/report', [BudgetReportController::class, 'index'])->name('report_budget');
+        Route::get('/overhead/report', [BudgetReportController::class, 'overhead'])->name('overhead_report');
     });
 });
 
@@ -227,7 +233,17 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('/', [UserController::class, 'index'])->name('view.user');
         Route::post('/', [UserController::class, 'store'])->name('user.store');
         Route::post('/edit', [UserController::class, 'update'])->name('user.edit');
+
+        Route::get('/reset_password', [UserController::class, 'resetPassword'])->name('user_reset_password');
+        Route::post('/reset_password', [UserController::class, 'reset_Password'])->name('post.user_reset_password');
     });
 });
 
+
+Route::group(['prefix' => 'statement_of_financial_position'], function () {
+    Route::middleware(['auth'])->group(function () {
+        // Account payable
+        Route::get('/', [FinancialPositionController::class, 'index'])->name('financial_position');
+    });
+});
 

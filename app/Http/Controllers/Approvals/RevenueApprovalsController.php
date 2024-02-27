@@ -41,9 +41,11 @@ class RevenueApprovalsController extends Controller
             DB::table('acc_revenue')
             ->where('revenue_id', $request->query('id'))
             ->update([
-                "approved" => 1,
+                "approved" => (groupId() == 3000 ? 1 : (groupId() == 1500 ? 2: 0)) ,
+                "reapproved" => groupId() == 1500 ? 1: 0,
+                "reapproved_by" => groupId() == 1500 ? auth()->user()->email: "",
                 "approved_on" => Carbon::now(),
-                "approved_by" => auth()->user()->email
+                "approved_by" => groupId() == 3000 ? auth()->user()->email : ""
             ]);
 
             return response()->json([

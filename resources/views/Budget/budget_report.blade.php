@@ -153,49 +153,46 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card mb-4">
-                    <h5 class="card-header">Accounts Receivables</h5>
+                    <h5 class="card-header">Budget Year: 2024</h5>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-stripe table-bordered ">
+                            <table class="table table-stripe table-bordered " style="border-top: 2px solid black">
 
 
-                                @foreach ($budges->groupBy('budget_type') as $revenue_line => $rev)
+
                                     <thead>
-                                        <tr>
-                                            <th>{{ $revenue_line }}</th>
-                                            <th>
-                                                @if($revenue_line == 2)
-                                                    <span class="badge bg-label-success">Personel</span>
-                                                @endif
-                                                @if($revenue_line == 3)
-                                                    <span class="badge bg-label-primary">Overhead</span>
-                                                @endif
-                                                @if($revenue_line == 4)
-                                                    <span class="badge bg-label-info">Capital</span>
-                                                @endif
-                                            </th>
-                                            <th colspan="3" style="text-align-last: center">NCOA</th>
-                                            <th></th>
-                                        </tr>
-                                        <tr style="border-top: 2px solid black">
-                                            <th class="td">Organization</th>
-                                            <th class="td">Fund</th>
-                                            <th class="td">Account</th>
-                                            <th class="td">Program</th>
-                                            <th class="td">Region</th>
-                                            <th class="td">Account Name </th>
-                                            <th class="td">Budget Amount</th>
-                                            <th class="td">Legal Commitments</th>
-                                            <th class="td tdleft">Financial Commitments</th>
-                                            <th class="td tdleft">Actual Expenditures</th>
-                                            <th class="td tdleft">Total Expenditures</th>
-                                            <th class="td">Available</th>
+
+                                        <tr >
+                                            <th >Organization</th>
+                                            <th >Fund</th>
+                                            <th >Account</th>
+                                            <th >Program</th>
+                                            <th >Region</th>
+                                            <th >Account Name </th>
+                                            <th >Budget Amount</th>
+                                            <th class="tdleft">Legal Commitments</th>
+                                            <th class="tdleft">Financial Commitments</th>
+                                            <th class="tdleft">Actual Expenditures</th>
+                                            <th class="tdleft">Total Expenditures</th>
+                                            <th >Available</th>
                                         </tr>
 
                                     </thead>
                                     <tbody>
+                                        <?php
+                                            $budgetedAmount = 0;
+                                            $actualAmount = 0;
+                                            $totalExpenditure = 0;
+                                            $totalAvailable =0;
+                                        ?>
+                                        @foreach ($budges as $key => $item)
+                                        <?php
+                                           $avialable = (float)$item->current_budget - (float)$item->amount;
 
-                                        @foreach ($rev as $key => $item)
+                                            $budgetedAmount += (float)$item->current_budget;
+                                            $actualAmount += (float)$item->amount;
+                                            $totalAvailable += (float)$avialable;
+                                        ?>
                                             <tr>
                                                 <td>{{ $item->economic_code  }}</td>
                                                 <td>{{ $item->found_source }}</td>
@@ -207,13 +204,27 @@
 
                                                 <td>0.00</td>
                                                 <td>0.00</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>{{ number_format($item->amount, 2)  }}</td>
+                                                <td>{{ number_format($item->amount, 2)  }}</td>
+                                                <td>
+
+                                                    {{ number_format($avialable, 2)  }}
+                                                </td>
                                             </tr>
                                         @endforeach
+                                        <tr>
+                                            <tr>
+                                                <td colspan="6"><strong>Total</strong></td>
+                                                <td>{{ number_format($budgetedAmount, 2) }}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>{{ number_format($actualAmount, 2) }}</td>
+                                                <td>{{ number_format($actualAmount, 2) }}</td>
+                                                <td>{{ number_format($totalAvailable, 2) }}</td>
+                                            </tr>
+                                        </tr>
                                     </tbody>
-                                @endforeach
+
                                 </tbody>
                             </table>
                         </div>

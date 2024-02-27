@@ -30,11 +30,29 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         // return redirect()->intended(RouteServiceProvider::HOME);
-         $notification = array(
+        // $data = [
+        //     'body' => 'Welcome to SmartPay',
+        //     'title' => 'Login Notification',
+        //     'Name' => name(),
+        //     'Email'=> emailAddress(),
+        //     'EmailType' => "login"
+        // ];
+        // sendEmailNotification($data);
+        // dd(inactive());
+        if(inactive() == 1) {
+            $notification = array(
+                'message' => 'Please reset your password',
+                'alert-type' => 'info'
+            );
+            return redirect('/user/reset_password')->with($notification);
+        } else {
+            $notification = array(
                 'message' => 'Admin Login Successfully',
                 'alert-type' => 'info'
             );
-        return redirect('/dashboard')->with($notification);
+           return redirect('/dashboard')->with($notification);
+        }
+
     }
 
     /**

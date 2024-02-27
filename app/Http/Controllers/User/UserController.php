@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rules;
 
 class UserController extends Controller
 {
@@ -45,24 +49,35 @@ class UserController extends Controller
         // dd($request->all());
         try {
             $this->validate($request, [
-                'username' => 'required|min:3|unique:users,username',
+                // 'username' => 'required|min:3|unique:users,username',
                 'user_role' => 'required|integer',
                 'fullname' => 'required|string',
                 // 'firstname' => 'required|string',
                 // 'middlename' => 'nullable|string',
-                'email' => 'required|string|email|max:255',
+                'email' => 'required|string|email|max:255|unique:users,username',
                 'phone_number' => 'required|string|max:11',
             ]);
 
 
             User::insert([
-                'username' => $request->username,
+                'username' => $request->email,
                 'group_id' => $request->user_role,
                 'name' => $request->fullname,
                 'email' => $request->email,
                 'phone' => $request->phone_number,
-                'password' => bcrypt("1234567")
+                'password' => bcrypt("1234567"),
+                'inactive' => 1,
             ]);
+
+            // $data = [
+            //     'body' => 'Reset Email',
+            //     'title' => 'Reset Email Notification',
+            //     'Email'=> emailAddress(),
+            //     'Name' => name(),
+            //     'EmailType' => "Account"
+            // ];
+
+            // sendEmailNotification($data);
 
             $notification = array(
                 'message' => 'User created!',
@@ -134,6 +149,68 @@ class UserController extends Controller
             );
             return redirect()->back()->with($notification);
             // return redirect()->route('users.edit', $id)->with('error', "Error. Unable to delete record. " . $exception->errorInfo[2]);
+        }
+    }
+
+
+    public function resetPassword(Request $request) {
+        return view('auth.reset-password');
+    }
+
+    public function reset_Password(Request $request) {
+        try {
+            // dd($request->all());
+            $request->validate([
+                'old_password' => 'required',
+                'password' => 'required',
+                'confirm_password' => 'required',
+            ]);
+
+            if($request->new_password == $request->new_password ){
+                $notification = array(
+                    'message' => 'New password does not match confirm password',
+                    'alert-type' => 'error'
+                );
+            }
+
+
+            if (!Hash::check($request->old_password, auth()->user()->password)) {
+                $notification = array(
+                    'message' => 'Old Password Doesn\'t Match!!',
+                    'alert-type' => 'error'
+                );
+
+                return back()->with($notification);
+            }
+
+            // dd(auth()->user()->id);
+            User::whereId(auth()->user()->id)->update([
+                'password' => Hash::make($request->password),
+                'inactive' => 0,
+                'password_expiry_date' => setPasswordExpiryDate(60)
+            ]);
+
+            // $data = [
+            //     'body' => 'Reset Email',
+            //     'title' => 'Reset Email Notification',
+            //     'Email'=> emailaddress(),
+            //     'Name' => name(),
+            //     'EmailType' => "reset_password"
+            // ];
+
+            // sendEmailNotification($data);
+
+            $notification = array(
+                'message' => 'Password successfully Reset',
+                'alert-type' => 'success'
+            );
+            return redirect('/dashboard')->with($notification);
+        } catch (\Throwable $th) {
+            $notification = array(
+                'message' => $th->getMessage(),
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
         }
     }
 }

@@ -123,12 +123,23 @@
                                         Approvals
                                       </button>
                                       <div class="dropdown-menu">
+                                        @if ($item->approved == 0 || $item->approved == 3 && groupId() == 3000)
                                         <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->id }})">
                                             <i class="bx bx bxs-like me-1"></i> Approve
                                         </a>
-                                        {{-- <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter">
-                                            <i class="bx bx-edit-alt me-1"></i> Approve
-                                        </a> --}}
+                                        @endif
+                                        @if ($item->approved == 1  && groupId() == 1500)
+                                        <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->id }})">
+                                            <i class="bx bx bxs-like me-1"></i> Approve {{ $item->approved  }}
+                                        </a>
+                                        @endif
+                                        @if (groupId() == 111111)
+                                        <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->id }})">
+                                            <i class="bx bx bxs-like me-1"></i> Approve
+                                        </a>
+                                        @endif
+
+
                                         <a class="dropdown-item" href="javascript:void(0);" onclick="disApprove({{ $item->id }})">
                                             <i class="bx bxs-like bx-rotate-180 me-1"></i> Reject
                                         </a>

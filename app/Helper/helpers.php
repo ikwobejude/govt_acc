@@ -65,7 +65,7 @@ function firstName()
 }
 
 // this function returns the email of a user
-function emailaddress()
+function emailAddress()
 {
 	return  auth()->user()->email ?? auth('sanctum')->user()->email;
 }
@@ -119,6 +119,67 @@ function employeeAcronyms($names) {
     preg_match_all("/\b\w/", $names, $matches); // match the first letter of each word
     $acronym = implode("", $matches[0]); // join the matches into a string
     return $acronym; // output the string of first letters
+}
+
+function sendEmailNotification($data){
+	try {
+		if($data['EmailType'] == "WelcomeEmail" ){
+			Mail::to($data['Email'])->send(new \App\Mail\WelcomeEmail($data));
+			return 1;
+		}
+		if($data['EmailType'] == "StaffWelcomeEmail" ){
+			Mail::to($data['Email'])->send(new \App\Mail\StaffWelcomeEmail($data));
+			return 1;
+		}
+		if($data['EmailType'] == "login" ){
+			Mail::to($data['Email'])->send(new \App\Mail\loginNotification($data));
+			return 1;
+		}
+
+		if($data['EmailType'] == "forgot" ){
+			Mail::to($data['Email'])->send(new \App\Mail\forgetPasswordEmail($data));
+			return 1;
+		}
+
+		if($data['EmailType'] == "reset_password" ){
+			Mail::to($data['Email'])->send(new \App\Mail\ResetPassword($data));
+			return 1;
+		}
+
+		if($data['EmailType'] == "verify_email_address"){
+			Mail::to($data['Email'])->send(new \App\Mail\ConfirmEmail($data));
+			return 1;
+		}
+		if($data['EmailType'] == "employee_absent"){
+			Mail::to($data['Email'])->send(new \App\Mail\EmployeeAbsentEmail($data));
+			return 1;
+		}
+
+
+
+        if($data['EmailType'] == "salary_approval_notification"){
+            // dd($data['EmailType'], $data['Email']);
+                Mail::to($data['Email'])->send(new \App\Mail\PaymentNotificationEmail($data));
+                return 1;
+		}
+
+        // generated email notification to admin board
+        if($data['EmailType'] == "salary_generated_salary_notification_to_admin"){
+            // dd($data['EmailType'], $data['Email']);
+                Mail::to($data['Email'])->send(new \App\Mail\PaymentGeneratedNotification($data));
+                return 1;
+		}
+
+        // Approval email notification to HR for authorization
+        if($data['EmailType'] == "admin_salary_approval_notification_to_hr"){
+            // dd($data['EmailType'], $data['Email']);
+                Mail::to($data['Email'])->send(new \App\Mail\PaymentApprovalNotification($data));
+                return 1;
+		}
+	} catch (Exception $th) {
+		throw $th;
+		return 0;
+	}
 }
 
 // function sendEmailNotification($data){

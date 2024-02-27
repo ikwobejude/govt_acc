@@ -87,68 +87,81 @@
         <div class="card mb-4">
           <h5 class="card-header">Revenue(s)</h5>
           <div class="card-body">
-                <table class="table table-stripe">
-                    <thead>
-                        <tr>
-                            <th>Revenue Line</th>
-                            <th>Received From </th>
-                            <th>Description </th>
-                            <th>Authority Document Ref. No </th>
-                            <th>Amount </th>
-                            <th>Date </th>
-                            <th>Approvals Status </th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($revenue as  $key=>$item)
+                <div class="table-responsive">
+                    <table class="table table-stripe">
+                        <thead>
                             <tr>
-                                <td>{{ $item->revenue_line }}</td>
-                                <td>{{ $item->received_from }}</td>
-                                <td>{{ $item->description }}</td>
-                                <td>{{ $item->authority_document_ref_no }}</td>
-                                <td>{{ number_format($item->revenue_amount, 2)  }}</td>
-                                <td>{{ date("Y-m-d", strtotime($item->settlement_date)) }}</td>
-                                <td>
-
-                                    @if($item->approved == 0)
-                                      <span class="badge bg-label-warning">Pending</span>
-                                    @endif
-                                    @if($item->approved == 1)
-                                      <span class="badge bg-label-primary">Await Final Approval</span>
-                                    @endif
-                                    @if($item->approved == 2)
-                                      <span class="badge bg-label-success">Approved</span>
-                                    @endif
-                                    @if($item->approved == 3)
-                                    <button type="button" class="btn btn-sm btn-danger" onclick="viewDisapproveR('{{ $item->reason }}')">
-                                        Rejected
-                                        <span class="badge bg-white text-primary ms-1">View why</span>
-                                      </button>
-                                    @endif
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                      <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown">
-                                        Approvals
-                                      </button>
-                                      <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->revenue_id }})">
-                                            <i class="bx bx bxs-like me-1"></i> Approve
-                                        </a>
-                                        {{-- <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter">
-                                            <i class="bx bx-edit-alt me-1"></i> Approve
-                                        </a> --}}
-                                        <a class="dropdown-item" href="javascript:void(0);" onclick="disApprove({{ $item->revenue_id }})">
-                                            <i class="bx bxs-like bx-rotate-180 me-1"></i> Reject
-                                        </a>
-                                      </div>
-                                    </div>
-                                </td>
+                                <th>Revenue Line</th>
+                                <th>Received From </th>
+                                <th>Description </th>
+                                <th>Authority Document Ref. No </th>
+                                <th>Amount </th>
+                                <th>Date </th>
+                                <th>Approvals Status </th>
+                                <th>Action</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($revenue as  $key=>$item)
+                                <tr>
+                                    <td>{{ $item->revenue_line }}</td>
+                                    <td>{{ $item->received_from }}</td>
+                                    <td>{{ $item->description }}</td>
+                                    <td>{{ $item->authority_document_ref_no }}</td>
+                                    <td>{{ number_format($item->revenue_amount, 2)  }}</td>
+                                    <td>{{ date("Y-m-d", strtotime($item->settlement_date)) }}</td>
+                                    <td>
+
+                                        @if($item->approved == 0)
+                                          <span class="badge bg-label-warning">Pending</span>
+                                        @endif
+                                        @if($item->approved == 1)
+                                          <span class="badge bg-label-primary">Await Final Approval</span>
+                                        @endif
+                                        @if($item->approved == 2)
+                                          <span class="badge bg-label-success">Approved</span>
+                                        @endif
+                                        @if($item->approved == 3)
+                                        <button type="button" class="btn btn-sm btn-danger" onclick="viewDisapproveR('{{ $item->reason }}')">
+                                            Rejected
+                                            <span class="badge bg-white text-primary ms-1">View why</span>
+                                          </button>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                          <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown">
+                                            Approvals
+                                          </button>
+                                          <div class="dropdown-menu">
+                                            @if ($item->approved == 0 || $item->approved == 3 && groupId() == 3000)
+                                                <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->revenue_id }})">
+                                                    <i class="bx bx bxs-like me-1"></i> Approve
+                                                </a>
+                                            @endif
+                                            @if ($item->approved == 1  && groupId() == 1500)
+                                                <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->revenue_id }})">
+                                                    <i class="bx bx bxs-like me-1"></i> Approve
+                                                </a>
+                                            @endif
+                                            @if (groupId() == 111111)
+                                                <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->revenue_id }})">
+                                                    <i class="bx bx bxs-like me-1"></i> Approve
+                                                </a>
+                                            @endif
+                                                <a class="dropdown-item" href="javascript:void(0);" onclick="disApprove({{ $item->revenue_id }})">
+                                                    <i class="bx bxs-like bx-rotate-180 me-1"></i> Reject
+                                                </a>
+
+                                          </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
           </div>
         </div>
       </div>

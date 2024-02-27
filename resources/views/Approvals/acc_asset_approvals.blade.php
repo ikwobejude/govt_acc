@@ -163,7 +163,7 @@
         <div class="card mb-4">
           <h5 class="card-header">Asset(s)</h5>
           <div class="card-body">
-            <div class="table-reponsive">
+            <div class="table-responsive">
                 <table class="table table-stripe">
                     <thead>
                         <tr>
@@ -215,12 +215,25 @@
                                       Approvals
                                     </button>
                                     <div class="dropdown-menu">
+                                        @if ($item->approved == 0 || $item->approved == 3 && groupId() == 3000)
+                                        <a class="dropdown-item" href="javascript:void(0);" onclick="approveAsset({{ $item->assest_id }})">
+                                            <i class="bx bx bxs-like me-1"></i> Approve
+                                        </a>
+                                            @endif
+                                            @if ($item->approved == 1  && groupId() == 1500)
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="approveAsset({{ $item->assest_id }})">
+                                                <i class="bx bx bxs-like me-1"></i> Approve
+                                            </a>
+                                            @endif
+                                            @if (groupId() == 111111)
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="approveAsset({{ $item->assest_id }})">
+                                                <i class="bx bx bxs-like me-1"></i> Approve
+                                            </a>
+                                            @endif
                                       {{-- <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter">
                                           <i class="bx bx-edit-alt me-1"></i> Approve
                                       </a> --}}
-                                      <a class="dropdown-item" href="javascript:void(0);" onclick="approveAsset({{ $item->assest_id }})">
-                                          <i class="bx bx bxs-like me-1"></i> Approve
-                                      </a>
+
                                       <a class="dropdown-item" href="javascript:void(0);" onclick="disApprove({{ $item->assest_id }})">
                                           <i class="bx bxs-like bx-rotate-180 me-1"></i> Reject
                                       </a>
