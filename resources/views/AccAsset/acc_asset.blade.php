@@ -163,7 +163,7 @@
             </div>
         </div>
           <div class="card-body">
-            <div class="table-reponsive">
+            <div class="table-responsive">
                 <table class="table table-stripe">
                     <thead>
                         <tr>
@@ -175,6 +175,7 @@
                             <th>Asset Category</th>
                             <th>Asset Size</th>
                             <th>Opening Value</th>
+                            <th>Status </th>
                             <th>Date </th>
                             <th>Action</th>
                         </tr>
@@ -189,6 +190,25 @@
                             <td>{{ $item->assest_category }}</td>
                             <td>{{ $item->assest_size }}</td>
                             <td>{{ $item->opening_value }}</td>
+                            <td>
+
+                                @if($item->approved == 0)
+                                    <span class="badge bg-label-warning">Pending</span>
+                                @endif
+                                @if($item->approved == 1)
+                                    <span class="badge bg-label-primary">Await Final Approval</span>
+                                @endif
+                                @if($item->approved == 2)
+                                    <span class="badge bg-label-success">Approved</span>
+                                @endif
+                                @if($item->approved == 3)
+                                <button type="button" class="btn btn-sm btn-danger" onclick="viewDisapproveR('{{ $item->reason }}')">
+                                    Rejected
+                                    <span class="badge bg-white text-primary ms-1">View why</span>
+                                    </button>
+                                @endif
+
+                            </td>
                             <td>{{ $item->date_purchased }}</td>
                             <td>
                                 <div class="dropdown">
@@ -197,14 +217,14 @@
                                   </button>
                                   <div class="dropdown-menu">
                                     <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter" onclick="update(
-                                        '{{ $item->asset_rev_name }}',
+                                        '{{ $item->asset_rev_name.','.$item->asset_rev.','.$item->asset_rev_type }}',
                                         '{{ $item->asset_rev }}',
                                         '{{ $item->assest_name }}',
-                                        '{{ $item->assest_type }}',
-                                        '{{ $item->assest_category }}',
-                                        '{{ $item->assest_size }}',
+                                        '{{ $item->assest_type_id }}',
+                                        '{{ $item->assest_category_id }}',
+                                        '{{ $item->assest_size_id }}',
                                         '{{ $item->opening_value }}',
-                                        '{{ $item->date_purchased }}'
+                                        '{{ date('Y-m-d', strtotime($item->date_purchased)) }}'
                                     )">
                                         <i class="bx bx-edit-alt me-1"></i> Edit
                                     </a>
@@ -250,7 +270,7 @@
                         <h1>Asset</h1>
                         <div class="row">
                             <div class="col-md-4 col-sm-6">
-                                <div class="form-floating">
+                                <div class="form-floating mb-2">
                                     <select name="revenue_code" id="erevenue_code" class="form-control">
                                         <option value="">Select option</option>
                                         @foreach ($revenue_lines as $item)
@@ -332,7 +352,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-sm-6">
                                 <div class="form-floating mb-3">
                                     <input type="text" name="assest_name" id="eassest_name" value="{{ old('assest_name')}}" placeholder="Asset Name" class="form-control" >
                                     <label for="floatingInput">Asset Name</label>
@@ -342,15 +362,15 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-floating">
+                            <div class="col-md-4 col-sm-6">
+                                <div class="form-floating mb-3">
                                     <input type="text" id="eauthority_document_ref_no" name="authority_document_ref_no" class="form-control  @error('authority_document_ref_no') is-invalid @enderror"  placeholder="Authority Document Ref. No" value="{{ old('authority_document_ref_no')}}" />
                                     <label for="floatingInput">Authority Document Ref. No</label>
                                 </div>
                             </div>
 
-                            <div class="col-md-4  col-sm-6">
-                                <div class="form-floating">
+                            <div class="col-md-4 col-sm-6">
+                                <div class="form-floating mb-3">
                                     <input type="date" class="form-control  @error('date_purchased') is-invalid @enderror" id="edate_purchased" name="date_purchased" placeholder="Date of purchase" value="{{ old('date_purchased')}}" />
                                     <label for="floatingInput">Date of purchase</label>
                                     <div id="floatingInputHelp" class="form-text"> </div>
@@ -360,7 +380,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-5">
-                                <div class="form-floating">
+                                <div class="form-floating mb-3">
                                     <input type="text" class="form-control  @error('opening_value') is-invalid @enderror" value="{{ old('opening_value')}}" id="eopening_value" name="opening_value" placeholder="Opening value" />
                                     <label for="floatingInput">Opening value</label>
                                     <div id="floatingInputHelp" class="form-text"> </div>
@@ -371,7 +391,7 @@
                             </div>
 
                             <div class="col-md-4 col-sm-6">
-                                <div class="form-floating">
+                                <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="eassest_decription" value="{{ old('assest_decription')}}" name="assest_decription" placeholder="Asset Description"  />
                                     <label for="floatingInput">Asset Description</label>
                                     <div id="floatingInputHelp" class="form-text"> </div>
@@ -554,7 +574,7 @@
                             {{-- <button type="button" class="btn btn-outline-secondary" onclick="add()">Add</button> --}}
                         </div>
                         <div class="col" style="text-align: right">
-                            <button type="submit" class="btn btn-primary me-2">SAVE</button>
+                            <button type="submit" class="btn btn-primary me-2">Submit</button>
                         </div>
                     </div>
                 </div>
@@ -568,6 +588,30 @@
 </div>
 
 
+  <div class="modal fade" id="reason" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalCenterTitle">Reason for rejection rejected</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p id="reson"> </p>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+            {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+          </div>
+      </div>
+    </div>
+  </div>
 
   @endsection
 
@@ -583,16 +627,23 @@
     function update(asset_rev_name, asset_rev, assest_name, assest_type, assest_category, assest_size, opening_value, date_purchased) {
         console.log({asset_rev_name, asset_rev, assest_name, assest_type, assest_category, assest_size, opening_value, date_purchased})
 
-        $('#erevenue_code').val()
-        $('#easset_type').val()
-        $('#easset_category').val()
-        $('#easset_size').val()
-        $('#eassest_name').val()
+        $('#erevenue_code').val(asset_rev_name)
+        $('#easset_type').val(assest_type)
+        $('#easset_category').val(assest_category)
+        $('#easset_size').val(assest_size)
+        $('#eassest_name').val(assest_name)
         $('#eauthority_document_ref_no').val()
         $('#edate_purchased').val()
-        $('#eopening_value').val()
+        $('#eopening_value').val(opening_value)
         $('#eassest_decription').val()
 
+    }
+
+
+    function viewDisapproveR(str) {
+        document.getElementById('reson').textContent = str;
+        console.log(str)
+        new bootstrap.Modal(document.querySelector("#reason")).show();
     }
 </script>
   </script>

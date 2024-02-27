@@ -131,6 +131,8 @@ Route::group(['prefix' => 'asset'], function () {
         // Account payable
         Route::get('/', [AssetController::class, 'index'])->name('get.asset');
         Route::post('/', [AssetController::class, 'store'])->name('post.asset');
+
+        Route::post('/', [AssetController::class, 'store'])->name('post.asset');
     });
 });
 

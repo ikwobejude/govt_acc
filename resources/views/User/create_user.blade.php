@@ -112,7 +112,7 @@
                 </div>
                 <div class="col-6">
                     <div style="text-align: right; padding: 20px">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newRevenue">Add New Asset</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newRevenue">Add New User</button>
                     </div>
                 </div>
             </div>
