@@ -34,6 +34,7 @@ class ExpenditurePayRegisterController extends Controller
         $batchName = ExpenditureBatchName::all();
         $ExpenditureRegister = db::table('expenditure_payregister')
         ->where('service_id', 37483)
+        ->where('deleted', 0)
         // ->when(!empty($expenditureType), function ($query) use ($expenditureType) {
         //     return $query->where('expenditure_code', $expenditureType);
         // })
@@ -101,6 +102,61 @@ class ExpenditurePayRegisterController extends Controller
             );
             return redirect()->back()->with($notification);
     }
+
+    public function update(Request $request) {
+        // dd($request->all());
+        $request->validate([
+            'batch_type' => ['required', 'string'],
+            'date' => ['required', 'string'],
+            'name' => ['required', 'string'],
+            'amount' => ['required', 'regex:/^(\d+|\d+(\.\d{1,2})?|(\.\d{1,2}))$/'],
+            'narration' => ['required', 'string'],
+            'expenditure_type' => ['required', 'string'],
+        ]);
+
+        $carbon = Carbon::parse($request->date);
+        $year = $carbon->format('Y');
+        $month = $carbon->format('F');
+
+        $arr = explode(',', $request->expenditure_type);
+
+        // dd( $arr);
+        ExpenditureRegister::where('idexpenditure_payregister', $request->id)->update([
+            'batch_name' => $request->batch_type,
+            'approved_on' => $request->date,
+            'expenditure_type' =>  $arr[2],
+            'expenditure_code' =>  $arr[1],
+            'expenditure_name' => $arr[0],
+            'name' =>  $request->name,
+            'amount' =>  $request->amount,
+            'narration' =>  $request->narration,
+            'service_id' => 37483,
+            'created_by' => auth()->user()->email,
+            'payment_ref' => $request->authority_document_ref_no,
+            'month' => $month,
+            'year' => $year
+        ]);
+
+        $notification = array(
+            'message' => 'Updated successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+}
+
+public function destroy($id) {
+
+    // dd( $arr);
+    ExpenditureRegister::where('idexpenditure_payregister', $id)->update([
+        'deleted' => 1
+    ]);
+
+    $notification = array(
+        'message' => 'Deleted',
+        'alert-type' => 'success'
+    );
+    return redirect()->back()->with($notification);
+}
 
 
     public function expenditures()

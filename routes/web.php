@@ -119,6 +119,9 @@ Route::group(['prefix' => 'expenditure'], function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('/', [ExpenditurePayRegisterController::class, 'index'])->name('get.expenditure');
         Route::post('/', [ExpenditurePayRegisterController::class, 'store'])->name('post.expenditure');
+
+        Route::put('/', [ExpenditurePayRegisterController::class, 'update'])->name('put.expenditure');
+        Route::get('/delete/{id}', [ExpenditurePayRegisterController::class, 'destroy'])->name('deleted_expenditure');
     });
 });
 

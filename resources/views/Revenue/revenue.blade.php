@@ -137,6 +137,7 @@
                                         <th>Description </th>
                                         <th>Authority Document Ref. No </th>
                                         <th>Amount </th>
+                                        <th>Approvals Status </th>
                                         <th>Date </th>
                                         <th>Action</th>
                                     </tr>
@@ -149,6 +150,24 @@
                                             <td>{{ $item->description }}</td>
                                             <td>{{ $item->authority_document_ref_no }}</td>
                                             <td>{{ number_format($item->revenue_amount, 2) }}</td>
+                                            <td>
+                                                @if($item->approved == 0)
+                                                <span class="badge bg-label-warning">Pending</span>
+                                                @endif
+                                                @if($item->approved == 1)
+                                                <span class="badge bg-label-primary">Await Final Approval</span>
+                                                @endif
+                                                @if($item->approved == 2)
+                                                <span class="badge bg-label-success">Approved</span>
+                                                @endif
+                                                @if($item->approved == 3)
+                                                <button type="button" class="btn btn-sm btn-danger" onclick="viewDisapproveR('{{ $item->reason }}')">
+                                                    Rejected
+                                                    <span class="badge bg-white text-primary ms-1">View why</span>
+                                                </button>
+                                                @endif
+
+                                            </td>
                                             <td>{{ date('Y-m-d', strtotime($item->settlement_date)) }}</td>
                                             <td>
                                                 <div class="dropdown">
@@ -467,6 +486,36 @@
     </div>
 
 
+    <div class="modal fade" id="reason" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalCenterTitle">Dis approved reasons</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="reson">
+                  Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
+                  in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+                </p>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                  Close
+                </button>
+                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+              </div>
+          </div>
+        </div>
+      </div>
+
+
+
 
 
 
@@ -514,6 +563,12 @@
                 document.getElementById(`${id}`).innerHTML = html;
             }
 
+        }
+
+        function viewDisapproveR(str) {
+            document.getElementById('reson').textContent = str;
+            console.log(str)
+            new bootstrap.Modal(document.querySelector("#reason")).show();
         }
     </script>
 @endsection

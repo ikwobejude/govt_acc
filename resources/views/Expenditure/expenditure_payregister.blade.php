@@ -141,7 +141,7 @@
             </div>
         </div>
           <div class="card-body">
-            <div class="table-reponsive">
+            <div class="table-responsive">
                 <table class="table table-stripe">
                     <thead>
                         <tr>
@@ -172,10 +172,19 @@
                                         <i class="bx bx-dots-vertical-rounded"></i>
                                       </button>
                                       <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter">
+                                        <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter" onclick="update(
+                                            '{{ $item->idexpenditure_payregister }}',
+                                            '{{ $item->expenditure_name .','.$item->expenditure_code.','.$item->expenditure_type }}',
+                                            '{{ $item->batch_name }}',
+                                            '{{ $item->name }}',
+                                            '{{ $item->amount }}',
+                                            '{{ $item->narration }}',
+                                            '{{ date('Y-m-d', strtotime($item->created_at)) }}',
+                                            '{{ $item->payment_ref }}'
+                                        )">
                                             <i class="bx bx-edit-alt me-1"></i> Edit
                                         </a>
-                                        <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
+                                        <a class="dropdown-item" href="{{ route('deleted_expenditure', $item->idexpenditure_payregister) }}" onchange="confirm('Are you sure you want to delete?')"><i class="bx bx-trash me-1"></i> Delete</a>
                                       </div>
                                     </div>
                                 </td>
@@ -203,41 +212,111 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalCenterTitle">Modal title</h5>
+          <h5 class="modal-title" id="modalCenterTitle">Update detail</h5>
           <button
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col mb-3">
-              <label for="nameWithTitle" class="form-label">Revenue Line</label>
-              <input
-                type="text"
-                id="nameWithTitle"
-                class="form-control"
-                placeholder="Enter Name" />
+        <form action="{{ route('post.expenditure') }}" method="post">
+            @method('PUT')
+            <div class="modal-body">
+
+                    @csrf
+                    <div class="fieldset">
+                        <h1>Expenditure</h1>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <input type="hidden" name="id" id="id">
+                                <div class="form-floating mb-3">
+                                    <select name="expenditure_type" id="eexpenditure_type" class="form-control @error('batch_type') is-invalid @enderror">
+                                        <option value="">-- Select Option --</option>
+                                        @foreach ($expenditureType as $Etype)
+                                        <option value="{{ $Etype->description.",".$Etype->economic_code.",".$Etype->type  }}" {{ old('expenditure_type') == $Etype->description ? 'selected': ''}}>
+                                            {{ $Etype->description." :: ".$Etype->economic_code  }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                    <label for="floatingInput">EXPENDITURE TYPE</label>
+                                    <div id="floatingInputHelp" class="form-text"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <select name="batch_type" id="ebatch_type" class="form-control @error('batch_type') is-invalid @enderror">
+                                        <option value="">-- Select Option --</option>
+                                        @foreach($batchName as $batch)
+                                            <option value="{{ $batch->name }}">{{ $batch->name }}</option>
+                                        @endforeach
+
+                                        {{-- <option value="Vendor">Vendor</option> --}}
+                                    </select>
+                                    <label for="floatingInput">Batch Type</label>
+                                    <div id="floatingInputHelp" class="form-text"></div>
+                                    @error('batch_type')
+                                        <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="date" name="date" id="edate" class="form-control" >
+                                    <label for="floatingInput">Date</label>
+                                    <div id="floatingInputHelp" class="form-text"></div>
+                                    @error('batch_type')
+                                        <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6  mb-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control @error('authority_document_ref_no') is-invalid @enderror" id="eauthority_document_ref_no" name="eauthority_document_ref_no" placeholder="Authority Document Ref. No" value="{{ old('authority_document_ref_no')}}" />
+                                    <label for="floatingInput">Authority Document Ref. No</label>
+
+                                    @error('authority_document_ref_no')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6  mb-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="ename" name="name" placeholder="Paid to" value="" />
+                                    <label for="floatingInput">Paid to</label>
+                                    <div id="floatingInputHelp" class="form-text"> </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6  mb-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="eamount" name="amount" placeholder="Amount" />
+                                    <label for="floatingInput">Amount</label>
+                                    <div id="floatingInputHelp" class="form-text"> </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12  mb-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="enarration" name="narration" placeholder="Narration"  />
+                                    <label for="floatingInput">Narration/Description of Payment</label>
+                                    <div id="floatingInputHelp" class="form-text"> </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
             </div>
-          </div>
-          <div class="row g-2">
-            <div class="col mb-0">
-              <label for="emailWithTitle" class="form-label">Revenue Code</label>
-              <input
-                type="email"
-                id="emailWithTitle"
-                class="form-control"
-                placeholder="xxxx@xxx.xx" />
+            <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                Close
+            </button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
             </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -255,7 +334,8 @@
                 aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('post.expenditure') }}" method="post">
+                <form action="{{ route('put.expenditure') }}" method="post">
+
                     @csrf
                     <div class="fieldset">
                         <h1>Expenditure</h1>
@@ -335,6 +415,8 @@
 
                                 </div>
                             </div>
+
+
                         </div>
 
                         {{-- <div id="addw">
@@ -426,5 +508,18 @@ function deleteemprow(h) {
   console.log(h);
   $(`#row${h}`).remove();
 }
+
+
+function update(idexpenditure_payregister, expenditure_code, batch_name, name, amount, narration, created_at, payment_ref) {
+    // console.log({idexpenditure_payregister, expenditure_code, batch_name, name, amount, narration, created_at})
+    $('#id').val(idexpenditure_payregister)
+    $('#eexpenditure_type').val(expenditure_code)
+    $('#ebatch_type').val(batch_name)
+    $('#edate').val(created_at)
+    $('#eauthority_document_ref_no').val(payment_ref)
+    $('#ename').val(name)
+    $('#eamount').val(amount)
+    $('#enarration').val(narration)
+}
+
 </script>
-  </script>
