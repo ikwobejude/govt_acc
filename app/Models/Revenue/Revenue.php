@@ -66,6 +66,7 @@ class Revenue extends Model
             'approved_on',
             'approved_by',
             'reapproved',
-            'reapproved_by'
+            'reapproved_by',
+            'deleted'
     ];
 }

@@ -109,6 +109,8 @@ Route::group(['prefix' => 'revenue'], function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('/', [RevenueController::class, 'index'])->name('get.revenue');
         Route::post('/', [RevenueController::class, 'store'])->name('post.revenue');
+        Route::put('/', [RevenueController::class, 'update'])->name('put.revenue');
+        Route::get('/delete/{id}', [RevenueController::class, 'destroy'])->name('delete_revenue');
     });
 });
 

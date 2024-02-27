@@ -21,6 +21,7 @@ class RevenueController extends Controller
 
         $revenues = DB::table('acc_revenue')
         ->where('service_id', 37483)
+        ->where('deleted', '0')
         ->when(!empty($economicCode) , function ($query) use ($economicCode) {
             return $query->where('revenue_code', $economicCode);
         })
@@ -91,7 +92,7 @@ class RevenueController extends Controller
             "month" => $month,
             "year" => $year,
             'rrr_status' => $request->rrr_input_field == "on" ? 1 : 0,
-            'rrr',
+            'rrr' => $request->rrr_input_field == "on" ? $request->rrr : '',
             "service_id" => 37483
         ]);
 
@@ -101,15 +102,83 @@ class RevenueController extends Controller
             'alert-type' => 'success'
         );
         return redirect()->back()->with($notification);
-    //    } catch (\Throwable $th) {
-    //     //throw $th;
-    //     // Notification
-    //     $notification = array(
-    //         'message' => $th->getMessage(),
-    //         'alert-type' => 'error'
-    //     );
-    //     return redirect()->back()->with($notification);
-    //    }
+
 
     }
+
+    public function update(Request $request) {
+        // dd($request->id);
+        //    try {
+            // dd($request->rrr_input_field);
+            $request->validate([
+                'revenue_code' =>['required', 'string', 'max:255'],
+                'received_from' => ['required', 'string', 'max:255'],
+                'description' => ['required', 'string', 'max:255'],
+                'revenue_amount' => ['required', 'regex:/^(\d+|\d+(\.\d{1,2})?|(\.\d{1,2}))$/'],
+                'settlement_date' => ['required', 'string', 'max:255'],
+                // 'rrr' => Rule::requiredIf($request->rrr_input_field == "on"),
+            ]);
+
+            if($request->rrr_status && empty($request->rrr)) {
+                $notification = array(
+                    'message' => "RRR field cannot be empty",
+                    'alert-type' => 'error'
+                );
+                return redirect()->back()->with($notification);
+            }
+
+
+                $d = now();
+                $carbon = Carbon::parse($d);
+                $day = $carbon->day;
+                $year = $d->format('Y');
+                $month = $d->format('F');
+                $arr = explode(',', $request->revenue_code);
+                // dd($arr);
+            // dd($month);
+            // User::where('votes', '>', 100)->update(array('status' => 2));
+
+
+            Revenue::where('revenue_id', $request->id)->update([
+                "revenue_code" => $arr[1],
+                "revenue_line" => $arr[0],
+                "asset_name" => $arr[2],
+                "received_from" => $request->received_from,
+                "authority_document_ref_no" => $request->authority_document_ref_no,
+                "description" => $request->description,
+                "revenue_amount" => $request->revenue_amount,
+                "revenue_amount_paid" => $request->revenue_amount,
+                "settlement_status" => 1,
+                "settlement_date" => $request->settlement_date,
+                "tax_year" => $year,
+                "day" => $day,
+                "month" => $month,
+                "year" => $year,
+                'rrr_status' => $request->rrr_input_field == "on" ? 1 : 0,
+                'rrr' => $request->rrr_input_field == "on" ? $request->rrr : '',
+                "service_id" => 37483
+            ]);
+
+            // Notification
+            $notification = array(
+                'message' => 'Changes Saved successfully',
+                'alert-type' => 'success'
+            );
+            return redirect()->back()->with($notification);
+
+
+        }
+
+
+        public function destroy($id) {
+            Revenue::where('revenue_id', $id)->update([
+                "deleted" => 1,
+
+            ]);
+            $notification = array(
+                'message' => 'Changes Saved successfully',
+                'alert-type' => 'success'
+            );
+            return redirect()->back()->with($notification);
+        }
 }
