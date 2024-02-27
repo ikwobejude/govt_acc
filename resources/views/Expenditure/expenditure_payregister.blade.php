@@ -151,6 +151,7 @@
                             <th>Name</th>
                             <th>Amount</th>
                             <th>Description</th>
+                            <th>Approval Status </th>
                             <th>Date </th>
                             <th>Action</th>
                         </tr>
@@ -164,6 +165,25 @@
                                 <td> {{ $item->name }} </td>
                                 <td> {{ $item->amount }}</td>
                                 <td> {{ $item->narration }} </td>
+                                <td>
+
+                                    @if($item->approved == 0)
+                                        <span class="badge bg-label-warning">Pending</span>
+                                    @endif
+                                    @if($item->approved == 1)
+                                        <span class="badge bg-label-primary">Await Final Approval</span>
+                                    @endif
+                                    @if($item->approved == 2)
+                                        <span class="badge bg-label-success">Approved</span>
+                                    @endif
+                                    @if($item->approved == 3)
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="viewDisapproveR('{{ $item->reason }}')">
+                                        Rejected
+                                        <span class="badge bg-white text-primary ms-1">View why</span>
+                                        </button>
+                                    @endif
+
+                                </td>
                                 <td> {{ date("Y-m-d", strtotime($item->created_at)) }}</td>
 
                                 <td>
@@ -444,7 +464,30 @@
       </div>
 
 
+      <div class="modal fade" id="reason" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalCenterTitle">Reason for rejection rejected</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="reson"> </p>
 
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                  Close
+                </button>
+                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+              </div>
+          </div>
+        </div>
+      </div>
 
   @endsection
 
@@ -520,6 +563,12 @@ function update(idexpenditure_payregister, expenditure_code, batch_name, name, a
     $('#ename').val(name)
     $('#eamount').val(amount)
     $('#enarration').val(narration)
+}
+
+function viewDisapproveR(str) {
+    document.getElementById('reson').textContent = str;
+    console.log(str)
+    new bootstrap.Modal(document.querySelector("#reason")).show();
 }
 
 </script>
