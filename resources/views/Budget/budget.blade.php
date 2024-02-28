@@ -110,60 +110,90 @@
 
           <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-stripe">
-                    <thead>
-                        <tr>
-                            <th colspan="2"><u>Economic Code (Line Item)</u></th>
-                            <th>Fund Sources </th>
-                            <th>Project</th>
-                            <th>Current Budget </th>
-                            <th>Remaining Balance </th>
-                            <th>Change (+/-) </th>
-                            <th>Revised Budget</th>
-                            <th>Budget Type</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($budges as  $key=>$item)
+                <form action="{{ route('finalize_budget') }}" method="post">
+                    @csrf
+                    <table class="table table-stripe">
+                        <thead>
                             <tr>
-                                <td>{{ $item->economic_code }}</td>
-                                <td>{{ $item->line }}</td>
-                                <td>{{ $item->found_source }}</td>
-                                <td>{{ $item->project }}</td>
-                                <td>{{ number_format($item->current_budget, 2) }}</td>
-                                <td>{{ number_format($item->current_budget, 2) }}</td>
-                                <td>{{ $item->change }}</td>
-                                <td>{{ number_format($item->current_budget, 2) }}</td>
-                                <td>
-                                    @if($item->budget_type == 2)
-                                        <span class="badge bg-label-success">Personel</span>
-                                    @endif
-                                    @if($item->budget_type == 3)
-                                        <span class="badge bg-label-primary">Overhead</span>
-                                    @endif
-                                    @if($item->budget_type == 4)
-                                        <span class="badge bg-label-info">Capital</span>
-                                    @endif
-
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                      <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                      </button>
-                                      <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter">
-                                            <i class="bx bx-edit-alt me-1"></i> Edit
-                                        </a>
-                                        <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
-                                      </div>
+                                <th>
+                                    <div class="form-check form-check-flat mt-0">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" id="checkedAll"
+                                                aria-checked="false"><i class="input-helper"></i> All</label>
                                     </div>
-                                </td>
+                                </th>
+                                <th colspan="2"><u>Economic Code (Line Item)</u></th>
+                                <th>Fund Sources </th>
+                                <th>Project</th>
+                                <th>Current Budget </th>
+                                <th>Remaining Balance </th>
+                                <th>Change (+/-) </th>
+                                <th>Revised Budget</th>
+                                <th>Budget Type</th>
+                                <th>Action</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($budges as  $key=>$item)
+                                <tr>
+                                    <td>
+                                        <div class="form-check form-check-flat mt-0">
+                                            <label class="form-check-label">
+                                                <input type="checkbox" class="checkSingle form-check-input"
+                                                    id="checkSingle" aria-checked="false" name="itemid[]"
+                                                    value="{{ $item->id }}"><i
+                                                    class="input-helper"></i></label>
+                                        </div>
+                                    </td>
+                                    <td>{{ $item->economic_code }}</td>
+                                    <td>{{ $item->line }}</td>
+                                    <td>{{ $item->found_source }}</td>
+                                    <td>{{ $item->project }}</td>
+                                    <td>{{ number_format($item->current_budget, 2) }}</td>
+                                    <td>{{ number_format($item->current_budget, 2) }}</td>
+                                    <td>{{ $item->change }}</td>
+                                    <td>{{ number_format($item->current_budget, 2) }}</td>
+                                    <td>
+                                        @if($item->budget_type == 2)
+                                            <span class="badge bg-label-success">Personel</span>
+                                        @endif
+                                        @if($item->budget_type == 3)
+                                            <span class="badge bg-label-primary">Overhead</span>
+                                        @endif
+                                        @if($item->budget_type == 4)
+                                            <span class="badge bg-label-info">Capital</span>
+                                        @endif
+
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                          </button>
+                                          <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter" onclick="update(
+                                             '{{ $item->line.','.$item->economic_code.','.$item->economic_type }}',
+                                             '{{ $item->budget_type }}',
+                                             '{{ $item->found_source }}',
+                                             '{{ $item->project }}',
+                                             '{{ $item->current_budget }}',
+                                             '{{ $item->change }}',
+                                             '{{ $item->id }}'
+                                            )">
+                                                <i class="bx bx-edit-alt me-1"></i> Edit
+                                            </a>
+                                            <a class="dropdown-item" href="{{ route('delete_budget', $item->id) }}" onclick="confirm('Are you sure you want to delete?')"><i class="bx bx-trash me-1"></i> Delete</a>
+                                          </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            <tr>
+                                <td colspan="9"><button type="submit" class="btn btn-md btn-primary">Submit</button></td>
+                             </tr>
+                        </tbody>
+                    </table>
+                </form>
             </div>
 
           </div>
@@ -181,44 +211,95 @@
 
    <!-- Modal -->
    <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalCenterTitle">Modal title</h5>
+          <h5 class="modal-title" id="modalCenterTitle">Edit Budget</h5>
           <button
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col mb-3">
-              <label for="nameWithTitle" class="form-label">Revenue Line</label>
-              <input
-                type="text"
-                id="nameWithTitle"
-                class="form-control"
-                placeholder="Enter Name" />
+        <form action="{{ route('put.budget') }}" method="post">
+            @method('PUT')
+            @csrf
+            <div class="modal-body">
+                    <div class="fieldset">
+                        <h1>Budget</h1>
+                        <div class="row mb-3">
+                            <div class="col-md-6 col-sm-12 ">
+                                <div class="form-floating mb-3">
+                                    <input type="hidden" name="id" id="id">
+                                    <select name="budgetType" id="ebudgetType" required class="form-control" onchange="getRevenueType('budgetType')">
+                                        <option value="">Select option</option>
+                                        <option value="2">Personnel</option>
+                                        <option value="3">Overhead</option>
+                                        <option value="4">Capital</option>
+                                    </select>
+                                    <label for="floatingInput">Budget Type<span class="required">*</span></label>
+
+                                    @error('budgetType')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <span id="eco_noti"></span>
+                                <div class="form-floating mb-3">
+                                    <select name="economicCode" id="economicCode" required class="form-control">
+                                        <option value="">Select option</option>
+                                        @foreach ($NCOS as $item)
+                                            <option value="{{ $item->description.",".$item->economic_code.",".$item->type  }}">{{ $item->description." :: ".$item->economic_code  }}</option>
+                                        @endforeach
+
+                                    </select>
+                                    <label for="floatingInput">Economic Code<span class="required">*</span></label>
+
+                                    @error('economicCode')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-floating mb-3">
+                                    <input type="text" required class="form-control @error('received_from') is-invalid @enderror" id="eproject" name="project" placeholder="Project" value="{{ old('project')}}" />
+                                    <label for="floatingInput">Project<span class="required">*</span></label>
+
+                                    @error('project')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-floating mb-3" >
+                                    <input type="text" required
+                                    class="form-control @error('received_from') is-invalid @enderror"
+                                    id="ecurrent_budget" name="current_budget" placeholder="Received From"
+                                    value="{{ old('current_budget')}}"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                                    <label for="floatingInput">Current Budget<span class="required">*</span></label>
+
+                                    @error('current_budget')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
             </div>
-          </div>
-          <div class="row g-2">
-            <div class="col mb-0">
-              <label for="emailWithTitle" class="form-label">Revenue Code</label>
-              <input
-                type="email"
-                id="emailWithTitle"
-                class="form-control"
-                placeholder="xxxx@xxx.xx" />
+            <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                Close
+            </button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
             </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -420,6 +501,48 @@
             // myModal.show();
         }
     @endif
+
+
+    function update(line, budget_type, found_source, project, current_budget, change, id) {
+        // console.log({line, budget_type, found_source, project, current_budget, change, id})
+        $('#ebudgetType').val(budget_type)
+        $('#economicCode').val(line)
+        $('#ecurrent_budget').val(current_budget)
+        $('#eproject').val(project)
+        $('#id').val(id)
+    }
+
+    window.addEventListener('load', function() {
+        // console.log("Helo")
+        $("#checkedAll").change(function() {
+            if (this.checked) {
+                $(".checkSingle").each(function() {
+                    this.checked = true;
+                });
+            } else {
+                $(".checkSingle").each(function() {
+                    this.checked = false;
+                });
+            }
+        });
+
+        $(".checkSingle").click(function() {
+            if ($(this).is(":checked")) {
+                var isAllChecked = 0;
+                $(".checkSingle").each(function() {
+
+                    if (!this.checked) isAllChecked = 1;
+                });
+
+                if (isAllChecked == 0) {
+                    $("#checkedAll").prop("checked", true);
+                }
+
+            } else {
+                $("#checkedAll").prop("checked", false);
+            }
+        });
+    });
 
  </script>
   @endsection

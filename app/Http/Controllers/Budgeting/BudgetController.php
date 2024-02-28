@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Budgeting;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Budgets\Bedgets;
 use Illuminate\Support\Facades\DB;
+use App\Models\Revenue\RevenueLine;
+use App\Http\Controllers\Controller;
 
 class BudgetController extends Controller
 {
@@ -17,6 +19,8 @@ class BudgetController extends Controller
         $from = $request->query('from');
         $to = $request->query('to');
 
+        $NCOS = RevenueLine::whereIn('type', [2,3])->get();
+
         if($economicCode) {
             $arr = explode(',', $economicCode);
             $economicCode = $arr[1];
@@ -25,6 +29,8 @@ class BudgetController extends Controller
 
         // dd($budgetType, $economicCode, $project, $approved, $from, $to);
         $budges = DB::table('acct_budgets')
+        ->whereIn('approved', [0, 3])
+        ->where('deleted', 0)
         ->when($budgetType, function ($query, string $budgetType) {
             $query->where('budget_type', $budgetType);
         })
@@ -44,7 +50,7 @@ class BudgetController extends Controller
             $query->whereDate('created_at', '<=', $to);
         })
         ->get();
-        return view('Budget.budget', compact('budges'));
+        return view('Budget.budget', compact('budges', 'NCOS'));
     }
 
     public function store(Request $request) {
@@ -73,6 +79,85 @@ class BudgetController extends Controller
             $notification = array(
                 'message' => "Budget added!",
                 'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        } catch (\Throwable $th) {
+           $notification = array(
+                'message' => $th->getMessage(),
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
+    }
+
+    public function update(Request $request) {
+        try {
+            // dd($request->all());
+            $this->validate($request, [
+                'budgetType' => 'required|integer',
+                'economicCode' => 'required|string',
+                'project' => 'required|string',
+                'current_budget' => 'required|string',
+            ]);
+
+            $arr = explode(',', $request->economicCode);
+            // dd($arr);
+
+            DB::table('acct_budgets')->where('id', $request->id)->update([
+                "budget_type" => $request->budgetType,
+                "economic_code" => $arr[1],
+                "line" => $arr[0],
+                "economic_type" => $arr[2],
+                "found_source" => ($request->budgetType == 2 ? "02101" :
+                                  ($request->budgetType == 3 ? "02201" : "03101" )),
+                "project" => $request->project,
+                "current_budget" => $request->current_budget
+            ]);
+
+            $notification = array(
+                'message' => "Budget Updated!",
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        } catch (\Throwable $th) {
+           $notification = array(
+                'message' => $th->getMessage(),
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
+    }
+
+    public function destroy (Request $request) {
+        try {
+            DB::table('acct_budgets')->where('id', $request->id)->update([
+                "deleted" => 1
+            ]);
+
+            $notification = array(
+                'message' => "Budget Deleted!",
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        } catch (\Throwable $th) {
+           $notification = array(
+                'message' => $th->getMessage(),
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
+    }
+
+    public function finalization (Request $request) {
+        try {
+            // dd($request->itemid);
+            Bedgets::whereIn('id', $request->itemid)->update([
+                "approved" => 4
+            ]);
+
+            $notification = array(
+                'message' => "Budget Deleted!",
+                'alert-type' => 'info'
             );
             return redirect()->back()->with($notification);
         } catch (\Throwable $th) {

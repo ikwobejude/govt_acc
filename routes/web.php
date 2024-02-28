@@ -239,6 +239,11 @@ Route::group(['prefix' => 'budget'], function () {
         Route::get('/', [BudgetController::class, 'index'])->name('index_budget');
         Route::post('/', [BudgetController::class, 'store'])->name('store.budget');
 
+        Route::put('/', [BudgetController::class, 'update'])->name('put.budget');
+        Route::get('/delete/{id}', [BudgetController::class, 'destroy'])->name('delete_budget');
+
+        Route::post('/submit', [BudgetController::class, 'finalization'])->name('finalize_budget');
+
         Route::get('/personnel/report', [BudgetReportController::class, 'index'])->name('report_budget');
         Route::get('/overhead/report', [BudgetReportController::class, 'overhead'])->name('overhead_report');
     });
