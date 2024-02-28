@@ -162,6 +162,10 @@ Route::group(['prefix' => 'liability'], function () {
         // Account payable
         Route::get('/', [LiabilityController::class, 'index'])->name('get.liabilities');
         Route::post('/', [LiabilityController::class, 'store'])->name('post.liability');
+
+        Route::put('/', [LiabilityController::class, 'update'])->name('put.liability');
+        Route::get('/delete/{id}', [LiabilityController::class, 'destroy'])->name('delete.liability');
+        Route::post('/submit', [LiabilityController::class, 'finalization'])->name('finalization_liability');
     });
 });
 

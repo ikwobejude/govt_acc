@@ -21,6 +21,8 @@ class LiabilityController extends Controller
 
         $EconomicLines = RevenueLine::where('type', 4)->get();
         $liabilities = DB::table('liabilities')
+        ->where('approved', 0)
+        ->where('deleted', 0)
         ->when($revenue_code, function ($query, string $revenue_code) {
             $query->where('economic_code', $revenue_code);
         })
@@ -66,8 +68,10 @@ class LiabilityController extends Controller
             'economic_code' => $arr[1],
             'liability' => $request->liability,
             'type_of_liability' => $request->type_of_liability,
+            'authorize_ref' => $request->authority_document_ref_no,
+            'amount' => $request->amount,
+            'narration' => $request->description,
             'created_by' => $request->created_by,
-            'authorize_ref' => $request->authorize_ref,
             'economic_name' => $arr[0],
             'economic_type' => $arr[2],
         ]);
@@ -79,6 +83,66 @@ class LiabilityController extends Controller
 
         return redirect()->back()->with($notification);
     }
+    public function update(Request $request) {
 
+        // dd($request->all());
+        $request->validate([
+            'revenue_code' => ['required', 'string'],
+            'liability' => ['required', 'string'],
+            'type_of_liability' => ['required', 'string'],
+            // 'authority_document_ref_no' => ['required', 'string'],
+            'amount' => ['required', 'regex:/^(\d+|\d+(\.\d{1,2})?|(\.\d{1,2}))$/'],
+        ]);
+
+        // dd($request->revenue_code);
+
+        $arr = explode(',', $request->revenue_code);
+
+        Liabilities::where('id', $request->id)->update([
+            'economic_code' => $arr[1],
+            'liability' => $request->liability,
+            'type_of_liability' => $request->type_of_liability,
+            'created_by' => $request->created_by,
+            'authorize_ref' => $request->authority_document_ref_no,
+            'amount' => $request->amount,
+            'narration' => $request->description,
+            'economic_name' => $arr[0],
+            'economic_type' => $arr[2],
+        ]);
+
+        $notification = array(
+            'message' => 'Changes saved successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
+
+    public function finalization(Request $request) {
+
+        Liabilities::whereIn('id', $request->itemid)->update([
+            'approved' => 4
+        ]);
+
+        $notification = array(
+            'message' => 'Record(s) saved successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
+
+    public function destroy($id) {
+        Liabilities::where('id', $id)->update([
+            'deleted' => 1
+        ]);
+
+        $notification = array(
+            'message' => 'Record deleted!',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
 
 }
