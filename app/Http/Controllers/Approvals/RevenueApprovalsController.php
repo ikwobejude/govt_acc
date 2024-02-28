@@ -12,14 +12,36 @@ class RevenueApprovalsController extends Controller
     // approve revenue draft
 
     public function revenueDraft(Request $request) {
+        if(groupId() == 1500) {
+            $economicCode = $request->query('revenue_code');
+            $from = $request->query("from");
+            $to = $request->query('to');
+            // dd($economicCode);
 
-        $economicCode = $request->query('revenue_code');
+            $revenue = DB::table('acc_revenue')
+            ->where('service_id', 37483)
+            ->whereIn('approved', ['1'])
+            ->when(!empty($economicCode) , function ($query) use ($economicCode) {
+                return $query->where('revenue_code', $economicCode);
+            })
+            ->when(!empty($from), function ($query) use ($from) {
+                return $query->whereDate('acc_revenue.created_at', '>=', $from);
+            })
+
+            ->when(!empty($to), function ($query) use ($to) {
+                return $query->whereDate('acc_revenue.created_at', '<=', $to);
+            })
+            ->paginate(20);
+            $revenue_lines = DB::table('revenue_line')->where('type', 1)->get();
+        } else {
+            $economicCode = $request->query('revenue_code');
         $from = $request->query("from");
         $to = $request->query('to');
         // dd($economicCode);
 
         $revenue = DB::table('acc_revenue')
         ->where('service_id', 37483)
+        ->whereIn('approved', ['4'])
         ->when(!empty($economicCode) , function ($query) use ($economicCode) {
             return $query->where('revenue_code', $economicCode);
         })
@@ -32,6 +54,8 @@ class RevenueApprovalsController extends Controller
         })
         ->paginate(20);
         $revenue_lines = DB::table('revenue_line')->where('type', 1)->get();
+        }
+
 
         return view('Approvals.revenue_approvals', compact('revenue', 'revenue_lines'));
     }

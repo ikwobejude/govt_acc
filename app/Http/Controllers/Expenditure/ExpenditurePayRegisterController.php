@@ -35,6 +35,7 @@ class ExpenditurePayRegisterController extends Controller
         $ExpenditureRegister = db::table('expenditure_payregister')
         ->where('service_id', 37483)
         ->where('deleted', 0)
+        ->where('approved', 0)
         // ->when(!empty($expenditureType), function ($query) use ($expenditureType) {
         //     return $query->where('expenditure_code', $expenditureType);
         // })
@@ -159,11 +160,43 @@ public function destroy($id) {
 }
 
 
-    public function expenditures()
+    public function expenditures(Request $request)
     {
         // return view('Expenditure.view_expenditure_payregister');
         $expenditureType = ExpenditureType::all();
-        $ExpenditureRegister = ExpenditureRegister::where('service_id', 37483)->where('approved',1)->get();
+        //TODO
+        //
+
+        $from = $request->query("dateFrom");
+        $to = $request->query('dateTo');
+        $doc_ref_no = $request->query('document_ref_no');
+        // $received_from = $request->query('received_from');
+        $approvalLevels = $request->query('approvalLevels');
+        $batchType = $request->query('batchType');
+        $name = $request->query('name');
+
+        $ExpenditureRegister = ExpenditureRegister::where('service_id', 37483)
+        ->where('approved',1)
+        ->when(!empty($name), function ($query) use ($name) {
+            return $query->where('name', 'like', "%{$name}%");
+        })
+        ->when(!empty($batchType), function ($query) use ($batchType) {
+            return $query->where('batch_name', '=', $batchType);
+        })
+        ->when(!empty($doc_ref_no), function ($query) use ($doc_ref_no) {
+            return $query->where('payment_ref', '=', $doc_ref_no);
+        })
+        ->when(!empty($approvalLevels), function ($query) use ($approvalLevels) {
+            return $query->where('approved', '=', $approvalLevels);
+        })
+        ->when(!empty($from), function ($query) use ($from) {
+            return $query->whereDate('created_at', '>=', $from);
+        })
+        ->when(!empty($to), function ($query) use ($to) {
+            return $query->whereDate('created_at', '<=', $to);
+        })
+        ->orderBy('expenditure_name', 'ASC')
+        ->get();
         // dd($expenditureType);
         return view('Voucher.view_expenditures', compact('ExpenditureRegister', 'expenditureType'));
     }
@@ -177,5 +210,19 @@ public function destroy($id) {
         ->first();
         // dd($ExpenditureRegister);
         return view('Receipts.voucher', compact('ExpenditureRegister'));
+    }
+
+    public function finalize(Request $request)
+    {
+        ExpenditureRegister::whereIn('idexpenditure_payregister', $request->itemid)->update([
+            'approved' => 4
+        ]);
+
+        $notification = array(
+            'message' => 'Record(s) successfully submitted',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
     }
 }

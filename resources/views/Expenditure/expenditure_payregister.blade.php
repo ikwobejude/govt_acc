@@ -142,76 +142,100 @@
         </div>
           <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-stripe">
-                    <thead>
-                        <tr>
-                            {{-- <th>S/N</th> --}}
-                            <th>Batch Name</th>
-                            <th>Expenditure Type</th>
-                            <th>Name</th>
-                            <th>Amount</th>
-                            <th>Description</th>
-                            <th>Approval Status </th>
-                            <th>Date </th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($ExpenditureRegister as  $key=>$item)
+                <form action="{{ route('finalize_expenditure')}}" method="post">
+                    @csrf
+                    <table class="table table-stripe">
+
+                        <thead>
                             <tr>
-                                {{-- <td>{{ $key + 1}}</td> --}}
-                                <td> {{ $item->batch_name }} </td>
-                                <td> {{ $item->expenditure_name }} </td>
-                                <td> {{ $item->name }} </td>
-                                <td> {{ $item->amount }}</td>
-                                <td> {{ $item->narration }} </td>
-                                <td>
-
-                                    @if($item->approved == 0)
-                                        <span class="badge bg-label-warning">Pending</span>
-                                    @endif
-                                    @if($item->approved == 1)
-                                        <span class="badge bg-label-primary">Await Final Approval</span>
-                                    @endif
-                                    @if($item->approved == 2)
-                                        <span class="badge bg-label-success">Approved</span>
-                                    @endif
-                                    @if($item->approved == 3)
-                                    <button type="button" class="btn btn-sm btn-danger" onclick="viewDisapproveR('{{ $item->reason }}')">
-                                        Rejected
-                                        <span class="badge bg-white text-primary ms-1">View why</span>
-                                        </button>
-                                    @endif
-
-                                </td>
-                                <td> {{ date("Y-m-d", strtotime($item->created_at)) }}</td>
-
-                                <td>
-                                    <div class="dropdown">
-                                      <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                      </button>
-                                      <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter" onclick="update(
-                                            '{{ $item->idexpenditure_payregister }}',
-                                            '{{ $item->expenditure_name .','.$item->expenditure_code.','.$item->expenditure_type }}',
-                                            '{{ $item->batch_name }}',
-                                            '{{ $item->name }}',
-                                            '{{ $item->amount }}',
-                                            '{{ $item->narration }}',
-                                            '{{ date('Y-m-d', strtotime($item->created_at)) }}',
-                                            '{{ $item->payment_ref }}'
-                                        )">
-                                            <i class="bx bx-edit-alt me-1"></i> Edit
-                                        </a>
-                                        <a class="dropdown-item" href="{{ route('deleted_expenditure', $item->idexpenditure_payregister) }}" onchange="confirm('Are you sure you want to delete?')"><i class="bx bx-trash me-1"></i> Delete</a>
-                                      </div>
+                                {{-- <th>S/N</th> --}}
+                                <th>
+                                    <div class="form-check form-check-flat mt-0">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" id="checkedAll"
+                                                aria-checked="false"><i class="input-helper"></i> All</label>
                                     </div>
-                                </td>
+                                </th>
+                                <th>Batch Name</th>
+                                <th>Expenditure Type</th>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Description</th>
+                                <th>Approval Status </th>
+                                <th>Date </th>
+                                <th>Action</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($ExpenditureRegister as  $key=>$item)
+                                <tr>
+                                    {{-- <td>{{ $key + 1}}</td> --}}
+                                    <td>
+                                        <div class="form-check form-check-flat mt-0">
+                                            <label class="form-check-label">
+                                                <input type="checkbox" class="checkSingle form-check-input"
+                                                    id="checkSingle" aria-checked="false" name="itemid[]"
+                                                    value="{{ $item->idexpenditure_payregister }}"><i
+                                                    class="input-helper"></i></label>
+                                        </div>
+                                    </td>
+                                    <td> {{ $item->batch_name }} </td>
+                                    <td> {{ $item->expenditure_name }} </td>
+                                    <td> {{ $item->name }} </td>
+                                    <td> {{ $item->amount }}</td>
+                                    <td> {{ $item->narration }} </td>
+                                    <td>
+
+                                        @if($item->approved == 0)
+                                            <span class="badge bg-label-warning">Pending</span>
+                                        @endif
+                                        @if($item->approved == 1)
+                                            <span class="badge bg-label-primary">Await Final Approval</span>
+                                        @endif
+                                        @if($item->approved == 2)
+                                            <span class="badge bg-label-success">Approved</span>
+                                        @endif
+                                        @if($item->approved == 3)
+                                        <button type="button" class="btn btn-sm btn-danger" onclick="viewDisapproveR('{{ $item->reason }}')">
+                                            Rejected
+                                            <span class="badge bg-white text-primary ms-1">View why</span>
+                                            </button>
+                                        @endif
+
+                                    </td>
+                                    <td> {{ date("Y-m-d", strtotime($item->created_at)) }}</td>
+
+                                    <td>
+                                        <div class="dropdown">
+                                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                          </button>
+                                          <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter" onclick="update(
+                                                '{{ $item->idexpenditure_payregister }}',
+                                                '{{ $item->expenditure_name .','.$item->expenditure_code.','.$item->expenditure_type }}',
+                                                '{{ $item->batch_name }}',
+                                                '{{ $item->name }}',
+                                                '{{ $item->amount }}',
+                                                '{{ $item->narration }}',
+                                                '{{ date('Y-m-d', strtotime($item->created_at)) }}',
+                                                '{{ $item->payment_ref }}'
+                                            )">
+                                                <i class="bx bx-edit-alt me-1"></i> Edit
+                                            </a>
+                                            <a class="dropdown-item" href="{{ route('deleted_expenditure', $item->idexpenditure_payregister) }}" onchange="confirm('Are you sure you want to delete?')"><i class="bx bx-trash me-1"></i> Delete</a>
+                                          </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            <tr>
+                                <td colspan="9"><button type="submit" class="btn btn-sm btn-primary">Submit</button></td>
+                             </tr>
+                        </tbody>
+                    </table>
+                </form>
+
             </div>
 
           </div>
@@ -570,5 +594,38 @@ function viewDisapproveR(str) {
     console.log(str)
     new bootstrap.Modal(document.querySelector("#reason")).show();
 }
+
+
+        window.addEventListener('load', function() {
+            console.log("Helo")
+            $("#checkedAll").change(function() {
+                if (this.checked) {
+                    $(".checkSingle").each(function() {
+                        this.checked = true;
+                    });
+                } else {
+                    $(".checkSingle").each(function() {
+                        this.checked = false;
+                    });
+                }
+            });
+
+            $(".checkSingle").click(function() {
+                if ($(this).is(":checked")) {
+                    var isAllChecked = 0;
+                    $(".checkSingle").each(function() {
+
+                        if (!this.checked) isAllChecked = 1;
+                    });
+
+                    if (isAllChecked == 0) {
+                        $("#checkedAll").prop("checked", true);
+                    }
+
+                } else {
+                    $("#checkedAll").prop("checked", false);
+                }
+            });
+        });
 
 </script>

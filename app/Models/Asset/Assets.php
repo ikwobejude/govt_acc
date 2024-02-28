@@ -33,6 +33,12 @@ class Assets extends Model
         'opening_value',
         'asset_rev_type',
         'asset_rev_name',
-        'asset_rev'
+        'asset_rev',
+        'approved',
+        'approved_on',
+        'approved_by',
+        'reapproved',
+        'reapproved_by',
+        'reason'
     ];
 }

@@ -111,6 +111,8 @@ Route::group(['prefix' => 'revenue'], function () {
         Route::post('/', [RevenueController::class, 'store'])->name('post.revenue');
         Route::put('/', [RevenueController::class, 'update'])->name('put.revenue');
         Route::get('/delete/{id}', [RevenueController::class, 'destroy'])->name('delete_revenue');
+
+        Route::post('/submit', [RevenueController::class, 'finalSubmission'])->name('confirm_submission');
     });
 });
 
@@ -122,6 +124,8 @@ Route::group(['prefix' => 'expenditure'], function () {
 
         Route::put('/', [ExpenditurePayRegisterController::class, 'update'])->name('put.expenditure');
         Route::get('/delete/{id}', [ExpenditurePayRegisterController::class, 'destroy'])->name('deleted_expenditure');
+        Route::post('/submit', [ExpenditurePayRegisterController::class, 'finalize'])->name('finalize_expenditure');
+
     });
 });
 
@@ -132,7 +136,10 @@ Route::group(['prefix' => 'asset'], function () {
         Route::get('/', [AssetController::class, 'index'])->name('get.asset');
         Route::post('/', [AssetController::class, 'store'])->name('post.asset');
 
-        Route::post('/', [AssetController::class, 'store'])->name('post.asset');
+        Route::put('/', [AssetController::class, 'update'])->name('put.asset');
+        Route::get('/delete/{id}', [AssetController::class, 'destroy'])->name('delete_asset');
+
+        Route::post('/submit', [AssetController::class, 'finalize'])->name('finalize_asset');
     });
 });
 

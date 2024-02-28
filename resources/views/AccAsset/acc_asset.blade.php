@@ -164,78 +164,103 @@
         </div>
           <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-stripe">
-                    <thead>
-                        <tr>
-                            {{-- <th>S/N</th> --}}
-                            <th>Economic Line</th>
-                            <th>Code</th>
-                            <th>Name</th>
-                            <th>Asset Type</th>
-                            <th>Asset Category</th>
-                            <th>Asset Size</th>
-                            <th>Opening Value</th>
-                            <th>Status </th>
-                            <th>Date </th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($assets as $item)
-                        <tr>
-                            <td>{{ $item->asset_rev_name }}</td>
-                            <td>{{ $item->asset_rev }}</td>
-                            <td>{{ $item->assest_name }}</td>
-                            <td>{{ $item->assest_type }}</td>
-                            <td>{{ $item->assest_category }}</td>
-                            <td>{{ $item->assest_size }}</td>
-                            <td>{{ $item->opening_value }}</td>
-                            <td>
+                <form action="{{ route('finalize_asset') }}" method="post">
+                    @csrf
+                    <table class="table table-stripe">
+                        <thead>
+                            <tr>
+                                {{-- <th>S/N</th> --}}
+                                <th>
+                                    <div class="form-check form-check-flat mt-0">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" id="checkedAll"
+                                                aria-checked="false"><i class="input-helper"></i> All</label>
+                                    </div>
+                                </th>
+                                <th>Economic Line</th>
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th>Asset Type</th>
+                                <th>Asset Category</th>
+                                <th>Asset Size</th>
+                                <th>Opening Value</th>
+                                <th>Status </th>
+                                <th>Date </th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($assets as $item)
+                            <tr>
+                                <td>
+                                    <div class="form-check form-check-flat mt-0">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="checkSingle form-check-input"
+                                                id="checkSingle" aria-checked="false" name="itemid[]"
+                                                value="{{ $item->assest_id }}"><i
+                                                class="input-helper"></i></label>
+                                    </div>
+                                </td>
+                                <td>{{ $item->asset_rev_name }}</td>
+                                <td>{{ $item->asset_rev }}</td>
+                                <td>{{ $item->assest_name }}</td>
+                                <td>{{ $item->assest_type }}</td>
+                                <td>{{ $item->assest_category }}</td>
+                                <td>{{ $item->assest_size }}</td>
+                                <td>{{ $item->opening_value }}</td>
+                                <td>
 
-                                @if($item->approved == 0)
-                                    <span class="badge bg-label-warning">Pending</span>
-                                @endif
-                                @if($item->approved == 1)
-                                    <span class="badge bg-label-primary">Await Final Approval</span>
-                                @endif
-                                @if($item->approved == 2)
-                                    <span class="badge bg-label-success">Approved</span>
-                                @endif
-                                @if($item->approved == 3)
-                                <button type="button" class="btn btn-sm btn-danger" onclick="viewDisapproveR('{{ $item->reason }}')">
-                                    Rejected
-                                    <span class="badge bg-white text-primary ms-1">View why</span>
-                                    </button>
-                                @endif
+                                    @if($item->approved == 0)
+                                        <span class="badge bg-label-warning">Pending</span>
+                                    @endif
+                                    @if($item->approved == 1)
+                                        <span class="badge bg-label-primary">Await Final Approval</span>
+                                    @endif
+                                    @if($item->approved == 2)
+                                        <span class="badge bg-label-success">Approved</span>
+                                    @endif
+                                    @if($item->approved == 3)
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="viewDisapproveR('{{ $item->reason }}')">
+                                        Rejected
+                                        <span class="badge bg-white text-primary ms-1">View why</span>
+                                        </button>
+                                    @endif
 
-                            </td>
-                            <td>{{ $item->date_purchased }}</td>
-                            <td>
-                                <div class="dropdown">
-                                  <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                  </button>
-                                  <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter" onclick="update(
-                                        '{{ $item->asset_rev_name.','.$item->asset_rev.','.$item->asset_rev_type }}',
-                                        '{{ $item->asset_rev }}',
-                                        '{{ $item->assest_name }}',
-                                        '{{ $item->assest_type_id }}',
-                                        '{{ $item->assest_category_id }}',
-                                        '{{ $item->assest_size_id }}',
-                                        '{{ $item->opening_value }}',
-                                        '{{ date('Y-m-d', strtotime($item->date_purchased)) }}'
-                                    )">
-                                        <i class="bx bx-edit-alt me-1"></i> Edit
-                                    </a>
-                                    <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
-                                  </div>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                </td>
+                                <td>{{ $item->date_purchased }}</td>
+                                <td>
+                                    <div class="dropdown">
+                                      <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                        <i class="bx bx-dots-vertical-rounded"></i>
+                                      </button>
+                                      <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter" onclick="update(
+                                            '{{ $item->assest_id }}',
+                                            '{{ $item->asset_rev_name.','.$item->asset_rev.','.$item->asset_rev_type }}',
+                                            '{{ $item->asset_rev }}',
+                                            '{{ $item->assest_name }}',
+                                            '{{ $item->assest_type_id }}',
+                                            '{{ $item->assest_category_id }}',
+                                            '{{ $item->assest_size_id }}',
+                                            '{{ $item->opening_value }}',
+                                            '{{ date('Y-m-d', strtotime($item->date_purchased)) }}',
+                                            '{{ $item->assest_decription }}',
+                                            '{{ $item->opening_value }}'
+                                        )">
+                                            <i class="bx bx-edit-alt me-1"></i> Edit
+                                        </a>
+                                        <a class="dropdown-item" href="{{ route('delete_asset', $item->assest_id) }}" onclick="confirm('Are you sure you want to delete?')"><i class="bx bx-trash me-1"></i> Delete</a>
+                                      </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                            <tr>
+                                <td colspan="9"><button type="submit" class="btn btn-sm btn-primary">Submit</button></td>
+                             </tr>
+                        </tbody>
+                    </table>
+                </form>
             </div>
 
           </div>
@@ -256,14 +281,14 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalCenterTitle">Modal title</h5>
+          <h5 class="modal-title" id="modalCenterTitle">Edit detail</h5>
           <button
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"></button>
         </div>
-        <form action="{{ route('post.asset') }}" method="post">
+        <form action="{{ route('put.asset') }}" method="post">
             <div class="modal-body">
                     @csrf
                     <div class="fieldset">
@@ -271,6 +296,7 @@
                         <div class="row">
                             <div class="col-md-4 col-sm-6">
                                 <div class="form-floating mb-2">
+                                    <input type="hidden" name="id" id="is">
                                     <select name="revenue_code" id="erevenue_code" class="form-control">
                                         <option value="">Select option</option>
                                         @foreach ($revenue_lines as $item)
@@ -624,18 +650,18 @@
     }
 
 
-    function update(asset_rev_name, asset_rev, assest_name, assest_type, assest_category, assest_size, opening_value, date_purchased) {
-        console.log({asset_rev_name, asset_rev, assest_name, assest_type, assest_category, assest_size, opening_value, date_purchased})
-
+    function update(assest_id, asset_rev_name, asset_rev, assest_name, assest_type, assest_category, assest_size, opening_value, date_purchased, assest_decription) {
+        // console.log({assest_id, asset_rev_name, asset_rev, assest_name, assest_type, assest_category, assest_size, opening_value, date_purchased, assest_decription})
+        $('#id').val(assest_id)
         $('#erevenue_code').val(asset_rev_name)
         $('#easset_type').val(assest_type)
         $('#easset_category').val(assest_category)
         $('#easset_size').val(assest_size)
         $('#eassest_name').val(assest_name)
         $('#eauthority_document_ref_no').val()
-        $('#edate_purchased').val()
+        $('#edate_purchased').val(date_purchased)
         $('#eopening_value').val(opening_value)
-        $('#eassest_decription').val()
+        $('#eassest_decription').val(assest_decription)
 
     }
 
@@ -645,5 +671,36 @@
         console.log(str)
         new bootstrap.Modal(document.querySelector("#reason")).show();
     }
+
+    window.addEventListener('load', function() {
+            console.log("Helo")
+            $("#checkedAll").change(function() {
+                if (this.checked) {
+                    $(".checkSingle").each(function() {
+                        this.checked = true;
+                    });
+                } else {
+                    $(".checkSingle").each(function() {
+                        this.checked = false;
+                    });
+                }
+            });
+
+            $(".checkSingle").click(function() {
+                if ($(this).is(":checked")) {
+                    var isAllChecked = 0;
+                    $(".checkSingle").each(function() {
+
+                        if (!this.checked) isAllChecked = 1;
+                    });
+
+                    if (isAllChecked == 0) {
+                        $("#checkedAll").prop("checked", true);
+                    }
+
+                } else {
+                    $("#checkedAll").prop("checked", false);
+                }
+            });
+        });
 </script>
-  </script>

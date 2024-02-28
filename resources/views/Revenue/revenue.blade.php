@@ -129,76 +129,99 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-stripe">
-                                <thead>
-                                    <tr>
-                                        <th>Revenue Line</th>
-                                        <th>Received From </th>
-                                        <th>Description </th>
-                                        <th>Authority Document Ref. No </th>
-                                        <th>Amount </th>
-                                        <th>Approvals Status </th>
-                                        <th>Date </th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($revenues as $key => $item)
+                            <form action="{{ route('confirm_submission') }}" method="post">
+                                @csrf
+                                <table class="table table-stripe">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $item->revenue_line }}</td>
-                                            <td>{{ $item->received_from }}</td>
-                                            <td>{{ $item->description }}</td>
-                                            <td>{{ $item->authority_document_ref_no }}</td>
-                                            <td>{{ number_format($item->revenue_amount, 2) }}</td>
-                                            <td>
-                                                @if($item->approved == 0)
-                                                <span class="badge bg-label-warning">Pending</span>
-                                                @endif
-                                                @if($item->approved == 1)
-                                                <span class="badge bg-label-primary">Await Final Approval</span>
-                                                @endif
-                                                @if($item->approved == 2)
-                                                <span class="badge bg-label-success">Approved</span>
-                                                @endif
-                                                @if($item->approved == 3)
-                                                <button type="button" class="btn btn-sm btn-danger" onclick="viewDisapproveR('{{ $item->reason }}')">
-                                                    Rejected
-                                                    <span class="badge bg-white text-primary ms-1">View why</span>
-                                                </button>
-                                                @endif
-
-                                            </td>
-                                            <td>{{ date('Y-m-d', strtotime($item->settlement_date)) }}</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                        data-bs-toggle="dropdown">
-                                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter"
-                                                        onclick="update(
-                                                            '{{ $item->revenue_id}}',
-                                                            '{{ $item->revenue_line . ',' . $item->revenue_code . ',' . $item->asset_name }}',
-                                                            '{{ $item->received_from }}',
-                                                            '{{ $item->description }}',
-                                                            '{{ $item->authority_document_ref_no }}',
-                                                            '{{ $item->revenue_amount }}',
-                                                            '{{  \Carbon\Carbon::parse($item->settlement_date)->format('Y-m-d') }}',
-                                                            '{{ $item->rrr_status }}',
-                                                            '{{ $item->rrr }}',
-                                                        )">
-                                                            <i class="bx bx-edit-alt me-1"></i> Edit
-                                                        </a>
-                                                        <a class="dropdown-item" href="{{ route('delete_revenue', $item->revenue_id) }}" onclick="confirm('Are you sure you want to delate?')"><i
-                                                                class="bx bx-trash me-1"></i> Delete</a>
-                                                    </div>
+                                            <th>
+                                                <div class="form-check form-check-flat mt-0">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox" class="form-check-input" id="checkedAll"
+                                                            aria-checked="false"><i class="input-helper"></i> All</label>
                                                 </div>
-                                            </td>
+                                            </th>
+                                            <th>Revenue Line</th>
+                                            <th>Received From </th>
+                                            <th>Description </th>
+                                            <th>Authority Document Ref. No </th>
+                                            <th>Amount </th>
+                                            <th>Approvals Status </th>
+                                            <th>Date </th>
+                                            <th>Action</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($revenues as $key => $item)
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-check-flat mt-0">
+                                                        <label class="form-check-label">
+                                                            <input type="checkbox" class="checkSingle form-check-input"
+                                                                id="checkSingle" aria-checked="false" name="itemid[]"
+                                                                value="{{ $item->revenue_id }}"><i
+                                                                class="input-helper"></i></label>
+                                                    </div>
+                                                </td>
+                                                <td>{{ $item->revenue_line }}</td>
+                                                <td>{{ $item->received_from }}</td>
+                                                <td>{{ $item->description }}</td>
+                                                <td>{{ $item->authority_document_ref_no }}</td>
+                                                <td>{{ number_format($item->revenue_amount, 2) }}</td>
+                                                <td>
+                                                    @if($item->approved == 0)
+                                                    <span class="badge bg-label-warning">Pending</span>
+                                                    @endif
+                                                    @if($item->approved == 1)
+                                                    <span class="badge bg-label-primary">Await Final Approval</span>
+                                                    @endif
+                                                    @if($item->approved == 2)
+                                                    <span class="badge bg-label-success">Approved</span>
+                                                    @endif
+                                                    @if($item->approved == 3)
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="viewDisapproveR('{{ $item->reason }}')">
+                                                        Rejected
+                                                        <span class="badge bg-white text-primary ms-1">View why</span>
+                                                    </button>
+                                                    @endif
+
+                                                </td>
+                                                <td>{{ date('Y-m-d', strtotime($item->settlement_date)) }}</td>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                            data-bs-toggle="dropdown">
+                                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter"
+                                                            onclick="update(
+                                                                '{{ $item->revenue_id}}',
+                                                                '{{ $item->revenue_line . ',' . $item->revenue_code . ',' . $item->asset_name }}',
+                                                                '{{ $item->received_from }}',
+                                                                '{{ $item->description }}',
+                                                                '{{ $item->authority_document_ref_no }}',
+                                                                '{{ $item->revenue_amount }}',
+                                                                '{{  \Carbon\Carbon::parse($item->settlement_date)->format('Y-m-d') }}',
+                                                                '{{ $item->rrr_status }}',
+                                                                '{{ $item->rrr }}',
+                                                            )">
+                                                                <i class="bx bx-edit-alt me-1"></i> Edit
+                                                            </a>
+                                                            <a class="dropdown-item" href="{{ route('delete_revenue', $item->revenue_id) }}" onclick="confirm('Are you sure you want to delate?')"><i
+                                                                    class="bx bx-trash me-1"></i> Delete</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        <tr>
+                                            <td colspan="9"><button type="submit" class="btn btn-sm btn-primary">Submit</button></td>
+                                         </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+
                         </div>
 
                     </div>
@@ -570,5 +593,37 @@
             console.log(str)
             new bootstrap.Modal(document.querySelector("#reason")).show();
         }
+
+        window.addEventListener('load', function() {
+            console.log("Helo")
+            $("#checkedAll").change(function() {
+                if (this.checked) {
+                    $(".checkSingle").each(function() {
+                        this.checked = true;
+                    });
+                } else {
+                    $(".checkSingle").each(function() {
+                        this.checked = false;
+                    });
+                }
+            });
+
+            $(".checkSingle").click(function() {
+                if ($(this).is(":checked")) {
+                    var isAllChecked = 0;
+                    $(".checkSingle").each(function() {
+
+                        if (!this.checked) isAllChecked = 1;
+                    });
+
+                    if (isAllChecked == 0) {
+                        $("#checkedAll").prop("checked", true);
+                    }
+
+                } else {
+                    $("#checkedAll").prop("checked", false);
+                }
+            });
+        });
     </script>
 @endsection

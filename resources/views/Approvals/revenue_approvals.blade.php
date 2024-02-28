@@ -112,7 +112,7 @@
                                     <td>{{ date("Y-m-d", strtotime($item->settlement_date)) }}</td>
                                     <td>
 
-                                        @if($item->approved == 0)
+                                        @if($item->approved == 0 || $item->approved == 4)
                                           <span class="badge bg-label-warning">Pending</span>
                                         @endif
                                         @if($item->approved == 1)

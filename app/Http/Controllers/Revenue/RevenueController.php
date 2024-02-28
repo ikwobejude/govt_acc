@@ -22,6 +22,7 @@ class RevenueController extends Controller
         $revenues = DB::table('acc_revenue')
         ->where('service_id', 37483)
         ->where('deleted', '0')
+        ->whereIn('approved', ['0','3'])
         ->when(!empty($economicCode) , function ($query) use ($economicCode) {
             return $query->where('revenue_code', $economicCode);
         })
@@ -166,6 +167,20 @@ class RevenueController extends Controller
             );
             return redirect()->back()->with($notification);
 
+
+        }
+
+        public function finalSubmission(Request $request) {
+            // dd($request->all());
+            Revenue::whereIn('revenue_id', $request->itemid)->update([
+                "approved" => 4,
+
+            ]);
+            $notification = array(
+                'message' => 'Record(s) successfully submitted',
+                'alert-type' => 'success'
+            );
+            return redirect()->back()->with($notification);
 
         }
 

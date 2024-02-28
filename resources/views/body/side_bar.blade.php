@@ -305,7 +305,7 @@
       <li class="menu-item {{ url()->current() == route('expenditure') ? 'active' : ''}}">
         <a href="javascript:void(0)" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-box"></i>
-          <div data-i18n="Revenue Receipts">Revenue Receipts</div>
+          <div data-i18n="Revenue Receipts">Payment Receipts</div>
         </a>
         <ul class="menu-sub">
           <li class="menu-item">
@@ -323,6 +323,23 @@
               <div data-i18n="Journal Voucher">Journal Voucher</div>
             </a>
           </li>
+
+        </ul>
+      </li>
+
+      <li class="menu-item {{ url()->current() == route('expenditure') ? 'active' : ''}}">
+        <a href="javascript:void(0)" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons bx bx-box"></i>
+          <div data-i18n="Revenue Receipts">Payment Voucher</div>
+        </a>
+        <ul class="menu-sub">
+
+          <li class="menu-item {{ url()->current() == route('expenditure') ? 'active' : ''}}">
+            <a href="{{ route('expenditure') }}" class="menu-link">
+              <div data-i18n="Payment Voucher">Voucher</div>
+            </a>
+          </li>
+         
 
         </ul>
       </li>

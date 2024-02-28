@@ -40,6 +40,8 @@ class AssetController extends Controller
         ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
         ->leftJoin('acct_assest_sizes', 'acct_assest_sizes.id', 'acct_assests.assest_size_id')
         ->where('acct_assests.service_id', 37483)
+        ->where('acct_assests.approved', 0)
+        ->where('acct_assests.deleted', 0)
         ->when($revenue_code, function ($query, string $revenue_code) {
             $query->where('acct_assests.asset_rev', $revenue_code);
         })
@@ -116,7 +118,7 @@ class AssetController extends Controller
     public function update(Request $request) {
 
 
-
+        // dd($request->all());
         $request->validate([
             'revenue_code' => ['required', 'string'],
             'asset_type' => ['required', 'string'],
@@ -132,7 +134,7 @@ class AssetController extends Controller
         // dd($arr);
 
 
-        Assets::where('assest_id', $request->assest_id)->update([
+        Assets::where('assest_id', $request->id)->update([
             'assest_type_id' => $request->asset_type,
             'assest_category_id' => $request->asset_category,
             'assest_size_id' => $request->asset_size,
@@ -149,9 +151,38 @@ class AssetController extends Controller
         ]);
 
         $notification = array(
-            'message' => 'Asset detail saved!',
+            'message' => 'Changes saved',
             'alert-type' => 'success'
         );
+
+        return redirect()->back()->with($notification);
+    }
+
+    public function destroy($id) {
+        // dd($id);
+        Assets::where('assest_id', $id)->update([
+            'deleted' => 1,
+        ]);
+
+        $notification = array(
+            'message' => 'Record deleted',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
+
+    public function finalize(Request $request) {
+        // dd($request->itemid);
+        Assets::whereIn('assest_id', $request->itemid)->update([
+            'approved' => 4
+        ]);
+
+        $notification = array(
+            'message' => 'Record submitted',
+            'alert-type' => 'success'
+        );
+
         return redirect()->back()->with($notification);
     }
 }
