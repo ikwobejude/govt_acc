@@ -25,41 +25,109 @@ class BudgetApprovalsController extends Controller
 
 
         // dd($budgetType, $economicCode, $project, $approved, $from, $to);
-        $budges = DB::table('acct_budgets')
-        ->when($budgetType, function ($query, string $budgetType) {
-            $query->where('budget_type', $budgetType);
-        })
-        ->when($economicCode, function ($query, string $economicCode) {
-            $query->where('economic_code', $economicCode);
-        })
-        ->when($project, function ($query, string $project) {
-            $query->where('project', $project);
-        })
-        ->when($approved, function ($query, string $approved) {
-            $query->where('approved', $approved);
-        })
-        ->when($from, function ($query, string $from) {
-            $query->whereDate('created_at', '>=', $from);
-        })
-        ->when($to, function ($query, string $to) {
-            $query->whereDate('created_at', '<=', $to);
-        })
-        ->get();
+        if(groupId() == 111111) {
+            $budges = DB::table('acct_budgets')
+            ->whereIn('approved', [1,2,3,4])
+            ->where('deleted', 0)
+            ->when($budgetType, function ($query, string $budgetType) {
+                $query->where('budget_type', $budgetType);
+            })
+            ->when($economicCode, function ($query, string $economicCode) {
+                $query->where('economic_code', $economicCode);
+            })
+            ->when($project, function ($query, string $project) {
+                $query->where('project', $project);
+            })
+            ->when($approved, function ($query, string $approved) {
+                $query->where('approved', $approved);
+            })
+            ->when($from, function ($query, string $from) {
+                $query->whereDate('created_at', '>=', $from);
+            })
+            ->when($to, function ($query, string $to) {
+                $query->whereDate('created_at', '<=', $to);
+            })
+            ->get();
+        }
+
+        if(groupId() == 3000) {
+            $budges = DB::table('acct_budgets')
+            ->where('approved', 4)
+            ->where('deleted', 0)
+            ->when($budgetType, function ($query, string $budgetType) {
+                $query->where('budget_type', $budgetType);
+            })
+            ->when($economicCode, function ($query, string $economicCode) {
+                $query->where('economic_code', $economicCode);
+            })
+            ->when($project, function ($query, string $project) {
+                $query->where('project', $project);
+            })
+            ->when($approved, function ($query, string $approved) {
+                $query->where('approved', $approved);
+            })
+            ->when($from, function ($query, string $from) {
+                $query->whereDate('created_at', '>=', $from);
+            })
+            ->when($to, function ($query, string $to) {
+                $query->whereDate('created_at', '<=', $to);
+            })
+            ->get();
+        }
+
+        if(groupId() == 1500) {
+            $budges = DB::table('acct_budgets')
+            ->where('approved', 1)
+            ->where('deleted', 0)
+            ->when($budgetType, function ($query, string $budgetType) {
+                $query->where('budget_type', $budgetType);
+            })
+            ->when($economicCode, function ($query, string $economicCode) {
+                $query->where('economic_code', $economicCode);
+            })
+            ->when($project, function ($query, string $project) {
+                $query->where('project', $project);
+            })
+            ->when($approved, function ($query, string $approved) {
+                $query->where('approved', $approved);
+            })
+            ->when($from, function ($query, string $from) {
+                $query->whereDate('created_at', '>=', $from);
+            })
+            ->when($to, function ($query, string $to) {
+                $query->whereDate('created_at', '<=', $to);
+            })
+            ->get();
+        }
+
         return view('Approvals.budget_approvals', compact('budges'));
     }
 
 
     public function approveAsset(Request $request) {
         try {
-            DB::table('acct_budgets')
-            ->where('id', $request->query('id'))
-            ->update([
-                "approved" => (groupId() == 3000 ? 1 : (groupId() == 1500 ? 2: 0)) ,
-                "reapproved" => groupId() == 1500 ? 1: 0,
-                "reapproved_by" => groupId() == 1500 ? auth()->user()->email: "",
-                "approved_on" => Carbon::now(),
-                "approved_by" => groupId() == 3000 ? auth()->user()->email : ""
-            ]);
+            if(groupId() == 3000) {
+                DB::table('acct_budgets')
+                ->where('id', $request->query('id'))
+                ->update([
+                    "approved" => 1,
+                    "approved_on" => Carbon::now(),
+                    "approved_by" => auth()->user()->email
+                ]);
+            }
+
+            if(groupId() == 1500) {
+                DB::table('acct_budgets')
+                ->where('id', $request->query('id'))
+                ->update([
+                    "approved" => 2,
+                    "reapproved" => 1,
+                    "reapproved_by" => auth()->user()->email,
+                    "approved_on" => Carbon::now(),
+                    "approved_by" => auth()->user()->email
+                ]);
+            }
+
 
             return response()->json([
                 "status" => true,

@@ -153,6 +153,10 @@ Route::group(['prefix' => 'ppe'], function () {
 
         Route::get('/', [PPEController::class, 'index'])->name('get.ppe');
         Route::post('/', [PPEController::class, 'store'])->name('post.ppe');
+
+        Route::put('/', [PPEController::class, 'update'])->name('put.ppe');
+        Route::get('/delete/{id}', [PPEController::class, 'destroy'])->name('delete.ppe');
+        Route::post('/submit', [PPEController::class, 'finalization'])->name('finalization_ppe');
     });
 });
 

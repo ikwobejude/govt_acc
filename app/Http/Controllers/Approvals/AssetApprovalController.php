@@ -32,35 +32,105 @@ class AssetApprovalController extends Controller
         $from = $request->query('from');
 
         $date_purchased = $request->query('date_purchased');
+        if(groupId() == 111111) {
+            $assets = Assets::latest()
+            ->select('acct_assests.*', 'acct_assest_categories.assest_category', 'acct_assest_types.assest_type', 'acct_assest_sizes.assest_size' )
+            ->leftJoin('acct_assest_categories', 'acct_assest_categories.assest_category_id', 'acct_assests.assest_category_id')
+            ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
+            ->leftJoin('acct_assest_sizes', 'acct_assest_sizes.id', 'acct_assests.assest_size_id')
+            ->where('acct_assests.service_id', 37483)
+            ->whereIn('acct_assests.approved', [1,2,3,4])
+            ->where('acct_assests.deleted', 0)
+            ->when(!empty($assetCategory) , function ($query) use ($assetCategory) {
+                return $query->where('acct_assest_categories.assest_category_id', $assetCategory);
+            })
+            ->when(!empty($assetType) , function ($query) use ($assetType) {
+                return $query->where('acct_assest_types.id', $assetType);
+            })
+            ->when(!empty($assetSize) , function ($query) use ($assetSize) {
+                return $query->where('acct_assest_sizes.id', $assetSize);
+            })
+            ->when(!empty($economicCode) , function ($query) use ($economicCode) {
+                return $query->where('acct_assests.asset_rev', $economicCode);
+            })
+            ->when(!empty($from), function ($query) use ($from) {
+                return $query->whereDate('acct_assests.created_at', '>=', $from);
+            })
+            ->when(!empty($to), function ($query) use ($to) {
+                return $query->whereDate('acct_assests.created_at', '<=', $to);
+            })
+            ->when(!empty($date_purchased), function ($query) use ($date_purchased) {
+                return $query->whereDate('acct_assests.date_purchased', '=', $date_purchased);
+            })
+            ->get();
+        }
 
-        $assets = Assets::latest()
-        ->select('acct_assests.*', 'acct_assest_categories.assest_category', 'acct_assest_types.assest_type', 'acct_assest_sizes.assest_size' )
-        ->leftJoin('acct_assest_categories', 'acct_assest_categories.assest_category_id', 'acct_assests.assest_category_id')
-        ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
-        ->leftJoin('acct_assest_sizes', 'acct_assest_sizes.id', 'acct_assests.assest_size_id')
-        ->where('acct_assests.service_id', 37483)
-        ->when(!empty($assetCategory) , function ($query) use ($assetCategory) {
-            return $query->where('acct_assest_categories.assest_category_id', $assetCategory);
-        })
-        ->when(!empty($assetType) , function ($query) use ($assetType) {
-            return $query->where('acct_assest_types.id', $assetType);
-        })
-        ->when(!empty($assetSize) , function ($query) use ($assetSize) {
-            return $query->where('acct_assest_sizes.id', $assetSize);
-        })
-        ->when(!empty($economicCode) , function ($query) use ($economicCode) {
-            return $query->where('acct_assests.asset_rev', $economicCode);
-        })
-        ->when(!empty($from), function ($query) use ($from) {
-            return $query->whereDate('acct_assests.created_at', '>=', $from);
-        })
-        ->when(!empty($to), function ($query) use ($to) {
-            return $query->whereDate('acct_assests.created_at', '<=', $to);
-        })
-        ->when(!empty($date_purchased), function ($query) use ($date_purchased) {
-            return $query->whereDate('acct_assests.date_purchased', '=', $date_purchased);
-        })
-        ->get();
+        if(groupId() == 3000) {
+            $assets = Assets::latest()
+            ->select('acct_assests.*', 'acct_assest_categories.assest_category', 'acct_assest_types.assest_type', 'acct_assest_sizes.assest_size' )
+            ->leftJoin('acct_assest_categories', 'acct_assest_categories.assest_category_id', 'acct_assests.assest_category_id')
+            ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
+            ->leftJoin('acct_assest_sizes', 'acct_assest_sizes.id', 'acct_assests.assest_size_id')
+            ->where('acct_assests.service_id', 37483)
+            ->where('acct_assests.approved', 4)
+            ->where('acct_assests.deleted', 0)
+            ->when(!empty($assetCategory) , function ($query) use ($assetCategory) {
+                return $query->where('acct_assest_categories.assest_category_id', $assetCategory);
+            })
+            ->when(!empty($assetType) , function ($query) use ($assetType) {
+                return $query->where('acct_assest_types.id', $assetType);
+            })
+            ->when(!empty($assetSize) , function ($query) use ($assetSize) {
+                return $query->where('acct_assest_sizes.id', $assetSize);
+            })
+            ->when(!empty($economicCode) , function ($query) use ($economicCode) {
+                return $query->where('acct_assests.asset_rev', $economicCode);
+            })
+            ->when(!empty($from), function ($query) use ($from) {
+                return $query->whereDate('acct_assests.created_at', '>=', $from);
+            })
+            ->when(!empty($to), function ($query) use ($to) {
+                return $query->whereDate('acct_assests.created_at', '<=', $to);
+            })
+            ->when(!empty($date_purchased), function ($query) use ($date_purchased) {
+                return $query->whereDate('acct_assests.date_purchased', '=', $date_purchased);
+            })
+            ->get();
+        }
+
+        if(groupId() == 1500) {
+            $assets = Assets::latest()
+            ->select('acct_assests.*', 'acct_assest_categories.assest_category', 'acct_assest_types.assest_type', 'acct_assest_sizes.assest_size' )
+            ->leftJoin('acct_assest_categories', 'acct_assest_categories.assest_category_id', 'acct_assests.assest_category_id')
+            ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
+            ->leftJoin('acct_assest_sizes', 'acct_assest_sizes.id', 'acct_assests.assest_size_id')
+            ->where('acct_assests.service_id', 37483)
+            ->where('acct_assests.approved', 1)
+            ->where('acct_assests.deleted', 0)
+            ->when(!empty($assetCategory) , function ($query) use ($assetCategory) {
+                return $query->where('acct_assest_categories.assest_category_id', $assetCategory);
+            })
+            ->when(!empty($assetType) , function ($query) use ($assetType) {
+                return $query->where('acct_assest_types.id', $assetType);
+            })
+            ->when(!empty($assetSize) , function ($query) use ($assetSize) {
+                return $query->where('acct_assest_sizes.id', $assetSize);
+            })
+            ->when(!empty($economicCode) , function ($query) use ($economicCode) {
+                return $query->where('acct_assests.asset_rev', $economicCode);
+            })
+            ->when(!empty($from), function ($query) use ($from) {
+                return $query->whereDate('acct_assests.created_at', '>=', $from);
+            })
+            ->when(!empty($to), function ($query) use ($to) {
+                return $query->whereDate('acct_assests.created_at', '<=', $to);
+            })
+            ->when(!empty($date_purchased), function ($query) use ($date_purchased) {
+                return $query->whereDate('acct_assests.date_purchased', '=', $date_purchased);
+            })
+            ->get();
+        }
+
 
         return view('Approvals.acc_asset_approvals',
         compact('categories', 'types', 'sizes', 'asset_values', 'assets', 'revenue_lines'));
@@ -68,15 +138,30 @@ class AssetApprovalController extends Controller
 
     public function approveAsset(Request $request) {
         try {
-            DB::table('acct_assests')
-            ->where('assest_id', $request->query('id'))
-            ->update([
-                "approved" => (groupId() == 3000 ? 1 : (groupId() == 1500 ? 2: 0)) ,
-                "reapproved" => groupId() == 1500 ? 1: 0,
-                "reapproved_by" => groupId() == 1500 ? auth()->user()->email: "",
-                "approved_on" => Carbon::now(),
-                "approved_by" => groupId() == 3000 ? auth()->user()->email : ""
-            ]);
+
+            if(groupId() == 3000) {
+                DB::table('acct_assests')
+                ->where('assest_id', $request->query('id'))
+                ->update([
+                    "approved" => 1,
+                    "approved_on" => Carbon::now(),
+                    "approved_by" => auth()->user()->email
+                ]);
+
+            }
+
+            if(groupId() == 1500) {
+                DB::table('acct_assests')
+                ->where('assest_id', $request->query('id'))
+                ->update([
+                    "approved" => 2,
+                    "reapproved" => 1,
+                    "reapproved_by" => auth()->user()->email,
+                    "approved_on" => Carbon::now(),
+                    "approved_by" => auth()->user()->email
+                ]);
+
+            }
 
             return response()->json([
                 "status" => true,

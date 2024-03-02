@@ -142,7 +142,7 @@
                                 <td> {{ date("Y-m-d", strtotime($item->created_at)) }}</td>
                                 <td>
 
-                                    @if($item->approved == 0 || $item->approved == 4)
+                                    @if($item->approved == 0)
                                         <span class="badge bg-label-warning">Pending</span>
                                     @endif
                                     @if($item->approved == 1)

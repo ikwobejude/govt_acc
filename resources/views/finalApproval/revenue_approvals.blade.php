@@ -134,7 +134,7 @@
                                             Approvals
                                           </button>
                                           <div class="dropdown-menu">
-                                            @if ($item->approved == 0 || $item->approved == 3 || $item->approved == 4 && groupId() == 3000)
+                                            @if ($item->approved == 0 || $item->approved == 3 && groupId() == 3000)
                                                 <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->revenue_id }})">
                                                     <i class="bx bx bxs-like me-1"></i> Approve
                                                 </a>

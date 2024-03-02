@@ -14,7 +14,7 @@ class ExpenditureApprovalController extends Controller
 {
     public function index(Request $request) {
          // return view('Expenditure.view_expenditure_payregister');
-
+        // dd(groupId());
         $batch_type = $request->query('batch_type');
         $authority_document_ref_no = $request->query('authority_document_ref_no');
         $expenditure_type = $request->query('expenditure_type');
@@ -30,42 +30,113 @@ class ExpenditureApprovalController extends Controller
          $expenditureType = RevenueLine::where('type', 2)->get();
          $batchName = ExpenditureBatchName::all();
 
+         if(groupId() == 1500) {
+            $ExpenditureRegister = DB::table('expenditure_payregister')
+            ->where('service_id', 37483)
+            ->where('approved', 1)
+            ->where('deleted', 0)
+            ->when(!empty($batch_type) , function ($query) use ($batch_type) {
+               return $query->where('batch_name', $batch_type);
+            })
+            ->when(!empty($authority_document_ref_no) , function ($query) use ($authority_document_ref_no) {
+               return $query->where('payment_ref', $authority_document_ref_no);
+            })
+            ->when(!empty($expenditure_type) , function ($query) use ($expenditure_type) {
+                return $query->where('expenditure_code', $expenditure_type);
+             })
+             ->when(!empty($from), function ($query) use ($from) {
+                return $query->whereDate('created_at', '>=', $from);
+             })
+             ->when(!empty($to), function ($query) use ($to) {
+               return $query->whereDate('created_at', '<=', $to);
+              })
+           //    ->toSql();
+           ->paginate(20);
+        //    return view('Approvals.expenditure_approvals', compact('months', 'expenditureType', 'batchName', 'ExpenditureRegister'));
+         }
 
-         $ExpenditureRegister = DB::table('expenditure_payregister')
-         ->where('service_id', 37483)
-         ->when(!empty($batch_type) , function ($query) use ($batch_type) {
-            return $query->where('batch_name', $batch_type);
-         })
-         ->when(!empty($authority_document_ref_no) , function ($query) use ($authority_document_ref_no) {
-            return $query->where('payment_ref', $authority_document_ref_no);
-         })
-         ->when(!empty($expenditure_type) , function ($query) use ($expenditure_type) {
-             return $query->where('expenditure_code', $expenditure_type);
-          })
-          ->when(!empty($from), function ($query) use ($from) {
-             return $query->whereDate('created_at', '>=', $from);
-          })
-          ->when(!empty($to), function ($query) use ($to) {
-            return $query->whereDate('created_at', '<=', $to);
-           })
-        //    ->toSql();
-        ->paginate(20);
+         if(groupId() == 3000) {
+            $ExpenditureRegister = DB::table('expenditure_payregister')
+            ->where('service_id', 37483)
+            ->where('approved', 4)
+            ->where('deleted', 0)
+            ->when(!empty($batch_type) , function ($query) use ($batch_type) {
+               return $query->where('batch_name', $batch_type);
+            })
+            ->when(!empty($authority_document_ref_no) , function ($query) use ($authority_document_ref_no) {
+               return $query->where('payment_ref', $authority_document_ref_no);
+            })
+            ->when(!empty($expenditure_type) , function ($query) use ($expenditure_type) {
+                return $query->where('expenditure_code', $expenditure_type);
+             })
+             ->when(!empty($from), function ($query) use ($from) {
+                return $query->whereDate('created_at', '>=', $from);
+             })
+             ->when(!empty($to), function ($query) use ($to) {
+               return $query->whereDate('created_at', '<=', $to);
+              })
+           //    ->toSql();
+           ->paginate(20);
+
+         }
+
+         if(groupId() == 111111) {
+            $ExpenditureRegister = DB::table('expenditure_payregister')
+            ->where('service_id', 37483)
+            ->where('deleted', 0)
+            ->whereIn('approved', [1,2,3,4])
+            ->when(!empty($batch_type) , function ($query) use ($batch_type) {
+               return $query->where('batch_name', $batch_type);
+            })
+            ->when(!empty($authority_document_ref_no) , function ($query) use ($authority_document_ref_no) {
+               return $query->where('payment_ref', $authority_document_ref_no);
+            })
+            ->when(!empty($expenditure_type) , function ($query) use ($expenditure_type) {
+                return $query->where('expenditure_code', $expenditure_type);
+             })
+             ->when(!empty($from), function ($query) use ($from) {
+                return $query->whereDate('created_at', '>=', $from);
+             })
+             ->when(!empty($to), function ($query) use ($to) {
+               return $query->whereDate('created_at', '<=', $to);
+              })
+           //    ->toSql();
+           ->paginate(20);
+
+         }
+
+         return view('Approvals.expenditure_approvals', compact('months', 'expenditureType', 'batchName', 'ExpenditureRegister'));
 
         // dd($ExpenditureRegister);
-        return view('Approvals.expenditure_approvals', compact('months', 'expenditureType', 'batchName', 'ExpenditureRegister'));
+
     }
 
     public function approveExpenditure(Request $request) {
         try {
-            DB::table('expenditure_payregister')
-            ->where('idexpenditure_payregister', $request->query('id'))
-            ->update([
-                "approved" => (groupId() == 3000 ? 1 : (groupId() == 1500 ? 2: 0)) ,
-                "reapproved" => groupId() == 1500 ? 1: 0,
-                "reapproved_by" => groupId() == 1500 ? auth()->user()->email: "",
-                "approved_on" => Carbon::now(),
-                "approved_by" => groupId() == 3000 ? auth()->user()->email : ""
-            ]);
+            if(groupId() == 1500){
+                DB::table('expenditure_payregister')
+                ->where('idexpenditure_payregister', $request->query('id'))
+                ->update([
+                    "approved" => 1,
+                    "reapproved" => 1,
+                    "reapproved_by" => auth()->user()->email,
+                    "approved_on" => Carbon::now(),
+                    "approved_by" => auth()->user()->email
+                ]);
+
+            }
+
+            if(groupId() == 3000){
+                DB::table('expenditure_payregister')
+                ->where('idexpenditure_payregister', $request->query('id'))
+                ->update([
+                    "approved" => 1,
+
+                    "approved_on" => Carbon::now(),
+                    "approved_by" => auth()->user()->email
+                ]);
+
+            }
 
             return response()->json([
                 "status" => true,
