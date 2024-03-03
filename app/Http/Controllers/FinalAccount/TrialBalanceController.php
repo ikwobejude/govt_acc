@@ -12,13 +12,16 @@ class TrialBalanceController extends Controller
 {
     public function index(Request $request) {
         $revenue = Revenue::Where('service_id',37483)
+        ->where('approved', 2)
         ->selectRaw("revenue_line as line, revenue_code as code, asset_name as uniId, SUM(revenue_amount) as total")
+
         ->groupBy('revenue_line')
         ->groupBy('revenue_code')
         ->groupBy('asset_name')
         ->get();
 
         $ExpenditureRegister = ExpenditureRegister::Where('service_id',37483)
+        ->where('approved', 2)
         ->selectRaw("expenditure_type as uniId, expenditure_code as code, expenditure_name  as line, SUM(amount) as total")
         ->groupBy('expenditure_code')
         ->groupBy('expenditure_type')
@@ -34,7 +37,8 @@ class TrialBalanceController extends Controller
                 "economic_code" => $value->code,
                 "revenue_line" => $value->line,
                 "economic_type" => $value->uniId,
-                "total" => $value->total,
+                "totalcr" => $value->total,
+                "totaldb" => '0.00'
             ];
         }
 
@@ -45,7 +49,8 @@ class TrialBalanceController extends Controller
                 "economic_code" => $value->code,
                 "revenue_line" => $value->line,
                 "economic_type" => $value->uniId,
-                "total" => $value->total,
+                "totaldb" => $value->total,
+                "totalcr" => "0.00"
             ];
         }
 

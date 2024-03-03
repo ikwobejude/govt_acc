@@ -164,3 +164,7 @@ class BudgetApprovalsController extends Controller
         }
     }
 }
+
+
+
+// SELECT `DEFAULT_COLLATION_NAME` FROM `information_schema`.`SCHEMATA` WHERE `SCHEMA_NAME`='govt_acc';

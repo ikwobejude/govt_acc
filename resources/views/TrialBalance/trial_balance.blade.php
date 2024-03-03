@@ -71,13 +71,20 @@
                                             <tr>
                                                 <td>{{ $item['economic_code'] }}</td>
                                                 <td>{{ $item['revenue_line'] }}</td>
-                                                <td></td>
-                                                <td>{{  number_format($item['total'], 2) }}</td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>{{  number_format($item['totaldb'], 2) }}</td>
+                                                <td>{{  number_format($item['totalcr'], 2) }}</td>
                                                 <td></td>
                                                 <td></td>
-                                                <td>{{ number_format($item['total'], 2) }}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    @if ($item['totaldb'] > 0)
+                                                    {{ number_format($item['totaldb'], 2) }}
+                                                    @else
+                                                    {{ number_format($item['totalcr'], 2) }}
+                                                    @endif
+
+                                                </td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>

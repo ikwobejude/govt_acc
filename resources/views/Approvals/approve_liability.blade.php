@@ -91,25 +91,28 @@
                     <table class="table table-stripe">
                         <thead>
                             <tr>
-                                <th>Revenue Line</th>
-                                <th>Received From </th>
-                                <th>Description </th>
-                                <th>Authority Document Ref. No </th>
-                                <th>Amount </th>
+                                <th>Economic Line/Code</th>
+                                <th>Name</th>
+                                <th>Liability Type</th>
+                                <th>Narration</th>
+                                <th>Authorization Ref</th>
+                                <th>Amount</th>
                                 <th>Date </th>
-                                <th>Approvals Status </th>
+                                <th>Approval Status </th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($revenue as  $key=>$item)
+                            @foreach ($liabilities as $item)
                                 <tr>
-                                    <td>{{ $item->revenue_line }}</td>
-                                    <td>{{ $item->received_from }}</td>
-                                    <td>{{ $item->description }}</td>
-                                    <td>{{ $item->authority_document_ref_no }}</td>
-                                    <td>{{ number_format($item->revenue_amount, 2)  }}</td>
-                                    <td>{{ date("Y-m-d", strtotime($item->settlement_date)) }}</td>
+                                    <td>{{ $item->economic_name."/".
+                                        $item->economic_code }}</td>
+                                    <td>{{ $item->liability }}</td>
+                                    <td>{{ $item->type_of_liability }}</td>
+                                    <td>{{ $item->narration }}</td>
+                                    <td>{{ $item->authorize_ref }}</td>
+                                    <td>{{ number_format($item->amount, 2) }}</td>
+                                    <td>{{ date("Y-m-d", strtotime($item->created_at))  }}</td>
                                     <td>
 
                                         @if($item->approved == 0 || $item->approved == 4)
@@ -134,22 +137,22 @@
                                             Approvals
                                           </button>
                                           <div class="dropdown-menu">
-                                            @if ($item->approved == 0 || $item->approved == 3 && groupId() == 3000)
-                                                <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->revenue_id }})">
+                                            @if ($item->approved == 0 || $item->approved == 3 || $item->approved == 4 && groupId() == 3000)
+                                                <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->id }})">
                                                     <i class="bx bx bxs-like me-1"></i> Approve
                                                 </a>
                                             @endif
                                             @if ($item->approved == 1  && groupId() == 1500)
-                                                <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->revenue_id }})">
+                                                <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->id }})">
                                                     <i class="bx bx bxs-like me-1"></i> Approve
                                                 </a>
                                             @endif
                                             @if (groupId() == 111111)
-                                                <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->revenue_id }})">
+                                                <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->id }})">
                                                     <i class="bx bx bxs-like me-1"></i> Approve
                                                 </a>
                                             @endif
-                                                <a class="dropdown-item" href="javascript:void(0);" onclick="disApprove({{ $item->revenue_id }})">
+                                                <a class="dropdown-item" href="javascript:void(0);" onclick="disApprove({{ $item->id }})">
                                                     <i class="bx bxs-like bx-rotate-180 me-1"></i> Reject
                                                 </a>
 
@@ -261,10 +264,10 @@
         if(confirmed) {
             // coverSpin.style.display = 'black';
             try {
-                const response = await fetch('/approve/revenue/approval?id='+id);
+                const response = await fetch('/approve/liability/approval?id='+id);
                 const res = await response.json();
 
-                // console.log(res);
+                console.log(res);
 
                 if(res.status == true) {
                     toastr.success(res.message);
@@ -292,7 +295,7 @@
                     reason
                 }
                 console.log(payload)
-                const response = await fetch("/approve/revenue/disapproval?" + new URLSearchParams(payload).toString())
+                const response = await fetch("/approve/liability/disapproval?" + new URLSearchParams(payload).toString())
 
                 const res = await response.json();
                 if(res.status == true) {

@@ -264,7 +264,8 @@
        (url()->current() == route('view.approve.revenue') ? 'active open' :
        (url()->current() == route('view.approve.expenditure') ? 'active open' :
        (url()->current() == route('view.approve.asset') ? 'active open' :
-       (url()->current() == route('view.approve.budget') ? 'active open' : ""))))
+       (url()->current() == route('view.approve.budget') ? 'active open' :
+       (url()->current() == route('view.approve.liability') ? 'active open' : "")))))
        }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-detail"></i>
@@ -273,23 +274,28 @@
         <ul class="menu-sub">
           <li class="menu-item {{ url()->current() == route('view.approve.revenue') ? 'active' : ''}}">
             <a href="{{ route('view.approve.revenue') }}" class="menu-link">
-              <div data-i18n="Chart of Accounts">Revenue</div>
+              <div data-i18n="Chart of Accounts">Approve Revenue</div>
             </a>
           </li>
           <li class="menu-item {{ url()->current() == route('view.approve.expenditure') ? 'active' : ''}}">
             <a href="{{ route('view.approve.expenditure') }}" class="menu-link">
-              <div data-i18n="Chart of Accounts">Expenditure</div>
+              <div data-i18n="Chart of Accounts">Approve Expenditure</div>
             </a>
           </li>
 
           <li class="menu-item {{ url()->current() == route('view.approve.asset') ? 'active' : ''}}">
             <a href="{{ route('view.approve.asset') }}" class="menu-link">
-              <div data-i18n="Chart of Accounts">Asset</div>
+              <div data-i18n="Chart of Accounts">Approve Asset</div>
+            </a>
+          </li>
+          <li class="menu-item {{ url()->current() == route('view.approve.liability') ? 'active' : ''}}">
+            <a href="{{ route('view.approve.liability') }}" class="menu-link">
+              <div data-i18n="Chart of Accounts">Approve Liability</div>
             </a>
           </li>
           <li class="menu-item {{ url()->current() == route('view.approve.budget') ? 'active' : ''}}">
             <a href="{{ route('view.approve.budget') }}" class="menu-link">
-              <div data-i18n="Budgets">Budgets</div>
+              <div data-i18n="Budgets">Approve Budgets</div>
             </a>
           </li>
 
@@ -339,7 +345,7 @@
               <div data-i18n="Payment Voucher">Voucher</div>
             </a>
           </li>
-         
+
 
         </ul>
       </li>

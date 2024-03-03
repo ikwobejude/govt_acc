@@ -18,6 +18,7 @@ class GeneralLedgerController extends Controller
         $batchName = ExpenditureBatchName::all();
         $ExpenditureRegister = DB::table('expenditure_payregister')
         ->where('service_id', 37483)
+        ->where('approved', 2)
         ->when(!empty($economicCode) , function ($query) use ($economicCode) {
             return $query->where('expenditure_code', $economicCode);
         })
@@ -43,6 +44,7 @@ class GeneralLedgerController extends Controller
         $revenue_lines  = RevenueLine::where('type', 1)->get();
         $revenue = DB::table('acc_revenue')
         ->where('service_id', 37483)
+        ->where('approved', 2)
         ->when(!empty($economicCode) , function ($query) use ($economicCode) {
             return $query->where('revenue_code', $economicCode);
         })

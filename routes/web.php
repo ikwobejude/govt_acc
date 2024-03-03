@@ -27,6 +27,7 @@ use App\Http\Controllers\Approvals\RevenueApprovalsController;
 use App\Http\Controllers\FinalAccount\GeneralLedgerController;
 use App\Http\Controllers\Expenditure\ExpenditureTypeController;
 use App\Http\Controllers\Approvals\ExpenditureApprovalController;
+use App\Http\Controllers\Approvals\ApproveLiabilityController;
 use App\Http\Controllers\Expenditure\ExpenditureBatchNameController;
 use App\Http\Controllers\Expenditure\ExpenditurePayRegisterController;
 use App\Http\Controllers\FinalAccount\FinancialPositionController;
@@ -207,6 +208,10 @@ Route::group(['prefix' => 'approve'], function () {
         Route::get('/budget', [BudgetApprovalsController::class, 'index'])->name('view.approve.budget');
         Route::get('/budget/approval',  [BudgetApprovalsController::class, 'approveAsset'])->name('approve.asset');
         Route::get('/budget/disapproval',  [BudgetApprovalsController::class, 'rejected'])->name('rejected.asset');
+
+        Route::get('/liability', [ApproveLiabilityController::class, 'index'])->name('view.approve.liability');
+        Route::get('/liability/approval',  [ApproveLiabilityController::class, 'approveLiability'])->name('approve.liability');
+        Route::get('/liability/disapproval',  [ApproveLiabilityController::class, 'rejectedLiability'])->name('rejected.liability');
     });
 });
 

@@ -117,7 +117,7 @@ class ExpenditureApprovalController extends Controller
                 DB::table('expenditure_payregister')
                 ->where('idexpenditure_payregister', $request->query('id'))
                 ->update([
-                    "approved" => 1,
+                    "approved" => 2,
                     "reapproved" => 1,
                     "reapproved_by" => auth()->user()->email,
                     "approved_on" => Carbon::now(),
