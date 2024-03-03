@@ -180,3 +180,70 @@
         </div>
     </div>
 @endsection
+
+
+{{-- <tr>
+                                        <th>Liability</th>
+                                        <th colspan="2"></th>
+                                        <td></td>
+                                  </tr>
+
+                                  @foreach ($liability->groupBy('type_of_liability') as $type_of_liability => $rev)
+
+                                  <tr>
+                                      <td>{{ $type_of_liability }}</td>
+                                      <td></td>
+                                      <td>2024</td>
+                                      <td></td>
+                                  </tr>
+
+                                    @foreach ($rev as $key => $item)
+                                    <?php
+                                        $count++;
+                                        $liabilitySum += (float)$item->amount;
+                                    ?>
+                                    <tr>
+                                        <td class="td"> {{ $item->liability }} </td>
+                                        <td class="td"> {{ $count }} </td>
+                                        <td class="td">{{ number_format($item->amount, 2) }} </td>
+                                        <td></td>
+                                    </tr>
+                                    @endforeach
+                                    <tr>
+                                        <td colspan="2"> {{ "TOTAL ".strtoupper($type_of_liability)." LIABILITY" }}</td>
+                                        <td>{{ number_format($liabilitySum, 2) }}</td>
+                                        <td></td>
+                                    </tr>
+                                  @endforeach
+
+
+                                  <tr>
+                                    <td>EQUITY</td>
+                                    <td colspan="2"></td>
+                                    <td></td>
+                              </tr>
+
+
+
+                                @foreach ($revenue as $key => $item)
+                                <?php
+                                    $count++;
+                                    $totalEquity += (float)$item->revenue_amount;
+                                ?>
+                                <tr>
+                                    <td class="td"> {{ $item->received_from }} </td>
+                                    <td class="td"> {{ $count }} </td>
+                                    <td class="td">{{ number_format($item->revenue_amount, 2) }} </td>
+                                    <td></td>
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <td colspan="2"> TOTAL EQUITY</td>
+                                    <td>{{ number_format($totalEquity, 2) }}</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"> TOTAL EQUITY AND LIABILITY</td>
+                                    <td>{{ number_format($totalEquity + $liabilitySum, 2) }}</td>
+                                    <td></td>
+                                </tr> --}}

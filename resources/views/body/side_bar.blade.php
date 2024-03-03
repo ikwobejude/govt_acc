@@ -395,13 +395,28 @@
       <li class="menu-item {{ url()->current() == route('financial_position') ? 'active' : ''}}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-detail"></i>
-          <div data-i18n="Final Accounts">Statement of Financial Position</div>
+          <div data-i18n="Final Accounts">Reports</div>
         </a>
         <ul class="menu-sub">
 
           <li class="menu-item {{ url()->current() == route('financial_position') ? 'active' : ''}}">
             <a href="{{ route('financial_position') }}" class="menu-link">
-              <div data-i18n="Horizontal Form">Financial Position</div>
+              <div data-i18n="Horizontal Form">Statement of Financial Position</div>
+            </a>
+          </li>
+          <li class="menu-item ">
+            <a href="#" class="menu-link">
+                <div data-i18n="Horizontal Form">Statement of Financial Perfomace</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="menu-link">
+                <div data-i18n="Horizontal Form">Statement of Change in Equity</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#" class="menu-link">
+                <div data-i18n="Horizontal Form">Statement of Actual and Budget Comparison</div>
             </a>
           </li>
 

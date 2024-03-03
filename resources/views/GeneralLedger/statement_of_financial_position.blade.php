@@ -23,13 +23,12 @@
                         <div class="table-responsive">
                             <table class="table table-stripe">
                                 <thead>
+
                                     <tr>
-                                        <th></th>
-                                        <th colspan="2">NOTE</th>
-                                    </tr>
-                                    <tr>
-                                        <th>ASSET</th>
-                                        <th colspan="2"></th>
+                                        <th><strong>ASSET</strong></th>
+                                        <th><strong>NCOA CODES</strong></th>
+                                        <th><strong>Notes</strong></th>
+                                        <th><strong>2024</strong></th>
                                     </tr>
 
                                 </thead>
@@ -41,12 +40,14 @@
                                     $liabilitySum = 0;
                                     $totalEquity = 0;
                                   ?>
+
                                   @foreach ($asset->groupBy('assest_type') as $assest_type => $rev)
 
                                   <tr>
-                                      <td>{{ $assest_type }}</td>
+                                      <td><strong>{{ strtoupper($assest_type) }}</strong></td>
                                       <td></td>
-                                      <td>2024</td>
+                                      <td></td>
+                                      <td></td>
                                   </tr>
 
                                     @foreach ($rev as $key => $item)
@@ -56,28 +57,35 @@
                                     ?>
                                     <tr>
                                         {{-- <td>{{ $key + 1}}</td> --}}
-                                        <td class="td"> {{ $item->assest_name }} </td>
-                                        <td class="td"> {{ $count }} </td>
-                                        <td class="td">{{ number_format($item->opening_value, 2) }} </td>
+                                        <td>{{ strtoupper($item->assest_name) }} </td>
+                                        <td>{{ $item->asset_rev }} </td>
+                                        <td></td>
+                                        <td>{{ number_format($item->opening_value, 2) }}</td>
                                     </tr>
                                     @endforeach
                                     <tr>
-                                        <td colspan="2"> {{ "TOTAL ".strtoupper($assest_type)." ASSET" }}</td>
+                                        <td colspan="3" style="text-align: right"> <strong>{{ "TOTAL ".strtoupper($assest_type) }}</strong> </td>
+
                                         <td>{{ number_format($assetsum, 2) }}</td>
                                     </tr>
                                   @endforeach
+                                  {{-- Total Current Assets = A
+                                  Total Non-Current Assets = B
+                                  Total Assets    C  =   A + B --}}
 
                                   <tr>
-                                        <th>Liability</th>
-                                        <th colspan="2"></th>
+                                     <td><strong><u>LIABILITIES</u> </strong></td>
+                                     <td><strong></strong></td>
+                                     <td><strong></strong></td>
+                                     <td><strong></strong></td>
                                   </tr>
-
                                   @foreach ($liability->groupBy('type_of_liability') as $type_of_liability => $rev)
 
                                   <tr>
-                                      <td>{{ $type_of_liability }}</td>
+                                      <td><strong>{{ strtoupper( $type_of_liability) }}</strong></td>
                                       <td></td>
-                                      <td>2024</td>
+                                      <td></td>
+                                      <td></td>
                                   </tr>
 
                                     @foreach ($rev as $key => $item)
@@ -86,23 +94,31 @@
                                         $liabilitySum += (float)$item->amount;
                                     ?>
                                     <tr>
-                                        {{-- <td>{{ $key + 1}}</td> --}}
-                                        <td class="td"> {{ $item->liability }} </td>
-                                        <td class="td"> {{ $count }} </td>
-                                        <td class="td">{{ number_format($item->amount, 2) }} </td>
+                                        <td> {{ strtoupper($item->liability) }} </td>
+                                        <td> {{ $item->economic_code }} </td>
+                                        <td>{{ $count }}</td>
+                                        <td>{{ number_format($item->amount, 2) }}</td>
                                     </tr>
                                     @endforeach
                                     <tr>
-                                        <td colspan="2"> {{ "TOTAL ".strtoupper($type_of_liability)." LIABILITY" }}</td>
+                                        <td colspan="3" style="text-align: right"> <strong> {{ "TOTAL ".strtoupper($type_of_liability)." LIABILITY" }} </strong></td>
                                         <td>{{ number_format($liabilitySum, 2) }}</td>
                                     </tr>
                                   @endforeach
 
+                                  {{-- Total Current Liabilities = D
+                                  Total Non-Current Liabilities = E
+                                  Total Liabilities: F = D + E
+                                  Net Assets:  G  = C - F --}}
+
+                                  {{-- NET ASSETS/EQUITY --}}
 
                                   <tr>
-                                    <th>EQUITY</th>
-                                    <th colspan="2"></th>
-                              </tr>
+                                    <td><strong><u>NET ASSETS/EQUITY</u></strong></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                  </tr>
 
 
 
@@ -112,20 +128,23 @@
                                     $totalEquity += (float)$item->revenue_amount;
                                 ?>
                                 <tr>
-                                    {{-- <td>{{ $key + 1}}</td> --}}
-                                    <td class="td"> {{ $item->received_from }} </td>
-                                    <td class="td"> {{ $count }} </td>
-                                    <td class="td">{{ number_format($item->revenue_amount, 2) }} </td>
+                                    <td> {{ $item->received_from }} </td>
+                                    <td> </td>
+                                    <td>{{ $count }}</td>
+                                    <td>{{ number_format($item->revenue_amount, 2) }}</td>
                                 </tr>
                                 @endforeach
                                 <tr>
-                                    <td colspan="2"> TOTAL EQUITY</td>
+                                    <td colspan="3" style="text-align: right"><strong>TOTAL EQUITY</strong></td>
+                                    {{-- <td></td> --}}
                                     <td>{{ number_format($totalEquity, 2) }}</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2"> TOTAL EQUITY AND LIABILITY</td>
+                                    <td colspan="3"style="text-align: right"><strong> TOTAL EQUITY AND LIABILITY </strong></td>
+                                    {{-- <td></td> --}}
                                     <td>{{ number_format($totalEquity + $liabilitySum, 2) }}</td>
                                 </tr>
+
                                 </tbody>
                             </table>
                         </div>
