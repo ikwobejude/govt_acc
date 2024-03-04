@@ -283,7 +283,7 @@ Route::group(['prefix' => 'statement_of_financial_position'], function () {
 Route::group(['prefix' => 'report'], function () {
     Route::middleware(['auth'])->group(function () {
         // Account payable
-        Route::get('/financial_performance', [ReportController::class, 'financialPerformance'])->name('cash_flow');
+        Route::get('/financial_performance', [ReportController::class, 'financialPerformance'])->name('financial_performance');
         Route::get('/cash_flow', [ReportController::class, 'cashFlow'])->name('cash_flow');
 
     });

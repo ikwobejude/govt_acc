@@ -58,9 +58,9 @@
                                     @endforeach
                                     <tr>
                                         <td></td>
-                                        <td><strong>Total Revenue (a)</strong></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td colspan="3" style="text-align: right"><strong>Total Revenue (a)</strong></td>
+                                        {{-- <td></td>
+                                        <td></td> --}}
                                         <td>{{ number_format($totalRevenue, 2) }}</td>
                                     </tr>
 
@@ -87,9 +87,9 @@
 
                                     <tr>
                                         <td></td>
-                                        <td><strong>Total Expenditure (b)</strong></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td colspan="3" style="text-align: right"><strong>Total Expenditure (b)</strong></td>
+                                        {{-- <td></td>
+                                        <td></td> --}}
                                         <td>{{ number_format($totalExpenditure, 2) }}</td>
                                     </tr>
                                     <?php
@@ -102,32 +102,38 @@
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td>
+                                        <td colspan="3" style="text-align: right">
                                             <strong>Surplus/(Deficit) from Ordinary Activities e=(c+d)</strong>
                                         </td>
-                                        <td></td>
-                                        <td></td>
+                                        {{-- <td></td>
+                                        <td></td> --}}
                                         <td>{{ number_format($dta, 2) }}</td>
                                     </tr>
 
-                                    <tr>
-                                        <td colspan="5"></td>
-                                    </tr>
+                                    <tr><td colspan="5"></td></tr>
                                     <tr>
                                         <td></td>
-                                        <td><strong>Surplus/(Deficit) from Operating Activities for the Period c=(a-b)</strong></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td colspan="3" style="text-align: right"><strong>Surplus/(Deficit) from Operating Activities for the Period c=(a-b)</strong></td>
+                                        {{-- <td></td>
+                                        <td></td> --}}
                                         <td>{{ number_format($dta1, 2) }}</td>
                                     </tr>
+                                    <tr><td colspan="5"></td></tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><strong>Minority Interest Share of Surplus/ (Deficit) (f)</strong></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
                                     <tr>
                                         <td colspan="5"></td>
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td><strong>Net Surplus/ (Deficit) for the Period g=(e-f)</strong></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td colspan="3" style="text-align: right"><strong>Net Surplus/ (Deficit) for the Period g=(e-f)</strong></td>
+                                        {{-- <td></td>
+                                        <td></td> --}}
                                         <td>{{ number_format($dta1, 2) }}</td>
                                     </tr>
 

@@ -36,13 +36,15 @@
                                 <tbody>
                                  <?php
                                     $count = 0;
-                                    $assetsum = 0;
-                                    $liabilitySum = 0;
-                                    $totalEquity = 0;
+                                    $sumTotalAsset = 0;
+                                    $sumTotalLiability = 0;
+                                    $alpha = ['A', 'B'];
                                   ?>
 
                                   @foreach ($asset->groupBy('assest_type') as $assest_type => $rev)
-
+                                  <?php
+                                        $assetsum = 0;
+                                    ?>
                                   <tr>
                                       <td><strong>{{ strtoupper($assest_type) }}</strong></td>
                                       <td></td>
@@ -63,12 +65,18 @@
                                         <td>{{ number_format($item->opening_value, 2) }}</td>
                                     </tr>
                                     @endforeach
+                                    <?php $sumTotalAsset += $assetsum; ?>
                                     <tr>
-                                        <td colspan="3" style="text-align: right"> <strong>{{ "TOTAL ".strtoupper($assest_type) }}</strong> </td>
+                                        <td colspan="3" style="text-align: right"> <strong>{{ "TOTAL ".strtoupper($assest_type)."= ".$alpha[$key] }}</strong> </td>
 
                                         <td>{{ number_format($assetsum, 2) }}</td>
                                     </tr>
                                   @endforeach
+                                  <tr>
+                                    <td colspan="3" style="text-align: right"> <strong>TOTAL ASSETS C=A+B</strong> </td>
+
+                                    <td>{{ number_format($sumTotalAsset, 2) }}</td>
+                                </tr>
                                   {{-- Total Current Assets = A
                                   Total Non-Current Assets = B
                                   Total Assets    C  =   A + B --}}
@@ -79,15 +87,20 @@
                                      <td><strong></strong></td>
                                      <td><strong></strong></td>
                                   </tr>
+                                  <?php $alpha1 = ['D', 'E']; ?>
                                   @foreach ($liability->groupBy('type_of_liability') as $type_of_liability => $rev)
-
+                                  <?php
+                                        $liabilitySum = 0;
+                                    ?>
                                   <tr>
                                       <td><strong>{{ strtoupper( $type_of_liability) }}</strong></td>
                                       <td></td>
                                       <td></td>
                                       <td></td>
                                   </tr>
-
+                                  <?php
+                                        $totalEquity = 0;
+                                    ?>
                                     @foreach ($rev as $key => $item)
                                     <?php
                                         $count++;
@@ -100,11 +113,20 @@
                                         <td>{{ number_format($item->amount, 2) }}</td>
                                     </tr>
                                     @endforeach
+                                    <?php $sumTotalLiability += $liabilitySum; ?>
                                     <tr>
-                                        <td colspan="3" style="text-align: right"> <strong> {{ "TOTAL ".strtoupper($type_of_liability)." LIABILITY" }} </strong></td>
+                                        <td colspan="3" style="text-align: right"> <strong> {{ "TOTAL ".strtoupper($type_of_liability)." LIABILITY = ".$alpha1[$key] }} </strong></td>
                                         <td>{{ number_format($liabilitySum, 2) }}</td>
                                     </tr>
                                   @endforeach
+                                  <tr>
+                                    <td colspan="3" style="text-align: right"> <strong>TOTAL LIABILITIES F = D + E </strong></td>
+                                    <td>{{ number_format($sumTotalLiability, 2) }}</td>
+                                  </tr>
+                                  <tr>
+                                    <td colspan="3" style="text-align: right"> <strong>NET ASSETS G  = C - F </strong></td>
+                                    <td>{{ number_format($sumTotalAsset - $sumTotalLiability, 2) }}</td>
+                                  </tr>
 
                                   {{-- Total Current Liabilities = D
                                   Total Non-Current Liabilities = E
