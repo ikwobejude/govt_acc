@@ -31,6 +31,7 @@ use App\Http\Controllers\Approvals\ApproveLiabilityController;
 use App\Http\Controllers\Expenditure\ExpenditureBatchNameController;
 use App\Http\Controllers\Expenditure\ExpenditurePayRegisterController;
 use App\Http\Controllers\FinalAccount\FinancialPositionController;
+use App\Http\Controllers\FinalAccount\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -276,6 +277,15 @@ Route::group(['prefix' => 'statement_of_financial_position'], function () {
     Route::middleware(['auth'])->group(function () {
         // Account payable
         Route::get('/', [FinancialPositionController::class, 'index'])->name('financial_position');
+    });
+});
+
+Route::group(['prefix' => 'report'], function () {
+    Route::middleware(['auth'])->group(function () {
+        // Account payable
+        Route::get('/financial_performance', [ReportController::class, 'financialPerformance'])->name('cash_flow');
+        Route::get('/cash_flow', [ReportController::class, 'cashFlow'])->name('cash_flow');
+
     });
 });
 

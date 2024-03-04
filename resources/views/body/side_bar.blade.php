@@ -392,7 +392,9 @@
         </ul>
       </li>
 
-      <li class="menu-item {{ url()->current() == route('financial_position') ? 'active' : ''}}">
+      <li class="menu-item {{
+        ( url()->current() == route('financial_position') ? 'active open' :
+        ( url()->current() == route('cash_flow') ? 'active open' : '' ))}}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-detail"></i>
           <div data-i18n="Final Accounts">Reports</div>
@@ -404,6 +406,12 @@
               <div data-i18n="Horizontal Form">Statement of Financial Position</div>
             </a>
           </li>
+          <li class="menu-item {{ url()->current() == route('cash_flow') ? 'active' : ''}}">
+            <a href="{{ route('cash_flow') }}" class="menu-link">
+              <div data-i18n="Horizontal Form">Financial Cash Flow</div>
+            </a>
+          </li>
+
           <li class="menu-item ">
             <a href="#" class="menu-link">
                 <div data-i18n="Horizontal Form">Statement of Financial Perfomace</div>
