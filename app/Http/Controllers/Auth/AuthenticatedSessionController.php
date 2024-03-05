@@ -45,7 +45,13 @@ class AuthenticatedSessionController extends Controller
                 'alert-type' => 'info'
             );
             return redirect('/user/reset_password')->with($notification);
-        } else {
+        } else if (inactive() == 2){
+            $notification = array(
+                'message' => 'You do no longer have access to this system, contact ICT for more detail',
+                'alert-type' => 'info'
+            );
+            return redirect('/logout')->with($notification);
+        }else {
             $notification = array(
                 'message' => 'Admin Login Successfully',
                 'alert-type' => 'info'

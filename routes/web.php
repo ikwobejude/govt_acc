@@ -266,6 +266,7 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('/', [UserController::class, 'index'])->name('view.user');
         Route::post('/', [UserController::class, 'store'])->name('user.store');
         Route::post('/edit', [UserController::class, 'update'])->name('user.edit');
+        Route::get('/delete/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
         Route::get('/reset_password', [UserController::class, 'resetPassword'])->name('user_reset_password');
         Route::post('/reset_password', [UserController::class, 'reset_Password'])->name('post.user_reset_password');

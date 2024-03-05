@@ -23,6 +23,7 @@ class UserController extends Controller
         $users = DB::table('users')
         ->select('users.*', 'user_groups.group_name')
         ->leftJoin('user_groups', 'users.group_id', 'user_groups.group_id')
+        ->where('inactive', 0)
         ->when($user_role, function ($query, string $user_role) {
             $query->where('users.group_id', $user_role);
         })
@@ -134,11 +135,15 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            $user = User::find($id);
-            $user->delete($id);
+            $user = User::where('id', $id)
+            ->update([
+                "inactive" => 2
+            ]);
+            // find($id);
+            // $user->delete($id);
 
             $notification = array(
-                'message' => 'The user has successfully been deleted.',
+                'message' => 'The user has successfully been deactivated.',
                 'alert-type' => 'success'
             );
             return redirect()->back()->with($notification);
