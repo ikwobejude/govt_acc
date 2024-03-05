@@ -436,10 +436,10 @@
 
 
 
-      <li class="menu-item {{ url()->current() == route('report_budget') ? 'active' : ''}}">
+      <li class="menu-item {{ url()->current() == route('report_budget') ? 'active open' : ''}}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-detail"></i>
-          <div data-i18n="Final Accounts">Report</div>
+          <div data-i18n="Final Accounts">Budget Report</div>
         </a>
         <ul class="menu-sub">
 

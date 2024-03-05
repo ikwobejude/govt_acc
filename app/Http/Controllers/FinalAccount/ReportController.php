@@ -68,7 +68,7 @@ class ReportController extends Controller
 
         $liability = DB::table('liabilities')
         ->where('approved', 2)
-        ->selectRaw('liabilities.liability, liabilities.economic_code, liabilities.type_of_liability, liabilities.amount')
+        ->selectRaw('liabilities.liability AS line, liabilities.economic_code AS code, liabilities.type_of_liability, liabilities.amount as total')
         // ->groupBy('liabilities.type_of_liability')
         ->get();
 
