@@ -5,10 +5,10 @@
         document.write(new Date().getFullYear());
       </script>
       , made with ❤️ by
-      <a href="https://themeselection.com" target="_blank" class="footer-link fw-medium">ThemeSelection</a>
+      <a href="/" target="_blank" class="footer-link fw-medium">HRORBN</a>
     </div>
     <div class="d-none d-lg-inline-block">
-      <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+      {{-- <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
       <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
 
       <a
@@ -23,6 +23,6 @@
         target="_blank"
         class="footer-link"
         >Support</a
-      >
+      > --}}
     </div>
   </div>

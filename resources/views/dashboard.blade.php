@@ -57,7 +57,7 @@
                   </div>
                 </div>
                 <span class="fw-medium d-block mb-1">Revenue</span>
-                <h3 class="card-title mb-2">₦0.00</h3>
+                <h6 class="card-title mb-2">₦{{ number_format($revenue, 2 )}}</h6>
                 <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> +72.80%</small>
               </div>
             </div>
@@ -68,7 +68,7 @@
                 <div class="card-title d-flex align-items-start justify-content-between">
                   <div class="avatar flex-shrink-0">
                     <img
-                      src="back/assets/img/icons/unicons/wallet-info.png"
+                      src="back/assets/img/icons/unicons/paypal.png"
                       alt="Credit Card"
                       class="rounded" />
                   </div>
@@ -89,7 +89,7 @@
                   </div>
                 </div>
                 <span>Expenditure</span>
-                <h3 class="card-title text-nowrap mb-1">₦0.00</h3>
+                <h6 class="card-title text-nowrap mb-1">₦{{ number_format($expenditure, 2 )}}</h6>
                 <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> +0%</small>
               </div>
             </div>
@@ -158,7 +158,7 @@
               <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
                   <div class="avatar flex-shrink-0">
-                    <img src="back/assets/img/icons/unicons/paypal.png" alt="Credit Card" class="rounded" />
+                    <img src="back/assets/img/icons/unicons/wallet-info.png" alt="Credit Card" class="rounded" />
                   </div>
                   <div class="dropdown">
                     <button class="btn p-0" type="button" id="cardOpt4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -170,8 +170,8 @@
                     </div>
                   </div>
                 </div>
-                <span class="d-block mb-1">Payments</span>
-                <h3 class="card-title text-nowrap mb-2">₦0.00</h3>
+                <span class="d-block mb-1">Assets Value</span>
+                <h6 class="card-title text-nowrap mb-2">₦{{ number_format($asset, 2) }}</h6>
                 <small class="text-danger fw-medium"><i class="bx bx-down-arrow-alt"></i> 0%</small>
               </div>
             </div>
@@ -193,8 +193,8 @@
                     </div>
                   </div>
                 </div>
-                <span class="fw-medium d-block mb-1">Transactions</span>
-                <h3 class="card-title mb-2">₦0.0</h3>
+                <span class="fw-medium d-block mb-1">Liability</span>
+                <h6 class="card-title mb-2">₦{{ number_format($liability, 2) }}</h6>
                 <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> 0%</small>
               </div>
             </div>

@@ -29,6 +29,7 @@ class Liabilities extends Model
         'reapproved_at',
         'reason',
         'deleted',
-        'narration'
+        'narration',
+        'amount'
     ];
 }
