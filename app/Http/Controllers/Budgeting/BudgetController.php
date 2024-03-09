@@ -7,6 +7,7 @@ use App\Models\Budgets\Bedgets;
 use Illuminate\Support\Facades\DB;
 use App\Models\Revenue\RevenueLine;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class BudgetController extends Controller
 {
@@ -56,12 +57,18 @@ class BudgetController extends Controller
     public function store(Request $request) {
         try {
             // dd($request->all());
-            $this->validate($request, [
+            $validateUser = Validator::make($request->all(), [
                 'budgetType' => 'required|integer',
                 'economicCode' => 'required|string',
                 'project' => 'required|string',
                 'current_budget' => 'required|string',
             ]);
+
+            if($validateUser->fails()) {
+                return redirect()->back()
+                ->withErrors($validateUser->errors())
+                ->withInput();
+            }
 
             $arr = explode(',', $request->economicCode);
 
@@ -93,13 +100,21 @@ class BudgetController extends Controller
     public function update(Request $request) {
         try {
             // dd($request->all());
-            $this->validate($request, [
+            $validateUser = Validator::make($request->all(),  [
                 'budgetType' => 'required|integer',
                 'economicCode' => 'required|string',
                 'project' => 'required|string',
                 'current_budget' => 'required|string',
             ]);
 
+
+            if($validateUser->fails()) {
+                return redirect()->back()
+                ->withErrors($validateUser->errors())
+                ->withInput();
+            }
+
+            
             $arr = explode(',', $request->economicCode);
             // dd($arr);
 

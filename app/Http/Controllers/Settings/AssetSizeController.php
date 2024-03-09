@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Settings;
 
-use App\Http\Controllers\Controller;
-use App\Models\Asset\AssetSizes;
 use Illuminate\Http\Request;
+use App\Models\Asset\AssetSizes;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class AssetSizeController extends Controller
 {
@@ -14,9 +15,16 @@ class AssetSizeController extends Controller
     }
 
     public function store(Request $request) {
-        $request->validate([
+        $validateUser = Validator::make($request->all(), [
             'assest_size' => ['required', 'string']
         ]);
+
+
+        if($validateUser->fails()) {
+            return redirect()->back()
+            ->withErrors($validateUser->errors())
+            ->withInput();
+        }
 
         $d = now();
         AssetSizes::create([

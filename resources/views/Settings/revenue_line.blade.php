@@ -4,7 +4,9 @@
     <h4 class="py-3 mb-4"><span class="text-muted fw-light">Settings /</span> Revenue Lines</h4>
 
     <div class="row">
-
+        {{-- @section('alerts') --}}
+        
+        {{-- @stop --}}
       <div class="col-md-4">
         <div class="card mb-4">
           <h5 class="card-header">New Revenue Item</h5>
@@ -17,10 +19,10 @@
                     <div class="form-floating mb-3">
                         <select name="type" id="type" class="form-control">
                             <option value="">Select options</option>
-                            <option value="1/REVENUE">REVENUE</option>
-                            <option value="2/EXPENDITURE">EXPENDITURE</option>
-                            <option value="3/ASSET">ASSET</option>
-                            <option value="4/LAIBILITY">LAIBILITY</option>
+                            <option value="1">REVENUE</option>
+                            <option value="2">EXPENDITURE</option>
+                            <option value="3">ASSET</option>
+                            <option value="4">LAIBILITY</option>
                         </select>
                         <label for="floatingInput">Type</label>
 
@@ -103,7 +105,12 @@
                                         <i class="bx bx-dots-vertical-rounded"></i>
                                       </button>
                                       <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter">
+                                        <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter" onclick="update(
+                                            '{{ $item->economic_code }}',
+                                            '{{ $item->description }}',
+                                            '{{ $item->type }}',
+                                            '{{ $item->id }}',
+                                        )">
                                             <i class="bx bx-edit-alt me-1"></i> Edit
                                         </a>
                                         <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
@@ -136,48 +143,73 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalCenterTitle">Modal title</h5>
+          <h5 class="modal-title" id="modalCenterTitle">Edit Revenue Items</h5>
           <button
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col mb-3">
-              <label for="nameWithTitle" class="form-label">Revenue Line</label>
-              <input
-                type="text"
-                id="nameWithTitle"
-                class="form-control"
-                placeholder="Enter Name" />
+        <form action="{{ route('edit.revenue_line1') }}" method="post">
+            @method('PUT')
+            <div class="modal-body">
+                @csrf
+                <div class="fieldset">
+                    <h1>Edit Revenue Item</h1>
+
+                    <div class="form-floating mb-3">
+                        <select name="type" id="etype" class="form-control">
+                            <option value="">Select options</option>
+                            <option value="1">REVENUE</option>
+                            <option value="2">EXPENDITURE</option>
+                            <option value="3">ASSET</option>
+                            <option value="4">LAIBILITY</option>
+                        </select>
+                        <label for="floatingInput">Type</label>
+
+                        @error('type')
+                        <span class="text-danger"> {{ $message }} </span>
+                        @enderror
+                    </div>
+
+                    <div class="form-floating">
+                        <input type="text" class="form-control  @error('revenue_line') is-invalid @enderror" name="revenue_line" id="erevenue_line" placeholder="Revenue Line" value="{{ old('revenue_line')}}" />
+                        <label for="floatingInput">Revenue Line</label>
+                        <div id="floatingInputHelp" class="form-text">
+                            Revenue line in other word revenue name
+                        </div>
+                        @error('revenue_line')
+                        <span class="text-danger"> {{ $message }} </span>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control @error('revenue_code') is-invalid @enderror" id="erevenue_code" name="revenue_code" placeholder="Revenue Line" value="{{ old('revenue_code')}}" />
+                        <label for="floatingInput">Revenue Code</label>
+                        <div id="floatingInputHelp" class="form-text">
+                            Revenue code for the above inputed revenue name
+                        </div>
+                        @error('revenue_code')
+                        <span class="text-danger"> {{ $message }} </span>
+                        @enderror
+                    </div>
+                    <input type="hidden" name="id" id="id">
+                </div>
             </div>
-          </div>
-          <div class="row g-2">
-            <div class="col mb-0">
-              <label for="emailWithTitle" class="form-label">Revenue Code</label>
-              <input
-                type="email"
-                id="emailWithTitle"
-                class="form-control"
-                placeholder="xxxx@xxx.xx" />
+            <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                Close
+            </button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
             </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+
+        </form>
       </div>
     </div>
   </div>
 
 
    <!-- Modal -->
-   <div class="modal fade" id="modalCenter1" tabindex="-1" aria-hidden="true">
+   {{-- <div class="modal fade" id="modalCenter1" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -207,6 +239,17 @@
         </form>
       </div>
     </div>
-  </div>
+  </div> --}}
+
+
+  <script>
+    function update(economic_code, description, type, revenue_id) {
+        console.log({economic_code, description, type, revenue_id})
+        $('#etype').val(type)
+        $('#erevenue_line').val(economic_code)
+        $('#erevenue_code').val(description)
+        $('#id').val(revenue_id)
+    }
+  </script>
 
   @endsection

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Settings;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Asset\AssetCategories;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AssetCategoryController extends Controller
 {
@@ -14,12 +15,17 @@ class AssetCategoryController extends Controller
     }
 
     public function store(Request $request) {
-        $request->validate([
+        $validateUser = Validator::make($request->all(),[
             'assest_category' => ['required', 'string']
         ]);
 
 
         // dd($request->all());
+        if($validateUser->fails()) {
+            return redirect()->back()
+            ->withErrors($validateUser->errors())
+            ->withInput();
+        }
 
         // $d = now();
         AssetCategories::create([

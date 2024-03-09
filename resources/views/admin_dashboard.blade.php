@@ -188,6 +188,60 @@
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
                     <!-- Content -->
+                    {{-- @yield('alerts') --}}
+                    <div class="container-xxl">
+                        <div class="row">
+                            <div class="col-12 pt-2">
+                                @if(Session::has('message'))
+                                    <?php $type = Session::get('alert-type') ?>
+                                    {{-- var type = "{{ Session::get('alert-type','info') }}" --}}
+                                    @switch($type)
+                                        @case('info')
+                                                <div class="clearfix"></div>
+                                                <div class="alert alert-info" role="alert">
+                                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                    {{ Session::get('message') }}
+                                                </div>
+                                            @break
+                                        @case('success')
+                                                <div class="clearfix"></div>
+                                                <div class="alert alert-success" role="alert">
+                                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                    {{ Session::get('message') }}
+                                                </div>
+                                            @break
+                                        @case('warning')
+                                                <div class="clearfix"></div>
+                                                <div class="alert alert-warning" role="alert">
+                                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                    {{ Session::get('message') }}
+                                                </div>
+                                            @break
+                                        @case('error')
+                                                <div class="clearfix"></div>
+                                                <div class="alert alert-danger" role="alert">
+                                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                    {{ Session::get('message') }}
+                                                </div>
+                                            @break
+                                    @endswitch
+                                @endif
+
+                                @if($errors->any())
+                                    <div class="alert alert-danger">
+                                        <p><strong>Opps Something went wrong</strong></p>
+                                        <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
+                            </div>
+                        </div>
+
+                    </div>
                     @yield('admin')
 
 

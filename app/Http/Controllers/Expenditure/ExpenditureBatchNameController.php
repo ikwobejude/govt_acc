@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Expenditure;
 
-use App\Http\Controllers\Controller;
-use App\Models\Expenditure\ExpenditureBatchName;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Expenditure\ExpenditureBatchName;
 
 class ExpenditureBatchNameController extends Controller
 {
@@ -14,9 +15,17 @@ class ExpenditureBatchNameController extends Controller
     }
 
     public function store(Request $request){
-        $request->validate([
+        $validateUser = Validator::make($request->all(), [
             'batch_name' => ['required', 'string']
         ]);
+
+        
+
+        if($validateUser->fails()) {
+            return redirect()->back()
+            ->withErrors($validateUser->errors())
+            ->withInput();
+        }
 
         ExpenditureBatchName::create([
             "name" => $request->batch_name,

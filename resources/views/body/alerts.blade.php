@@ -1,8 +1,9 @@
+
 @if (Session::has('success'))
 <div class="clearfix"></div>
 <div class="alert alert-success" role="alert">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    {!! Session::get('success') !!}
+    {{ Session::get('message') }}
 </div>
 @endif
 
@@ -10,7 +11,7 @@
 <div class="clearfix"></div>
 <div class="alert alert-danger" role="alert">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    {!! Session::get('error') !!}
+    {{ Session::get('error') }}
 </div>
 @endif
 
@@ -19,7 +20,7 @@
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <ul>
             @foreach ($errors->all() as $error)
-                <li>{!! $error !!}</li>
+                <li>{{ $error }}</li>
             @endforeach
         </ul>
     </div>
@@ -29,7 +30,7 @@
 <div class="clearfix"></div>
 <div class="alert alert-info" role="alert">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    {!! Session::get('info') !!}
+    {{ Session::get('info') }}
 </div>
 @endif
 
@@ -37,6 +38,6 @@
 <div class="clearfix"></div>
 <div class="alert alert-warning" role="alert">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    {!! Session::get('warning') !!}
+    {{ Session::get('warning') }}
 </div>
 @endif

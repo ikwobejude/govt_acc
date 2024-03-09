@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Expenditure;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Revenue\RevenueLine;
 use App\Http\Controllers\Controller;
-use App\Models\Expenditure\ExpenditureBatchName;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Expenditure\ExpenditureType;
 use App\Models\Expenditure\ExpenditureRegister;
-use App\Models\Revenue\RevenueLine;
+use App\Models\Expenditure\ExpenditureBatchName;
 
 class ExpenditurePayRegisterController extends Controller
 {
@@ -106,7 +107,7 @@ class ExpenditurePayRegisterController extends Controller
 
     public function update(Request $request) {
         // dd($request->all());
-        $request->validate([
+        $validateUser = Validator::make($request->all(), [
             'batch_type' => ['required', 'string'],
             'date' => ['required', 'string'],
             'name' => ['required', 'string'],
@@ -114,6 +115,12 @@ class ExpenditurePayRegisterController extends Controller
             'narration' => ['required', 'string'],
             'expenditure_type' => ['required', 'string'],
         ]);
+
+        if($validateUser->fails()) {
+            return redirect()->back()
+            ->withErrors($validateUser->errors())
+            ->withInput();
+        }
 
         $carbon = Carbon::parse($request->date);
         $year = $carbon->format('Y');

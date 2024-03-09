@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Liability;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Revenue\RevenueLine;
 use App\Http\Controllers\Controller;
 use App\Models\Liability\Liabilities;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class LiabilityController extends Controller
 {
@@ -52,7 +53,7 @@ class LiabilityController extends Controller
     public function store(Request $request) {
 
         // dd($request->all());
-        $request->validate([
+        $validateUser = Validator::make($request->all(), [
             'revenue_code' => ['required', 'string'],
             'liability' => ['required', 'string'],
             'type_of_liability' => ['required', 'string'],
@@ -60,6 +61,12 @@ class LiabilityController extends Controller
             'amount' => ['required', 'regex:/^(\d+|\d+(\.\d{1,2})?|(\.\d{1,2}))$/'],
         ]);
 
+        if($validateUser->fails()) {
+            return redirect()->back()
+            ->withErrors($validateUser->errors())
+            ->withInput();
+        }
+        
         // dd($request->revenue_code);
 
         $arr = explode(',', $request->revenue_code);

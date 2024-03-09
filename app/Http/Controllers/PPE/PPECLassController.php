@@ -6,6 +6,7 @@ use App\Models\PPE\PPECLass;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class PPECLassController extends Controller
 {
@@ -19,10 +20,16 @@ class PPECLassController extends Controller
     }
 
     public function store(Request $request) {
-        $request->validate([
+        $validateUser = Validator::make($request->all(), [
             'ppeclass' => ['required', 'string'],
             'depreciation_type' => ['required', 'string']
         ]);
+
+        if($validateUser->fails()) {
+            return redirect()->back()
+            ->withErrors($validateUser->errors())
+            ->withInput();
+        }
 
 
         PPECLass::insert([

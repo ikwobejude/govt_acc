@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\PPE;
 
 use Carbon\Carbon;
+use App\Models\PPE\Acct_ppe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\PPE\Acct_ppe;
+use Illuminate\Support\Facades\Validator;
 
 class PPEController extends Controller
 {
@@ -103,7 +104,7 @@ class PPEController extends Controller
 
     public function update(Request $request) {
         // dd($request->all());
-        $request->validate([
+        $validateUser = Validator::make($request->all(), [
             'ppename' => ['required', 'string'],
             'ppedesc' => ['required', 'string'],
             'ppeclass' => ['required', 'string'],
@@ -114,6 +115,12 @@ class PPEController extends Controller
             'residualval' => ['required', 'regex:/^(\d+|\d+(\.\d{1,2})?|(\.\d{1,2}))$/'],
             'salvage_value' => ['required', 'regex:/^(\d+|\d+(\.\d{1,2})?|(\.\d{1,2}))$/'],
         ]);
+
+        if($validateUser->fails()) {
+            return redirect()->back()
+            ->withErrors($validateUser->errors())
+            ->withInput();
+        }
 
         $carbon = Carbon::parse($request->date);
         Acct_ppe::where('id', $request->id)->update([

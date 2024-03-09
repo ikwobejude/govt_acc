@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Expenditure;
 
-use App\Http\Controllers\Controller;
-use App\Models\Expenditure\ExpenditureType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Expenditure\ExpenditureType;
 
 class ExpenditureTypeController extends Controller
 {
@@ -15,10 +16,16 @@ class ExpenditureTypeController extends Controller
     }
 
     public function store(Request $request) {
-        $request->validate([
+        $validateUser = Validator::make($request->all(), [
             'type' => ['required', 'string'],
             'code' =>['required', 'string']
         ]);
+
+        if($validateUser->fails()) {
+            return redirect()->back()
+            ->withErrors($validateUser->errors())
+            ->withInput();
+        }
 
         ExpenditureType::create([
             "type" => $request->type,

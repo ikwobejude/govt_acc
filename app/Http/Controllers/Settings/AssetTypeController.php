@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Settings;
 
-use App\Http\Controllers\Controller;
-use App\Models\Asset\AssetType;
 use Illuminate\Http\Request;
+use App\Models\Asset\AssetType;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class AssetTypeController extends Controller
 {
@@ -15,9 +16,15 @@ class AssetTypeController extends Controller
     }
 
     public function store(Request $request) {
-        $request->validate([
+        $validateUser = Validator::make($request->all(), [
             'assest_type' => ['required', 'string']
         ]);
+
+        if($validateUser->fails()) {
+            return redirect()->back()
+            ->withErrors($validateUser->errors())
+            ->withInput();
+        }
 
         $d = now();
         AssetType::create([
@@ -35,5 +42,5 @@ class AssetTypeController extends Controller
     }
 
 
-    
+
 }

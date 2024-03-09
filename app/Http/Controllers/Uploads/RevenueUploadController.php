@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Validator;
 
 class RevenueUploadController extends Controller
 {
@@ -16,9 +17,15 @@ class RevenueUploadController extends Controller
         try {
             // Validate the uploaded file
             // dd($request->file('file'));
-            $request->validate([
+            $validateUser = Validator::make($request->all(), [
                 'file' => 'required|mimes:xlsx,xls',
             ]);
+
+            if($validateUser->fails()) {
+                return redirect()->back()
+                ->withErrors($validateUser->errors())
+                ->withInput();
+            }
 
             // Get the uploaded file
             $file = $request->file('file');

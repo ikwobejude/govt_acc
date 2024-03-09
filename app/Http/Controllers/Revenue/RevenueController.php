@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Revenue;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Revenue\Revenue;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 
 class RevenueController extends Controller
 {
@@ -111,7 +112,7 @@ class RevenueController extends Controller
         // dd($request->id);
         //    try {
             // dd($request->rrr_input_field);
-            $request->validate([
+            $validateUser = Validator::make($request->all(), [
                 'revenue_code' =>['required', 'string', 'max:255'],
                 'received_from' => ['required', 'string', 'max:255'],
                 'description' => ['required', 'string', 'max:255'],
@@ -119,6 +120,12 @@ class RevenueController extends Controller
                 'settlement_date' => ['required', 'string', 'max:255'],
                 // 'rrr' => Rule::requiredIf($request->rrr_input_field == "on"),
             ]);
+
+            if($validateUser->fails()) {
+                return redirect()->back()
+                ->withErrors($validateUser->errors())
+                ->withInput();
+            }
 
             if($request->rrr_status && empty($request->rrr)) {
                 $notification = array(

@@ -10,6 +10,7 @@ use App\Models\Asset\AssetValues;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Asset\AssetCategories;
+use Illuminate\Support\Facades\Validator;
 
 class AssetController extends Controller
 {
@@ -119,7 +120,7 @@ class AssetController extends Controller
 
 
         // dd($request->all());
-        $request->validate([
+        $validateUser = Validator::make($request->all(), [
             'revenue_code' => ['required', 'string'],
             'asset_type' => ['required', 'string'],
             'assest_name' => ['required', 'string'],
@@ -129,6 +130,12 @@ class AssetController extends Controller
             'asset_category'  => ['required', 'string'],
             'asset_size'  => ['required', 'string'],
         ]);
+
+        if($validateUser->fails()) {
+            return redirect()->back()
+            ->withErrors($validateUser->errors())
+            ->withInput();
+        }
 
         $arr = explode(',', $request->revenue_code);
         // dd($arr);

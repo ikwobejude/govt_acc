@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -49,7 +50,7 @@ class UserController extends Controller
     public function store(Request $request) {
         // dd($request->all());
         try {
-            $this->validate($request, [
+            $validateUser = Validator::make($request->all(),  [
                 // 'username' => 'required|min:3|unique:users,username',
                 'user_role' => 'required|integer',
                 'fullname' => 'required|string',
@@ -58,6 +59,12 @@ class UserController extends Controller
                 'email' => 'required|string|email|max:255|unique:users,username',
                 'phone_number' => 'required|string|max:11',
             ]);
+
+            if($validateUser->fails()) {
+                return redirect()->back()
+                ->withErrors($validateUser->errors())
+                ->withInput();
+            }
 
 
             User::insert([
@@ -100,7 +107,7 @@ class UserController extends Controller
 
      try {
         // dd($request->all());
-        $this->validate($request, [
+        $validateUser = Validator::make($request->all(), [
             // 'username' => 'required|min:3|unique:users,username',
             'user_role' => 'required|integer',
             'fullname' => 'required|string',
@@ -109,6 +116,12 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255',
             'phone_number' => 'required|string|max:11',
         ]);
+
+        if($validateUser->fails()) {
+            return redirect()->back()
+            ->withErrors($validateUser->errors())
+            ->withInput();
+        }
 
         $user = User::find($request->id);
         $user->group_id = $request->user_role;
@@ -165,12 +178,18 @@ class UserController extends Controller
     public function reset_Password(Request $request) {
         try {
             // dd($request->all());
-            $request->validate([
+            $validateUser = Validator::make($request->all(), [
                 'old_password' => 'required',
                 'password' => 'required',
                 'confirm_password' => 'required',
             ]);
 
+            if($validateUser->fails()) {
+                return redirect()->back()
+                ->withErrors($validateUser->errors())
+                ->withInput();
+            }
+            
             if($request->new_password == $request->new_password ){
                 $notification = array(
                     'message' => 'New password does not match confirm password',

@@ -68,6 +68,7 @@ Route::group(['prefix' => 'settings'], function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('/revenue_line', [SettingsController::class, 'index'])->name('get.revenue_line');
         Route::post('/revenue_line', [SettingsController::class, 'store'])->name('post.revenue_line');
+        Route::put('/revenue_line', [SettingsController::class, 'edit'])->name('edit.revenue_line1');
         Route::post('/revenue_line-excel', [RevenueUploadController::class, 'import'])->name('upload.revenue');
 
         // expenditure type
