@@ -30,7 +30,7 @@ class fetchController extends Controller
     public function economicLines(Request $request) {
         $type = $request->query('type');
         $state = DB::table('revenue_line')
-        ->where('type', $type)
+        ->whereIn('type', [$type])
         ->get();
         return response()->json([
             "status" => true,

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class SettingsController extends Controller
 {
     public function index(Request $request) {
-        $revenue_lines = DB::table('revenue_line')->paginate(20);
+        $revenue_lines = DB::table('revenue_line')->where("type", 1)->paginate(20);
         // dd($revenue_lines,  auth()->user()->name);
         return view('Settings.revenue_line', compact('revenue_lines'));
     }
@@ -85,5 +85,24 @@ class SettingsController extends Controller
             return redirect('/settings/revenue_line')->with($notification);
         }
 
+    }
+
+
+    public function indexExp(Request $request) {
+        $revenue_lines = DB::table('revenue_line')->where("type", 2)->paginate(20);
+        // dd($revenue_lines,  auth()->user()->name);
+        return view('Settings.expenditure_line', compact('revenue_lines'));
+    }
+
+    public function indexAsset(Request $request) {
+        $revenue_lines = DB::table('revenue_line')->where("type", 3)->paginate(20);
+        // dd($revenue_lines,  auth()->user()->name);
+        return view('Settings.asset_line', compact('revenue_lines'));
+    }
+
+    public function indexLiability(Request $request) {
+        $revenue_lines = DB::table('revenue_line')->where("type", 4)->paginate(20);
+        // dd($revenue_lines,  auth()->user()->name);
+        return view('Settings.liability_line', compact('revenue_lines'));
     }
 }

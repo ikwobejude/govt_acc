@@ -3,7 +3,7 @@
 
 @section('admin')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Account /</span> Budgeting</h4>
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Account /</span> Overhead</h4>
 
     <div class="row">
       <div class="col-md-12 mb-3">
@@ -98,7 +98,7 @@
         <div class="card mb-4">
             <div class="row">
                 <div class="col-6">
-                    <h3 class="card-header mt-3">Budgeting</h3>
+                    <h3 class="card-header mt-3">Overhead</h3>
                 </div>
                 <div class="col-6">
                     <div style="text-align: right; padding: 20px">
@@ -231,7 +231,7 @@
                             <div class="col-md-6 col-sm-12 ">
                                 <div class="form-floating mb-3">
                                     <input type="hidden" name="id" id="id">
-                                    <select name="budgetType" id="ebudgetType" required class="form-control" onchange="getRevenueType('budgetType')">
+                                    <select name="budgetType" id="ebudgetType" required class="form-control">
                                         <option value="">Select option</option>
                                         <option value="2">Personnel</option>
                                         <option value="3">Overhead</option>
@@ -324,9 +324,9 @@
                         <div class="row mb-3">
                             <div class="col-md-6 col-sm-12 mb-3">
                                 <div class="form-floating">
-                                    <select name="budgetType" id="budgetType" required class="form-control" onchange="getRevenueType('budgetType', 'conomicCode')">
+                                    <select name="budgetType" id="budgetType" required class="form-control" onchange="getRevenueType('budgetType')">
                                         <option value="">Select option</option>
-                                        <option value="2,3">Personnel</option>
+                                        <option value="2">Personnel</option>
                                         <option value="3">Overhead</option>
                                         <option value="4">Capital</option>
                                     </select>
@@ -340,13 +340,13 @@
                             <div class="col-md-6 col-sm-12 mb-3">
                                 <span id="eco_noti"></span>
                                 <div class="form-floating">
-                                    <select name="conomicCode" id="conomicCode" required class="form-control">
+                                    <select name="economicCode" id="economicCode" required class="form-control">
                                         <option value="">Select option</option>
 
                                     </select>
                                     <label for="floatingInput">Economic Code<span class="required">*</span></label>
 
-                                    @error('conomicCode')
+                                    @error('economicCode')
                                     <span class="text-danger"> {{ $message }} </span>
                                     @enderror
                                 </div>
@@ -377,6 +377,21 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-md-4 col-sm-12 mb-3">
+                                <div class="form-floating">
+                                    <input type="text" required
+                                    class="form-control @error('received_from') is-invalid @enderror"
+                                    id="actual_expenditure" name="actual_expenditure"
+                                    placeholder="Actual Expenditure" value="{{ old('actual_expenditure')}}"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                                    <label for="floatingInput">Actual Expenditure<span class="required">*</span></label>
+
+                                    @error('current_budget')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
+
                         </div>
 
 
@@ -408,7 +423,7 @@
   <script>
 
 
-    async function getRevenueType(type, id) {
+    async function getRevenueType(type) {
         if(type == "budgetType") {
             const lgawait = document.getElementById('eco_noti');
 
@@ -425,7 +440,7 @@
                     lgawait.textContent = data.data;
                 } else {
                     lgawait.textContent = ' ';
-                    populateLgas(data.data, id)
+                    populateLgas(data.data, "economicCode")
                 }
             } catch (error) {
                 lgawait.style = "color:red";
@@ -441,7 +456,7 @@
             try {
                 const res = await fetch('/settings/economic_lines?type='+budget_type);
                 const data = await res.json();
-                // console.log(data)
+                console.log(data)
                 if (data.status == false) {
                     lgawait.style = "color:red";
                     lgawait.textContent = data.data;
@@ -461,7 +476,7 @@
 
 
     function populateLgas(data, id) {
-        console.log({data})
+        console.log(data)
         if (data.length > 0) {
             var html = "";
             html += "<option disabled selected value> Select option</option>";

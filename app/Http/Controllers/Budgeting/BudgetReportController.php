@@ -98,6 +98,7 @@ class BudgetReportController extends Controller
         ->leftJoin('expenditure_payregister', 'expenditure_payregister.expenditure_code', 'acct_budgets.economic_code')
         ->where('expenditure_payregister.expenditure_type', 2)
         ->where('acct_budgets.economic_type', 2)
+        ->where('acct_budgets.budget_type', 3)
 
         ->groupBy('expenditure_payregister.expenditure_code')
         ->when($budgetType, function ($query, string $budgetType) {
@@ -123,6 +124,8 @@ class BudgetReportController extends Controller
         // dd($budges);
         return view('Budget.budget_report', compact('budges'));
     }
+
+
 
 
 }

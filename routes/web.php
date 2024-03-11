@@ -71,6 +71,14 @@ Route::group(['prefix' => 'settings'], function () {
         Route::put('/revenue_line', [SettingsController::class, 'edit'])->name('edit.revenue_line1');
         Route::post('/revenue_line-excel', [RevenueUploadController::class, 'import'])->name('upload.revenue');
 
+
+        Route::get('/expenditure_line', [SettingsController::class, 'indexExp'])->name('get.expenditure_line');
+        Route::get('/asset_line', [SettingsController::class, 'indexAsset'])->name('get.asset_line');
+        Route::get('/liability_line', [SettingsController::class, 'indexLiability'])->name('get.liability_line');
+
+
+
+
         // expenditure type
         Route::get('/expenditure_type', [ExpenditureTypeController::class, 'index'])->name('expenditure_type');
         Route::post('/expenditure_type', [ExpenditureTypeController::class, 'store'])->name('post.expenditure_type');

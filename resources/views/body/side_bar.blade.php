@@ -59,40 +59,44 @@
           </li>
         </ul>
       </li>
-      <li class="menu-item {{url()->current() == route('post.expenditure_batch_name') ? 'active open' : ''}}">
+      <li class="menu-item {{
+         (url()->current() == route('post.expenditure_batch_name') ? 'active open' :
+         (url()->current() == route('get.expenditure_line') ? 'active open' : ''))
+      }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
           <div data-i18n="Authentications">Expenditure Setup</div>
         </a>
         <ul class="menu-sub">
-          {{-- <li class="menu-item">
-            <a href="{{ route('expenditure_type') }}" class="menu-link" target="_blank">
-              <div data-i18n="Basic">Expenditure Type</div>
+          <li class="menu-item {{url()->current() == route('get.expenditure_line') ? 'active' : ''}}">
+            <a href="{{ route('get.expenditure_line') }}" class="menu-link" >
+              <div data-i18n="Basic">Expenditure Lines</div>
             </a>
-          </li> --}}
+          </li>
           <li class="menu-item {{url()->current() == route('post.expenditure_batch_name') ? 'active' : ''}}">
             <a href="{{ route('post.expenditure_batch_name') }}" class="menu-link">
               <div data-i18n="Basic">Expenditure Batch Name</div>
             </a>
           </li>
-          {{-- <li class="menu-item">
-            <a href="auth-forgot-password-basic.html" class="menu-link" target="_blank">
-              <div data-i18n="Basic">Forgot Password</div>
-            </a>
-          </li> --}}
         </ul>
       </li>
       <li class="menu-item {{
         (url()->current() == route('asset.type') ? 'active open' :
         (url()->current() == route('asset.size') ? 'active open' :
         (url()->current() == route('asset.categories') ? 'active open' :
-        (url()->current() == route('asset.location.post') ? 'active open' :''))))
+        (url()->current() == route('asset.location.post') ? 'active open' :
+        (url()->current() == route('get.asset_line') ? 'active open' :'')))))
         }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-cube-alt"></i>
           <div data-i18n="Fixed Assets Register">Assets SetUp </div>
         </a>
         <ul class="menu-sub">
+            <li class="menu-item {{url()->current() == route('get.asset_line') ? 'active' : ''}}">
+                <a href="{{ route('get.asset_line') }}" class="menu-link">
+                  <div data-i18n="Depreciation Rate">Asset Line</div>
+                </a>
+            </li>
           <li class="menu-item {{url()->current() == route('asset.type') ? 'active' : ''}}">
             <a href="{{ route('asset.type') }}" class="menu-link">
               <div data-i18n="Depreciation Rate">Asset Type</div>
@@ -115,6 +119,26 @@
           </li>
         </ul>
       </li>
+
+      <li class="menu-item {{
+        (url()->current() == route('get.liability_line') ? 'active open' : '') }}">
+       <a href="javascript:void(0);" class="menu-link menu-toggle">
+         <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+         <div data-i18n="Authentications">Liability Setup</div>
+       </a>
+       <ul class="menu-sub">
+         <li class="menu-item {{url()->current() == route('get.expenditure_line') ? 'active' : ''}}">
+           <a href="{{ route('get.liability_line') }}" class="menu-link" >
+             <div data-i18n="Basic">Liability Lines</div>
+           </a>
+         </li>
+         {{-- <li class="menu-item {{url()->current() == route('post.expenditure_batch_name') ? 'active' : ''}}">
+           <a href="{{ route('post.expenditure_batch_name') }}" class="menu-link">
+             <div data-i18n="Basic">Expenditure Batch Name</div>
+           </a>
+         </li> --}}
+       </ul>
+     </li>
       @endif
 
       @if (groupId() == 111111 || groupId() == 3500)

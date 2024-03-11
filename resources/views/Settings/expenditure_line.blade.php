@@ -1,7 +1,7 @@
 @extends('admin_dashboard')
 @section('admin')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Settings /</span> Revenue Lines</h4>
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Settings /</span> Expenditure Lines</h4>
 
     <div class="row">
         {{-- @section('alerts') --}}
@@ -14,14 +14,14 @@
             <form action="{{ route('post.revenue_line') }}" method="post">
                 @csrf
                 <div class="fieldset">
-                    <h1>Create Revenue Items</h1>
+                    <h1>Create Expenditure Items</h1>
 
                     <div class="form-floating mb-3">
                         <select name="type" id="type" class="form-control">
                             <option value="">Select options</option>
-                            <option value="1">REVENUE</option>
-                            {{-- <option value="2">EXPENDITURE</option>
-                            <option value="3">ASSET</option>
+                            {{-- <option value="1">REVENUE</option> --}}
+                            <option value="2">EXPENDITURE</option>
+                            {{-- <option value="3">ASSET</option>
                             <option value="4">LAIBILITY</option> --}}
                         </select>
                         <label for="floatingInput">Type</label>
@@ -33,19 +33,19 @@
 
                     <div class="form-floating">
                         <input type="text" class="form-control  @error('revenue_line') is-invalid @enderror" name="revenue_line" id="floatingInput" placeholder="Revenue Line" value="{{ old('revenue_line')}}" />
-                        <label for="floatingInput">Revenue Line</label>
+                        <label for="floatingInput">Expenditure Line</label>
                         <div id="floatingInputHelp" class="form-text">
-                          Revenue line in other word revenue name
+                            Expenditure line in other word Expenditure name
                         </div>
                         @error('revenue_line')
                         <span class="text-danger"> {{ $message }} </span>
                         @enderror
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control @error('revenue_code') is-invalid @enderror" id="floatingInput" name="revenue_code" placeholder="Revenue Line" value="{{ old('revenue_code')}}" />
-                        <label for="floatingInput">Revenue Code</label>
+                        <input type="text" class="form-control @error('revenue_code') is-invalid @enderror" id="floatingInput" name="revenue_code" placeholder="Expenditure Line" value="{{ old('revenue_code')}}" />
+                        <label for="floatingInput">Expenditure Code</label>
                         <div id="floatingInputHelp" class="form-text">
-                          Revenue code for the above inputed revenue name
+                            Expenditure code for the above inputed Expenditure name
                         </div>
                         @error('revenue_code')
                         <span class="text-danger"> {{ $message }} </span>
@@ -55,13 +55,13 @@
 
 
                     <div class="row">
-                        <div class="col">
+                        {{-- <div class="col">
                              <button
                              type="button"
                              data-bs-toggle="modal"
                              data-bs-target="#modalCenter1"
                              class="btn btn-outline-secondary">Upload</button>
-                        </div>
+                        </div> --}}
                         <div class="col" style="text-align: right">
                             <button type="submit" class="btn btn-primary me-2">Submit</button>
                         </div>
@@ -77,13 +77,13 @@
 
       <div class="col-md-8">
         <div class="card mb-4">
-          <h5 class="card-header">Revenue Line(s)</h5>
+          <h5 class="card-header">Expenditure Line(s)</h5>
           <div class="card-body">
                 <table class="table table-stripe">
                     <thead>
                         <tr>
-                            <th>Revenue Line</th>
-                            <th>Revenue Code </th>
+                            <th>Expenditure Line</th>
+                            <th>Expenditure Code </th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -160,9 +160,9 @@
                     <div class="form-floating mb-3">
                         <select name="type" id="etype" class="form-control">
                             <option value="">Select options</option>
-                            <option value="1">REVENUE</option>
-                            {{-- <option value="2">EXPENDITURE</option>
-                            <option value="3">ASSET</option>
+                            {{-- <option value="1">REVENUE</option> --}}
+                            <option value="2">EXPENDITURE</option>
+                            {{-- <option value="3">ASSET</option>
                             <option value="4">LAIBILITY</option> --}}
                         </select>
                         <label for="floatingInput">Type</label>
