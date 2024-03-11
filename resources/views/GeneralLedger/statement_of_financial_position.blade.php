@@ -35,6 +35,8 @@
 
                                 <tbody>
                                  <?php
+                                    $totalEquity1 = 0;
+
                                     $count = 0;
                                     $sumTotalAsset = 0;
                                     $sumTotalLiability = 0;
@@ -98,9 +100,7 @@
                                       <td></td>
                                       <td></td>
                                   </tr>
-                                  <?php
-                                        $totalEquity1 = 0;
-                                    ?>
+
                                     @foreach ($rev as $key => $item)
                                     <?php
                                         $count++;
