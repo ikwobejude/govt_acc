@@ -66,8 +66,16 @@
                                 </thead>
 
                                 <tbody>
+                                    <?php
+                                        $sumTotalDB = 0;
+                                        $sumTotalCD = 0;
+                                    ?>
                                     {{-- @foreach ( $arr->groupBy(arr['economic_type']) as $economic_code => $rev) --}}
                                         @foreach ($arr as $item)
+                                        <?php
+                                            $sumTotalDB += (float)$item['totaldb'];
+                                            $sumTotalCD += (float)$item['totalcr'];
+                                        ?>
                                             <tr>
                                                 <td>{{ $item['economic_code'] }}</td>
                                                 <td>{{ $item['revenue_line'] }}</td>
@@ -92,6 +100,22 @@
                                         @endforeach
                                     {{-- @endforeach --}}
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{  number_format($sumTotalDB, 2) }}</td>
+                                        <td>{{  number_format($sumTotalCD, 2) }}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{  number_format($sumTotalDB + $sumTotalCD, 2) }}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
 

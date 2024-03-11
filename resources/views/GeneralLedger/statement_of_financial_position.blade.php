@@ -99,7 +99,7 @@
                                       <td></td>
                                   </tr>
                                   <?php
-                                        $totalEquity = 0;
+                                        $totalEquity1 = 0;
                                     ?>
                                     @foreach ($rev as $key => $item)
                                     <?php
@@ -147,7 +147,7 @@
                                 @foreach ($revenue as $key => $item)
                                 <?php
                                     $count++;
-                                    $totalEquity += (float)$item->revenue_amount;
+                                    $totalEquity1 += (float)$item->revenue_amount;
                                 ?>
                                 <tr>
                                     <td> {{ $item->received_from }} </td>
@@ -159,12 +159,12 @@
                                 <tr>
                                     <td colspan="3" style="text-align: right"><strong>TOTAL EQUITY</strong></td>
                                     {{-- <td></td> --}}
-                                    <td>{{ number_format($totalEquity, 2) }}</td>
+                                    <td>{{ number_format($totalEquity1, 2) }}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="3"style="text-align: right"><strong> TOTAL EQUITY AND LIABILITY </strong></td>
                                     {{-- <td></td> --}}
-                                    <td>{{ number_format($totalEquity + $liabilitySum, 2) }}</td>
+                                    <td>{{ number_format($totalEquity1 + $liabilitySum, 2) }}</td>
                                 </tr>
 
                                 </tbody>
