@@ -36,7 +36,7 @@
                                 <tbody>
                                  <?php
                                     $totalEquity1 = 0;
-
+                                    $liabilitySum = 0;
                                     $count = 0;
                                     $sumTotalAsset = 0;
                                     $sumTotalLiability = 0;
@@ -91,9 +91,7 @@
                                   </tr>
                                   <?php $alpha1 = ['D', 'E']; ?>
                                   @foreach ($liability->groupBy('type_of_liability') as $type_of_liability => $rev)
-                                  <?php
-                                        $liabilitySum = 0;
-                                    ?>
+
                                   <tr>
                                       <td><strong>{{ strtoupper( $type_of_liability) }}</strong></td>
                                       <td></td>
