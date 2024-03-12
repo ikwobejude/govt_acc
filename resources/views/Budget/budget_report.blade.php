@@ -26,7 +26,7 @@
                       >
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link " href="javascript:void(0);"
+                      <a class="nav-link {{url()->current() == route('capital_report') ? 'active' : ''}}" href="{{ route('capital_report') }}"
                         ><i class="bx bx-link-alt me-1"></i> CAPITAL</a
                       >
                     </li>
@@ -153,7 +153,17 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card mb-4">
-                    <h5 class="card-header">Budget Year: 2024</h5>
+                    <h5 class="card-header">
+                        <div>
+                            Budget Year: 2024 <br>
+                            Budget Type:
+                            {{
+                                (url()->current() == route('report_budget') ? 'PERSONNEL' :
+                                (url()->current() == route('overhead_report') ? 'OVERHEAD' : 'CAPITAL' ))
+                            }}
+                        </div>
+
+                    </h5>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-stripe table-bordered " style="border-top: 2px solid black">

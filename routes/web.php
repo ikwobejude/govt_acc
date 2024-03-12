@@ -265,6 +265,7 @@ Route::group(['prefix' => 'budget'], function () {
 
         Route::get('/personnel/report', [BudgetReportController::class, 'index'])->name('report_budget');
         Route::get('/overhead/report', [BudgetReportController::class, 'overhead'])->name('overhead_report');
+        Route::get('/capital/report', [BudgetReportController::class, 'capital'])->name('capital_report');
     });
 });
 
