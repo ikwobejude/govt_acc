@@ -24,7 +24,7 @@ class UserController extends Controller
         $users = DB::table('users')
         ->select('users.*', 'user_groups.group_name')
         ->leftJoin('user_groups', 'users.group_id', 'user_groups.group_id')
-        ->where('inactive', 0)
+        ->whereIn('inactive', [1, 0])
         ->when($user_role, function ($query, string $user_role) {
             $query->where('users.group_id', $user_role);
         })
