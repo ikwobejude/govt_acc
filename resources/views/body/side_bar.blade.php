@@ -375,6 +375,7 @@
       </li>
       @endif
 
+      @if (groupId() == 111111 || groupId()== 1500 || groupId()== 9000 || groupId()== 9000)
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Final Accounts</span></li>
       <li class="menu-item {{
         (url()->current() == route('view.account_payable') ? 'active open' :
@@ -458,8 +459,6 @@
         </ul>
       </li>
 
-
-
       <li class="menu-item {{ url()->current() == route('report_budget') ? 'active open' : ''}}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-detail"></i>
@@ -477,6 +476,7 @@
 
         </ul>
       </li>
+    @endif
 
 
 
