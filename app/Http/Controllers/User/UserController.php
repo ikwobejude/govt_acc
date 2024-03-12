@@ -73,7 +73,7 @@ class UserController extends Controller
                 'name' => $request->fullname,
                 'email' => $request->email,
                 'phone' => $request->phone_number,
-                'password' => bcrypt("1234567"),
+                'password' => '$2y$12$SjE0ZJm0w/u/AAiX6OsBiOvgrBMVPY39WAxbc3Ulr9sCC37SdITna',
                 'inactive' => 1,
             ]);
 
@@ -189,7 +189,7 @@ class UserController extends Controller
                 ->withErrors($validateUser->errors())
                 ->withInput();
             }
-            
+
             if($request->new_password == $request->new_password ){
                 $notification = array(
                     'message' => 'New password does not match confirm password',
