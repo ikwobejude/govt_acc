@@ -161,9 +161,13 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
 
+            </div>
+            <div style="padding-top: 10px">
+                {{ $users->links() }}
+            </div>
           </div>
+
         </div>
       </div>
 

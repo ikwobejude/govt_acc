@@ -42,7 +42,7 @@ class UserController extends Controller
             $query->whereDate('created_at', '<=', $to);
         })
         ->orderBy('users.id', 'desc')
-        ->paginate(20);
+        ->paginate(15);
         $groupId = DB::table('user_groups')->get();
         return view('User.create_user', compact('users', 'groupId'));
     }
