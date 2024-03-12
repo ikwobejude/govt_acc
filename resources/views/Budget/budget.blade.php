@@ -102,7 +102,7 @@
                 </div>
                 <div class="col-6">
                     <div style="text-align: right; padding: 20px">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newRevenue">Add new revenue</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newRevenue">Add new budget</button>
                     </div>
                 </div>
             </div>
@@ -326,7 +326,7 @@
                                 <div class="form-floating">
                                     <select name="budgetType" id="budgetType" required class="form-control" onchange="getRevenueType('budgetType', 'conomicCode')">
                                         <option value="">Select option</option>
-                                        <option value="2,3">Personnel</option>
+                                        <option value="2">Personnel</option>
                                         <option value="3">Overhead</option>
                                         <option value="4">Capital</option>
                                     </select>
@@ -340,7 +340,7 @@
                             <div class="col-md-6 col-sm-12 mb-3">
                                 <span id="eco_noti"></span>
                                 <div class="form-floating">
-                                    <select name="conomicCode" id="conomicCode" required class="form-control">
+                                    <select name="economicCode" id="conomicCode" required class="form-control">
                                         <option value="">Select option</option>
 
                                     </select>

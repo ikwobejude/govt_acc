@@ -73,7 +73,7 @@ class BudgetController extends Controller
             $arr = explode(',', $request->economicCode);
 
             DB::table('acct_budgets')->insert([
-                "budget_type" => $request->budgetType,
+                "budget_type" => $request->budgetType == "2,3" ? 2 : $request->budgetType,
                 "economic_code" => $arr[1],
                 "line" => $arr[2],
                 "economic_type" => $arr[0],
@@ -85,7 +85,7 @@ class BudgetController extends Controller
 
             $notification = array(
                 'message' => "Budget added!",
-                'alert-type' => 'error'
+                'alert-type' => 'success'
             );
             return redirect()->back()->with($notification);
         } catch (\Throwable $th) {
@@ -114,7 +114,7 @@ class BudgetController extends Controller
                 ->withInput();
             }
 
-            
+
             $arr = explode(',', $request->economicCode);
             // dd($arr);
 

@@ -14,7 +14,7 @@
             <form action="{{ route('post.revenue_line') }}" method="post">
                 @csrf
                 <div class="fieldset">
-                    <h1>Create Revenue Items</h1>
+                    <h1>Add Revenue Items</h1>
 
                     <div class="form-floating mb-3">
                         <select name="type" id="type" class="form-control">

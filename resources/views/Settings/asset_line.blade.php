@@ -9,12 +9,12 @@
         {{-- @stop --}}
       <div class="col-md-4">
         <div class="card mb-4">
-          <h5 class="card-header">New Asset Item</h5>
+          <h5 class="card-header">Asset Item</h5>
           <div class="card-body">
             <form action="{{ route('post.revenue_line') }}" method="post">
                 @csrf
                 <div class="fieldset">
-                    <h1>Create Asset Items</h1>
+                    <h1>Add Asset Items</h1>
 
                     <div class="form-floating mb-3">
                         <select name="type" id="type" class="form-control">

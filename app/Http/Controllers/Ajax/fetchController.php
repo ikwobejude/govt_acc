@@ -28,7 +28,7 @@ class fetchController extends Controller
     }
 
     public function economicLines(Request $request) {
-        $type = $request->query('type');
+        $type = $request->query('type') == 2 ? '2,3': $request->query('type');
         $state = DB::table('revenue_line')
         ->whereIn('type', [$type])
         ->get();

@@ -9,12 +9,12 @@
         {{-- @stop --}}
       <div class="col-md-4">
         <div class="card mb-4">
-          <h5 class="card-header">New Revenue Item</h5>
+          <h5 class="card-header"> Expenditure Item</h5>
           <div class="card-body">
             <form action="{{ route('post.revenue_line') }}" method="post">
                 @csrf
                 <div class="fieldset">
-                    <h1>Create Expenditure Items</h1>
+                    <h1>Add Expenditure Items</h1>
 
                     <div class="form-floating mb-3">
                         <select name="type" id="type" class="form-control">
@@ -32,7 +32,7 @@
                     </div>
 
                     <div class="form-floating">
-                        <input type="text" class="form-control  @error('revenue_line') is-invalid @enderror" name="revenue_line" id="floatingInput" placeholder="Revenue Line" value="{{ old('revenue_line')}}" />
+                        <input type="text" class="form-control  @error('revenue_line') is-invalid @enderror" name="revenue_line" id="floatingInput" placeholder="Expenditure Line" value="{{ old('revenue_line')}}" />
                         <label for="floatingInput">Expenditure Line</label>
                         <div id="floatingInputHelp" class="form-text">
                             Expenditure line in other word Expenditure name

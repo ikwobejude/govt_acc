@@ -9,12 +9,12 @@
         {{-- @stop --}}
       <div class="col-md-4">
         <div class="card mb-4">
-          <h5 class="card-header">New Liability Item</h5>
+          <h5 class="card-header"> Liability Item</h5>
           <div class="card-body">
             <form action="{{ route('post.revenue_line') }}" method="post">
                 @csrf
                 <div class="fieldset">
-                    <h1>Create Liability Items</h1>
+                    <h1>Add Liability Items</h1>
 
                     <div class="form-floating mb-3">
                         <select name="type" id="type" class="form-control">
@@ -32,17 +32,17 @@
                     </div>
 
                     <div class="form-floating">
-                        <input type="text" class="form-control  @error('revenue_line') is-invalid @enderror" name="revenue_line" id="floatingInput" placeholder="Revenue Line" value="{{ old('revenue_line')}}" />
+                        <input type="text" class="form-control  @error('revenue_line') is-invalid @enderror" name="revenue_line" id="floatingInput" placeholder="Liability Line" value="{{ old('revenue_line')}}" />
                         <label for="floatingInput">Liability Line</label>
                         <div id="floatingInputHelp" class="form-text">
-                            Asset line in other word Asset name
+                            Liability line in other word liability name
                         </div>
                         @error('revenue_line')
                         <span class="text-danger"> {{ $message }} </span>
                         @enderror
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control @error('revenue_code') is-invalid @enderror" id="floatingInput" name="revenue_code" placeholder="Expenditure Line" value="{{ old('revenue_code')}}" />
+                        <input type="text" class="form-control @error('revenue_code') is-invalid @enderror" id="floatingInput" name="revenue_code" placeholder="Liability Line" value="{{ old('revenue_code')}}" />
                         <label for="floatingInput">Liability Code</label>
                         <div id="floatingInputHelp" class="form-text">
                             Liability code for the above inputed Liability name
