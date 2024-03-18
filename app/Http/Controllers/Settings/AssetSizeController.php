@@ -39,4 +39,40 @@ class AssetSizeController extends Controller
         );
         return redirect()->back()->with($notification);
     }
+
+    public function edit(Request $request) {
+        $validateUser = Validator::make($request->all(), [
+            'assest_size' => ['required', 'string']
+        ]);
+
+
+        if($validateUser->fails()) {
+            return redirect()->back()
+            ->withErrors($validateUser->errors())
+            ->withInput();
+        }
+
+        $d = now();
+        AssetSizes::where('id', $request->id)->update([
+            "assest_size" =>   $request->assest_size
+        ]);
+
+        $notification = array(
+            'message' => 'Asset Type Created!',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
+
+    public function destroy($id) {
+
+        $AssetSizes = AssetSizes::find($id);
+        $AssetSizes->delete();
+
+        $notification = array(
+            'message' => 'Asset Type Delete!',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
 }

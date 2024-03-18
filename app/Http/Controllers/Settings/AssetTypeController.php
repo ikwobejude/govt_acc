@@ -42,5 +42,41 @@ class AssetTypeController extends Controller
     }
 
 
+    public function edit(Request $request) {
+        $validateUser = Validator::make($request->all(), [
+            'assest_type' => ['required', 'string']
+        ]);
+
+        if($validateUser->fails()) {
+            return redirect()->back()
+            ->withErrors($validateUser->errors())
+            ->withInput();
+        }
+
+        $d = now();
+        AssetType::where('id', $request->id)->update([
+            "assest_type" =>   $request->assest_type,
+            "assest_type_description" => $request->assest_type_description
+        ]);
+
+        $notification = array(
+            'message' => 'Asset Type Update!',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
+
+
+    public function destroy($id) {
+
+        $AssetType = AssetType::find($id);
+        $AssetType->delete();
+
+        $notification = array(
+            'message' => 'Asset Type Delete!',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
 
 }

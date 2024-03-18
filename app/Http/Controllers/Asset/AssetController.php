@@ -119,7 +119,6 @@ class AssetController extends Controller
 
     public function update(Request $request) {
 
-
         // dd($request->all());
         $validateUser = Validator::make($request->all(), [
             'revenue_code' => ['required', 'string'],
@@ -165,6 +164,7 @@ class AssetController extends Controller
 
         return redirect()->back()->with($notification);
     }
+
 
     public function destroy($id) {
         // dd($id);

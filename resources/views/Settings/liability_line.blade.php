@@ -82,8 +82,8 @@
                 <table class="table table-stripe">
                     <thead>
                         <tr>
-                            <th>Liability Line</th>
-                            <th>Liability Code </th>
+                            <th>Liability Code</th>
+                            <th>Liability Line  </th>
                             <th>Action</th>
                         </tr>
                     </thead>

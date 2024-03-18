@@ -7,15 +7,15 @@
 
       <div class="col-md-6">
         <div class="card mb-4">
-          <h5 class="card-header">New Asset Categories</h5>
+          <h5 class="card-header">New Asset Class</h5>
           <div class="card-body">
             <form action="{{ route('asset.categories.post') }}" method="post">
                 @csrf
                 <div class="fieldset">
-                    <h1>Asset Categories</h1>
+                    <h1>Asset Class</h1>
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control  @error('assest_category') is-invalid @enderror" name="assest_category" id="floatingInput" placeholder="Asset Catogory" value="{{ old('assest_category')}}" />
-                        <label for="floatingInput">Asset Category</label>
+                        <label for="floatingInput">Asset Class</label>
                         <div id="floatingInputHelp" class="form-text">
                           {{-- Revenue line in other word revenue name --}}
                         </div>
@@ -52,15 +52,15 @@
 
       <div class="col-md-6">
         <div class="card mb-4">
-          <h5 class="card-header">Revenue Line(s)</h5>
+          <h5 class="card-header">Asset Class</h5>
           <div class="card-body">
                 <table class="table table-stripe">
                     <thead>
                         <tr>
                             <th>S/N</th>
-                            <th>Asset Categories</th>
+                            <th>Asset Class</th>
                             <th>Description</th>
-                            <th>Action</th>
+                            {{-- <th>Action</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -69,7 +69,7 @@
                                 <td>{{ $key + 1}}</td>
                                 <td>{{ $item->assest_category }}</td>
                                 <td>{{ $item->assest_category_description }}</td>
-                                <td>
+                                {{-- <td>
                                     <div class="dropdown">
                                       <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                         <i class="bx bx-dots-vertical-rounded"></i>
@@ -81,7 +81,7 @@
                                         <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
                                       </div>
                                     </div>
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
                     </tbody>

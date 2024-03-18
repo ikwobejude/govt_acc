@@ -173,4 +173,47 @@ class ExpenditureApprovalController extends Controller
             ]);
         }
     }
+
+    public function multiple_approval(Request $request)
+    {
+        // ExpenditureRegister::whereIn('idexpenditure_payregister', $request->itemid)->update([
+        //     'approved' => 4
+        // ]);
+
+        // $notification = array(
+        //     'message' => 'Record(s) successfully submitted',
+        //     'alert-type' => 'success'
+        // );
+        // dd($request->itemid);
+
+        if(groupId() == 1500){
+            DB::table('expenditure_payregister')
+            ->whereIn('idexpenditure_payregister', $request->itemid)
+            ->update([
+                "approved" => 2,
+                "reapproved" => 1,
+                "reapproved_by" => auth()->user()->email,
+                "approved_on" => Carbon::now(),
+                "approved_by" => auth()->user()->email
+            ]);
+
+        }
+
+        if(groupId() == 3000){
+            DB::table('expenditure_payregister')
+            ->whereIn('idexpenditure_payregister', $request->itemid)
+            ->update([
+                "approved" => 1,
+                "approved_on" => Carbon::now(),
+                "approved_by" => auth()->user()->email
+            ]);
+
+        }
+
+        $notification = array(
+            'message' => 'Record(s) successfully submitted',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
 }

@@ -82,8 +82,8 @@
                 <table class="table table-stripe">
                     <thead>
                         <tr>
-                            <th>Expenditure Line</th>
-                            <th>Expenditure Code </th>
+                            <th>Expenditure Code</th>
+                            <th>Expenditure Line </th>
                             <th>Action</th>
                         </tr>
                     </thead>

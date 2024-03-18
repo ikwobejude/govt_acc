@@ -163,6 +163,46 @@ class BudgetApprovalsController extends Controller
             ]);
         }
     }
+
+    public function multiple_approval (Request $request) {
+        try {
+
+                if(groupId() == 3000) {
+                    DB::table('acct_budgets')
+                    ->whereIn('id', $request->itemid)
+                    ->update([
+                        "approved" => 1,
+                        "approved_on" => Carbon::now(),
+                        "approved_by" => auth()->user()->email
+                    ]);
+                }
+
+                if(groupId() == 1500) {
+                    DB::table('acct_budgets')
+                    ->whereIn('id', $request->itemid)
+                    ->update([
+                        "approved" => 2,
+                        "reapproved" => 1,
+                        "reapproved_by" => auth()->user()->email,
+                        "approved_on" => Carbon::now(),
+                        "approved_by" => auth()->user()->email
+                    ]);
+                }
+
+
+            $notification = array(
+                'message' => "Budget Approved",
+                'alert-type' => 'info'
+            );
+            return redirect()->back()->with($notification);
+        } catch (\Throwable $th) {
+           $notification = array(
+                'message' => $th->getMessage(),
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
+    }
 }
 
 

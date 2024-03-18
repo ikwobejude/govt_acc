@@ -250,7 +250,7 @@ class UserController extends Controller
     }
 
     public function AdminProfileStore(Request $request){
-
+        // dd($request->file('upload'));
         $id = Auth::user()->id; // to get the specific user id logged in from the User table
         $data = User::find($id); // to get the user logged in by the id
         $data->name = $request->name;
@@ -258,11 +258,12 @@ class UserController extends Controller
         $data->phone = $request->phone;
 
 
-        if ($request->file('photo')) {
-            $file = $request->file('photo');
-            @unlink(public_path('upload/admin_image/'.$data->photo));
+        if ($request->file('upload')) {
+            // dd("h");
+            $file = $request->file('upload');
+            @unlink(public_path('upload/image/'.$data->photo));
             $filename = date('YmdHi').$file->getClientOriginalName();
-            $file->move(public_path('upload/admin_image'), $filename);
+            $file->move(public_path('upload/image'), $filename);
             $data['photo'] = $filename;
             // dd($filename);
         }

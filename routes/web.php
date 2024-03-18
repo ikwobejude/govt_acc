@@ -88,16 +88,20 @@ Route::group(['prefix' => 'settings'], function () {
          Route::get('/expenditure_batch_name', [ExpenditureBatchNameController::class, 'index'])->name('expenditure_batch_name');
          Route::post('/expenditure_batch_name', [ExpenditureBatchNameController::class, 'store'])->name('post.expenditure_batch_name');
          Route::get('/delete_expenditure_batch_name/{id}', [ExpenditureBatchNameController::class, 'destroy'])->name('delete.expenditure_batch_name');
-         Route::put('/expenditure_batch_name', [ExpenditureBatchNameController::class, 'update'])->name('update.expenditure_batch_name');
+         Route::put('/expenditure_batch_name', [ExpenditureBatchNameController::class, 'edit'])->name('update.expenditure_batch_name');
 
 
         // asset type
         Route::get('/asset_type', [AssetTypeController::class, 'index'])->name('asset.type');
         Route::post('/asset_type', [AssetTypeController::class, 'store'])->name('asset.type.post');
+        Route::put('/asset_type', [AssetTypeController::class, 'edit'])->name('asset.type.edit');
+        Route::get('/delete/asset_type', [AssetTypeController::class, 'destroy'])->name('asset.type.delete');
 
         // asset Size
         Route::get('/asset_size', [AssetSizeController::class, 'index'])->name('asset.size');
         Route::post('/asset_size', [AssetSizeController::class, 'store'])->name('asset.size.post');
+        Route::put('/asset_size', [AssetSizeController::class, 'edit'])->name('asset.size.edit');
+        Route::post('/delete/asset_size', [AssetSizeController::class, 'destroy'])->name('asset.size.delete');
 
         // asset Categories
         Route::get('/asset_categories', [AssetCategoryController::class, 'index'])->name('asset.categories');
@@ -205,27 +209,33 @@ Route::group(['prefix' => 'approve'], function () {
         // Route::get('/view/{id}', [RevenueApprovalsController::class, 'expenditureVoucher'])->name('view.voucher');
         Route::get('/revenue/approval',  [RevenueApprovalsController::class, 'approveRevenue'])->name('approve.revenue');
         Route::get('/revenue/disapproval',  [RevenueApprovalsController::class, 'disApprovedRevenue'])->name('disapprove.revenue');
+        Route::post('/revenue/multiple_approval',  [RevenueApprovalsController::class, 'multiple_approvals'])->name('multiple.revenue.approval');
 
         // expenditure
         Route::get('/expenditure', [ExpenditureApprovalController::class, 'index'])->name('view.approve.expenditure');
         // Route::get('/expenditure/view/{id}', [RevenueApprovalsController::class, 'expenditureVoucher'])->name('view.voucher');
         Route::get('/expenditure/approval',  [ExpenditureApprovalController::class, 'approveExpenditure'])->name('approve.expenditure');
         Route::get('/expenditure/disapproval',  [ExpenditureApprovalController::class, 'disApprovedExpenditure'])->name('disapprove.expenditure');
+        Route::post('/expenditure/multiple_approvals',  [ExpenditureApprovalController::class, 'multiple_approval'])->name('multiple.expenditure.approval');
 
         //asset approval
         Route::get('/asset', [AssetApprovalController::class, 'index'])->name('view.approve.asset');
         Route::get('/asset/approval',  [AssetApprovalController::class, 'approveAsset'])->name('approve.asset');
         Route::get('/asset/disapproval',  [AssetApprovalController::class, 'rejected'])->name('rejected.asset');
+        Route::post('/asset/multiple_approval',  [AssetApprovalController::class, 'multiple_approval'])->name('multiple.asset.approval');
+
 
 
         // Budget approval
         Route::get('/budget', [BudgetApprovalsController::class, 'index'])->name('view.approve.budget');
         Route::get('/budget/approval',  [BudgetApprovalsController::class, 'approveAsset'])->name('approve.asset');
         Route::get('/budget/disapproval',  [BudgetApprovalsController::class, 'rejected'])->name('rejected.asset');
+        Route::post('/budget/multiple_approval',  [BudgetApprovalsController::class, 'multiple_approval'])->name('multiple.budget.approval');
 
         Route::get('/liability', [ApproveLiabilityController::class, 'index'])->name('view.approve.liability');
         Route::get('/liability/approval',  [ApproveLiabilityController::class, 'approveLiability'])->name('approve.liability');
         Route::get('/liability/disapproval',  [ApproveLiabilityController::class, 'rejectedLiability'])->name('rejected.liability');
+        Route::post('/liability/multiple_approval',  [ApproveLiabilityController::class, 'multiple_approval'])->name('multiple.liability.approval');
     });
 });
 
@@ -289,7 +299,7 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('/reset_password2', [UserController::class, 'resetPassword2'])->name('reset_password');
 
 
-        Route::post('/upload_picture', [UserController::class, 'resizeImage'])->name('upload_picture');
+        Route::post('/upload_picture', [UserController::class, 'AdminProfileStore'])->name('upload_picture');
     });
 });
 
@@ -309,4 +319,6 @@ Route::group(['prefix' => 'report'], function () {
 
     });
 });
+
+Router:
 

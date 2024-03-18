@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Approvals;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
-use App\Models\Revenue\RevenueLine;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use App\Models\Revenue\Revenue;
+use Illuminate\Support\Facades\DB;
+use App\Models\Revenue\RevenueLine;
+use App\Http\Controllers\Controller;
 
 class RevenueApprovalsController extends Controller
 {
@@ -155,5 +156,39 @@ class RevenueApprovalsController extends Controller
         }
     }
 
-    
+    public function multiple_approvals(Request $request) {
+        // dd($request->all());
+
+        if(groupId() == 3000) {
+            DB::table('acc_revenue')
+            ->whereIn('revenue_id', $request->itemid)
+            ->update([
+                "approved" => 1,
+                "approved_on" => Carbon::now(),
+                "approved_by" => auth()->user()->email
+            ]);
+        }
+
+        if(groupId() == 1500) {
+            DB::table('acc_revenue')
+            ->whereIn('revenue_id', $request->itemid)
+            ->update([
+                "approved" => 2,
+                "reapproved" => 1,
+                "reapproved_by" => auth()->user()->email,
+                "approved_on" => Carbon::now(),
+                "approved_by" => auth()->user()->email
+            ]);
+        }
+
+        $notification = array(
+            'message' => 'Approved successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+
+    }
+
+
 }

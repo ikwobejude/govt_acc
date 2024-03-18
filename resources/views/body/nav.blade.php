@@ -31,7 +31,7 @@ id="layout-navbar">
     <li class="nav-item navbar-dropdown dropdown-user dropdown">
       <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
         <div class="avatar avatar-online">
-          <img src="{{ asset('back/assets/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle" />
+          <img src="{{ photo() ? asset('/upload/image/'.photo()) : asset('back/assets/img/avatars/1.png') }}" style="width: 150px" alt class="w-px-40  rounded-circle" />
         </div>
       </a>
       <ul class="dropdown-menu dropdown-menu-end">
@@ -40,7 +40,7 @@ id="layout-navbar">
             <div class="d-flex">
               <div class="flex-shrink-0 me-3">
                 <div class="avatar avatar-online">
-                  <img src="{{ asset('back/assets/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle" />
+                  <img src="{{ photo() ? asset('/upload/image/'.photo()) : asset('back/assets/img/avatars/1.png') }}" style="width: 100px; heigth: 100px" alt class="w-px-40 rounded-circle" />
                 </div>
               </div>
               <div class="flex-grow-1">
@@ -54,7 +54,7 @@ id="layout-navbar">
           <div class="dropdown-divider"></div>
         </li>
         <li>
-          <a class="dropdown-item" href="#">
+          <a class="dropdown-item" href="{{ route('user_profile') }}">
             <i class="bx bx-user me-2"></i>
             <span class="align-middle">My Profile</span>
           </a>

@@ -40,8 +40,33 @@ class ExpenditureBatchNameController extends Controller
         return redirect()->back()->with($notification);
     }
 
+
+    public function edit(Request $request){
+        $validateUser = Validator::make($request->all(), [
+            'ebatch_name' => ['required', 'string']
+        ]);
+
+
+
+        if($validateUser->fails()) {
+            return redirect()->back()
+            ->withErrors($validateUser->errors())
+            ->withInput();
+        }
+
+        ExpenditureBatchName::where("id", $request->id)->update([
+            "name" => $request->ebatch_name
+        ]);
+
+        $notification = array(
+            'message' => 'Expenditure Batch Name updated Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
+
     public function destroy($id) {
-        
+
         $name = ExpenditureBatchName::find($id);
         $name->delete();
 

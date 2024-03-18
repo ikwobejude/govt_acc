@@ -87,10 +87,19 @@
         <div class="card mb-4">
           <h5 class="card-header">Revenue(s)</h5>
           <div class="card-body">
+            <form action="{{ route('multiple.liability.approval') }}" method="post">
+                @csrf
                 <div class="table-responsive">
                     <table class="table table-stripe">
                         <thead>
                             <tr>
+                                <th>
+                                    <div class="form-check form-check-flat mt-0">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" id="checkedAll"
+                                                aria-checked="false"><i class="input-helper"></i> All</label>
+                                    </div>
+                                </th>
                                 <th>Economic Line/Code</th>
                                 <th>Name</th>
                                 <th>Liability Type</th>
@@ -105,6 +114,15 @@
                         <tbody>
                             @foreach ($liabilities as $item)
                                 <tr>
+                                    <td>
+                                        <div class="form-check form-check-flat mt-0">
+                                            <label class="form-check-label">
+                                                <input type="checkbox" class="checkSingle form-check-input"
+                                                    id="checkSingle" aria-checked="false" name="itemid[]"
+                                                    value="{{ $item->id }}"><i
+                                                    class="input-helper"></i></label>
+                                        </div>
+                                    </td>
                                     <td>{{ $item->economic_name."/".
                                         $item->economic_code }}</td>
                                     <td>{{ $item->liability }}</td>
@@ -161,10 +179,13 @@
                                     </td>
                                 </tr>
                             @endforeach
+                            <tr>
+                                <td colspan="9"><button type="submit" class="btn btn-md btn-primary">Submit</button></td>
+                             </tr>
                         </tbody>
                     </table>
                 </div>
-
+            </form>
           </div>
         </div>
       </div>
@@ -319,4 +340,36 @@
         console.log(str)
         new bootstrap.Modal(document.querySelector("#reason")).show();
     }
+
+    window.addEventListener('load', function() {
+        // console.log("Helo")
+        $("#checkedAll").change(function() {
+            if (this.checked) {
+                $(".checkSingle").each(function() {
+                    this.checked = true;
+                });
+            } else {
+                $(".checkSingle").each(function() {
+                    this.checked = false;
+                });
+            }
+        });
+
+        $(".checkSingle").click(function() {
+            if ($(this).is(":checked")) {
+                var isAllChecked = 0;
+                $(".checkSingle").each(function() {
+
+                    if (!this.checked) isAllChecked = 1;
+                });
+
+                if (isAllChecked == 0) {
+                    $("#checkedAll").prop("checked", true);
+                }
+
+            } else {
+                $("#checkedAll").prop("checked", false);
+            }
+        });
+    });
 </script>

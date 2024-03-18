@@ -34,7 +34,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-floating">
                                                     <select name="revenuecode" id="revenuecode" style="width: 100%" class="form-control selects">
-                                                        <option value="">Select option</option>
+                                                        <option value="">Select Revenue Line/Economic Code</option>
                                                         @foreach ($revenue_lines as $item)
                                                             <option value="{{ $item->economic_code }}"
                                                                 {{ old('revenue_code') == $item->economic_code ? 'selected' : '' }}>
@@ -42,7 +42,7 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
-                                                    <label for="floatingInput">Revenue Line/Economic Code</label>
+                                                    {{-- <label for="floatingInput">Revenue Line/Economic Code</label> --}}
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -131,7 +131,7 @@
                         <div class="table-responsive">
                             <form action="{{ route('confirm_submission') }}" method="post">
                                 @csrf
-                                <table class="table table-stripe">
+                                <table class="table table-stripe" id="myTable">
                                     <thead>
                                         <tr>
                                             <th>
@@ -257,7 +257,7 @@
                                     <div class="form-floating mb-3">
                                         <input type="hidden" name="id" id="id">
                                         <select name="revenue_code" id="erevenue_code" style="width: 100%" class="form-control selectu">
-                                            <option value="">Select option</option>
+                                            <option value="">Select Revenue Line/Economic Code</option>
                                             @foreach ($revenue_lines as $item)
                                                 <option
                                                     value="{{ $item->description . ',' . $item->economic_code . ',' . $item->type }}"
@@ -266,7 +266,7 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <label for="floatingInput">Revenue Line/Economic Code</label>
+                                        {{-- <label for="floatingInput">Revenue Line/Economic Code</label> --}}
 
                                         @error('revenue_code')
                                             <span class="text-danger"> {{ $message }} </span>
@@ -390,7 +390,7 @@
                                 <div class="col-md-4">
                                     <div class="form-floating mt-2 mb-3">
                                         <select name="revenue_code" id="revenue_code" style="width: 100%" class="form-control select">
-                                            <option value="">Select option</option>
+                                            <option value="">Select Revenue Line/Economic Code</option>
                                             @foreach ($revenue_lines as $item)
                                                 <option
                                                     value="{{ $item->description . ',' . $item->economic_code . ',' . $item->type }}"
@@ -399,7 +399,7 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <label for="floatingInput">Revenue Line/Economic Code</label>
+                                        {{-- <label for="floatingInput">Revenue Line/Economic Code</label> --}}
 
                                         @error('revenue_code')
                                             <span class="text-danger"> {{ $message }} </span>
@@ -546,7 +546,9 @@
 
 
     <script>
-
+$('#myTable').DataTable( {
+    autoFill: true
+} );
 
         function chk(ck, id) {
             console.log(ck, id)

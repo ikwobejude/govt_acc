@@ -98,99 +98,122 @@
         <div class="card mb-4">
           <h5 class="card-header">Budget(s)</h5>
           <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-stripe">
-                    <thead>
-                        <tr>
-                            <th>Action</th>
-                            <th></th>
-                            <th colspan="2"><u>Economic Code (Line Item)</u></th>
-                            <th>Fund Sources </th>
-                            <th>Project</th>
-                            <th>Current Budget </th>
-                            <th>Remaining Balance </th>
-                            <th>Change (+/-) </th>
-                            <th>Revised Budget</th>
-                            <th>Budget Type</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($budges as  $key=>$item)
+            <form action="{{ route('multiple.budget.approval') }}" method="post">
+                @csrf
+                <div class="table-responsive">
+                    <table class="table table-stripe">
+                        <thead>
                             <tr>
-                                <td>
-                                    <div class="dropdown">
-                                      <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown">
-                                        Approvals
-                                      </button>
-                                      <div class="dropdown-menu">
-                                        @if ($item->approved == 0 || $item->approved == 3 || $item->approved == 4 && groupId() == 3000)
-                                        <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->id }})">
-                                            <i class="bx bx bxs-like me-1"></i> Approve
-                                        </a>
-                                        @endif
-                                        @if ($item->approved == 1  && groupId() == 1500)
-                                        <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->id }})">
-                                            <i class="bx bx bxs-like me-1"></i> Approve {{ $item->approved  }}
-                                        </a>
-                                        @endif
-                                        @if (groupId() == 111111)
-                                        <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->id }})">
-                                            <i class="bx bx bxs-like me-1"></i> Approve
-                                        </a>
-                                        @endif
-
-
-                                        <a class="dropdown-item" href="javascript:void(0);" onclick="disApprove({{ $item->id }})">
-                                            <i class="bx bxs-like bx-rotate-180 me-1"></i> Reject
-                                        </a>
-                                      </div>
+                                <th>
+                                    <div class="form-check form-check-flat mt-0">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" id="checkedAll"
+                                                aria-checked="false"><i class="input-helper"></i> All</label>
                                     </div>
-                                </td>
-                                <td>
-
-                                    @if($item->approved == 0 || $item->approved == 4)
-                                        <span class="badge bg-label-warning">Pending</span>
-                                    @endif
-                                    @if($item->approved == 1)
-                                        <span class="badge bg-label-primary">Await Final Approval</span>
-                                    @endif
-                                    @if($item->approved == 2)
-                                        <span class="badge bg-label-success">Approved</span>
-                                    @endif
-                                    @if($item->approved == 3)
-                                    <button type="button" class="btn btn-sm btn-danger" onclick="viewDisapproveR('{{ $item->reason }}')">
-                                        Rejected
-                                        <span class="badge bg-white text-primary ms-1">View why</span>
-                                        </button>
-                                    @endif
-
-                                </td>
-                                <td>{{ $item->economic_code }}</td>
-                                <td>{{ $item->line }}</td>
-                                <td>{{ $item->found_source }}</td>
-                                <td>{{ $item->project }}</td>
-                                <td>{{ number_format($item->current_budget, 2) }}</td>
-                                <td>{{ number_format($item->current_budget, 2) }}</td>
-                                <td>{{ $item->change }}</td>
-                                <td>{{ number_format($item->current_budget, 2) }}</td>
-                                <td>
-                                    @if($item->budget_type == 2)
-                                        <span class="badge bg-label-success">Personel</span>
-                                    @endif
-                                    @if($item->budget_type == 3)
-                                        <span class="badge bg-label-primary">Overhead</span>
-                                    @endif
-                                    @if($item->budget_type == 4)
-                                        <span class="badge bg-label-info">Capital</span>
-                                    @endif
-
-                                </td>
-
+                                </th>
+                                <th>Action</th>
+                                <th></th>
+                                <th colspan="2"><u>Economic Code (Line Item)</u></th>
+                                <th>Fund Sources </th>
+                                <th>Project</th>
+                                <th>Current Budget </th>
+                                <th>Remaining Balance </th>
+                                <th>Change (+/-) </th>
+                                <th>Revised Budget</th>
+                                <th>Budget Type</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            @foreach ($budges as  $key=>$item)
+                                <tr>
+                                    <td>
+                                        <div class="form-check form-check-flat mt-0">
+                                            <label class="form-check-label">
+                                                <input type="checkbox" class="checkSingle form-check-input"
+                                                    id="checkSingle" aria-checked="false" name="itemid[]"
+                                                    value="{{ $item->id }}"><i
+                                                    class="input-helper"></i></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown">
+                                            Approvals
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            @if ($item->approved == 0 || $item->approved == 3 || $item->approved == 4 && groupId() == 3000)
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->id }})">
+                                                <i class="bx bx bxs-like me-1"></i> Approve
+                                            </a>
+                                            @endif
+                                            @if ($item->approved == 1  && groupId() == 1500)
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->id }})">
+                                                <i class="bx bx bxs-like me-1"></i> Approve {{ $item->approved  }}
+                                            </a>
+                                            @endif
+                                            @if (groupId() == 111111)
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="approvalLevel1({{ $item->id }})">
+                                                <i class="bx bx bxs-like me-1"></i> Approve
+                                            </a>
+                                            @endif
+
+
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="disApprove({{ $item->id }})">
+                                                <i class="bx bxs-like bx-rotate-180 me-1"></i> Reject
+                                            </a>
+                                        </div>
+                                        </div>
+                                    </td>
+                                    <td>
+
+                                        @if($item->approved == 0 || $item->approved == 4)
+                                            <span class="badge bg-label-warning">Pending</span>
+                                        @endif
+                                        @if($item->approved == 1)
+                                            <span class="badge bg-label-primary">Await Final Approval</span>
+                                        @endif
+                                        @if($item->approved == 2)
+                                            <span class="badge bg-label-success">Approved</span>
+                                        @endif
+                                        @if($item->approved == 3)
+                                        <button type="button" class="btn btn-sm btn-danger" onclick="viewDisapproveR('{{ $item->reason }}')">
+                                            Rejected
+                                            <span class="badge bg-white text-primary ms-1">View why</span>
+                                            </button>
+                                        @endif
+
+                                    </td>
+                                    <td>{{ $item->economic_code }}</td>
+                                    <td>{{ $item->line }}</td>
+                                    <td>{{ $item->found_source }}</td>
+                                    <td>{{ $item->project }}</td>
+                                    <td>{{ number_format($item->current_budget, 2) }}</td>
+                                    <td>{{ number_format($item->current_budget, 2) }}</td>
+                                    <td>{{ $item->change }}</td>
+                                    <td>{{ number_format($item->current_budget, 2) }}</td>
+                                    <td>
+                                        @if($item->budget_type == 2)
+                                            <span class="badge bg-label-success">Personel</span>
+                                        @endif
+                                        @if($item->budget_type == 3)
+                                            <span class="badge bg-label-primary">Overhead</span>
+                                        @endif
+                                        @if($item->budget_type == 4)
+                                            <span class="badge bg-label-info">Capital</span>
+                                        @endif
+
+                                    </td>
+
+                                </tr>
+                            @endforeach
+
+                            <tr>
+                               <td colspan="9"><button type="submit" class="btn btn-md btn-primary">Submit</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
           </div>
         </div>
       </div>
@@ -345,4 +368,36 @@
         console.log(str)
         new bootstrap.Modal(document.querySelector("#reason")).show();
     }
+
+    window.addEventListener('load', function() {
+        console.log("Helo")
+        $("#checkedAll").change(function() {
+            if (this.checked) {
+                $(".checkSingle").each(function() {
+                    this.checked = true;
+                });
+            } else {
+                $(".checkSingle").each(function() {
+                    this.checked = false;
+                });
+            }
+        });
+
+        $(".checkSingle").click(function() {
+            if ($(this).is(":checked")) {
+                var isAllChecked = 0;
+                $(".checkSingle").each(function() {
+
+                    if (!this.checked) isAllChecked = 1;
+                });
+
+                if (isAllChecked == 0) {
+                    $("#checkedAll").prop("checked", true);
+                }
+
+            } else {
+                $("#checkedAll").prop("checked", false);
+            }
+        });
+    });
 </script>

@@ -39,7 +39,7 @@
     <link rel="stylesheet" href="{{ asset('back/assets/vendor/libs/apex-charts/apex-charts.css') }}" />
 
     <!-- Page CSS -->
-
+    <link href="https://cdn.datatables.net/v/bs5/dt-2.0.2/datatables.min.css" rel="stylesheet">
 
 
      <!-- Toaster js -->
@@ -319,6 +319,7 @@
   {{-- <script src="{{ asset('backendassets/libs/select2/js/select2.min.js') }}"></script> --}}
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
   <!-- jquery cdn ends -->
 
   {{-- <script src="{{ asset('js/jquery_easy_session_timeout.js') }}"></script> --}}
@@ -329,9 +330,11 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/dt-2.0.2/datatables.min.js"></script>
 
 
   <script>
@@ -474,15 +477,15 @@
 
 
 
-    $(document).ready( function () {
-        $('#datatable11').DataTable({
+    // $(document).ready( function () {
+       document.getElementById('datatable11').DataTable({
             pageLength: 100,
             dom: 'Bfrtip',
             buttons: [
                 'csv', 'excel', 'pdf', 'print'
             ],
         });
-    } );
+    // } );
   </script>
   <!-- End toaster js -->
 

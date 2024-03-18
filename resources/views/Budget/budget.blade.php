@@ -325,12 +325,12 @@
                             <div class="col-md-6 col-sm-12 mb-3">
                                 <div class="form-floating">
                                     <select name="budgetType" id="budgetType" required class="form-control select" style="width: 100%" onchange="getRevenueType('budgetType', 'conomicCode')">
-                                        <option value="">Select option</option>
+                                        <option value="">Select Budget Type</option>
                                         <option value="2">Personnel</option>
                                         <option value="3">Overhead</option>
                                         <option value="4">Capital</option>
                                     </select>
-                                    <label for="floatingInput">Budget Type<span class="required">*</span></label>
+                                    {{-- <label for="floatingInput">Budget Type<span class="required">*</span></label> --}}
 
                                     @error('budgetType')
                                     <span class="text-danger"> {{ $message }} </span>
@@ -341,10 +341,10 @@
                                 <span id="eco_noti"></span>
                                 <div class="form-floating">
                                     <select name="economicCode" id="conomicCode" required class="form-control select" style="width: 100%">
-                                        <option value="">Select option</option>
+                                        <option value="">Select Economic Code</option>
 
                                     </select>
-                                    <label for="floatingInput">Economic Code<span class="required">*</span></label>
+                                    {{-- <label for="floatingInput">Economic Code<span class="required">*</span></label> --}}
 
                                     @error('conomicCode')
                                     <span class="text-danger"> {{ $message }} </span>

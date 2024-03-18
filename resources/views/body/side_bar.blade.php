@@ -102,14 +102,14 @@
               <div data-i18n="Depreciation Rate">Asset Type</div>
             </a>
           </li>
-          <li class="menu-item {{url()->current() == route('asset.size') ? 'active' : ''}}">
+          {{-- <li class="menu-item {{url()->current() == route('asset.size') ? 'active' : ''}}">
             <a href="{{ route('asset.size') }}" class="menu-link">
               <div data-i18n="Asset Register">Asset Size</div>
             </a>
-          </li>
+          </li> --}}
           <li class="menu-item {{url()->current() == route('asset.categories') ? 'active' : ''}}">
             <a href="{{ route('asset.categories') }}" class="menu-link">
-              <div data-i18n="Asset Register">Asset Category</div>
+              <div data-i18n="Asset Register">Asset Class</div>
             </a>
           </li>
           <li class="menu-item {{url()->current() == route('asset.location.post') ? 'active' : ''}}">
@@ -335,29 +335,30 @@
       <li class="menu-item {{ url()->current() == route('expenditure') ? 'active' : ''}}">
         <a href="javascript:void(0)" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-box"></i>
-          <div data-i18n="Revenue Receipts">Payment Receipts</div>
+          <div data-i18n="Revenue Receipts">Revenue/Payment Receipt</div>
         </a>
         <ul class="menu-sub">
-          <li class="menu-item">
-            <a href="#" class="menu-link">
-              <div data-i18n="Revenue Receipts">Revenue Receipts</div>
-            </a>
-          </li>
-          <li class="menu-item {{ url()->current() == route('expenditure') ? 'active' : ''}}">
+            <li class="menu-item {{ url()->current() == route('expenditure') ? 'active' : ''}}">
+                <a href="{{ route('expenditure') }}" class="menu-link">
+                  <div data-i18n="Payment Voucher">Payment Voucher</div>
+                </a>
+            </li>
+
+          <li class="menu-item ">
             <a href="{{ route('expenditure') }}" class="menu-link">
-              <div data-i18n="Payment Voucher">Payment Voucher</div>
+              <div data-i18n="Payment Voucher">Payment Receipt</div>
             </a>
           </li>
           <li class="menu-item">
             <a href="#" class="menu-link">
-              <div data-i18n="Journal Voucher">Journal Voucher</div>
+              <div data-i18n="Journal Voucher">Revenue Receipt</div>
             </a>
           </li>
 
         </ul>
       </li>
 
-      <li class="menu-item {{ url()->current() == route('expenditure') ? 'active' : ''}}">
+      {{-- <li class="menu-item {{ url()->current() == route('expenditure') ? 'active' : ''}}">
         <a href="javascript:void(0)" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-box"></i>
           <div data-i18n="Revenue Receipts">Payment Voucher</div>
@@ -372,7 +373,7 @@
 
 
         </ul>
-      </li>
+      </li> --}}
       @endif
 
       @if (groupId() == 111111 || groupId()== 1500 || groupId()== 9000 || groupId()== 9000)

@@ -120,6 +120,11 @@ function state()
 	return auth()->user()->state ?? auth('sanctum')->user()->state;
 }
 
+function photo()
+{
+	return auth()->user()->photo ?? auth('sanctum')->user()->photo;
+}
+
 
 
 

@@ -197,4 +197,49 @@ class AssetApprovalController extends Controller
             ]);
         }
     }
+
+    public function multiple_approval(Request $request) {
+        try {
+
+            // dd($request->itemid);
+
+            if(groupId() == 3000) {
+                DB::table('acct_assests')
+                ->where('assest_id', $request->itemid)
+                ->update([
+                    "approved" => 1,
+                    "approved_on" => Carbon::now(),
+                    "approved_by" => auth()->user()->email
+                ]);
+
+            }
+
+            if(groupId() == 1500) {
+                DB::table('acct_assests')
+                ->where('assest_id', $request->itemid)
+                ->update([
+                    "approved" => 2,
+                    "reapproved" => 1,
+                    "reapproved_by" => auth()->user()->email,
+                    "approved_on" => Carbon::now(),
+                    "approved_by" => auth()->user()->email
+                ]);
+
+            }
+
+            $notification = array(
+                'message' => 'Record submitted',
+                'alert-type' => 'success'
+            );
+
+            return redirect()->back()->with($notification);
+        } catch (\Throwable $th) {
+            $notification = array(
+                'message' =>$th->getMessage(),
+                'alert-type' => 'success'
+            );
+
+            return redirect()->back()->with($notification);
+        }
+    }
 }

@@ -26,8 +26,8 @@
             <div class="card-body">
               <div class="d-flex align-items-start align-items-sm-center gap-4">
 
-                <img src="{{ asset('/assets/img/avatars/1.png') }}" alt="user-avatar" class="d-block rounded" id="img" height="100" width="100" id="uploadedAvatar" />
-                <form action="{{ route('upload_picture') }}" method="post">
+                <img src="{{ photo() ? asset('/upload/image/'.photo()) : 'back/assets/img/avatars/1.png' }}" alt="user-avatar" class="d-block rounded" id="img" height="100" width="100" id="uploadedAvatar" />
+                <form action="{{ route('upload_picture') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="button-wrapper">
                         <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">

@@ -17,11 +17,12 @@
             <div class="col-sm-5 text-center text-sm-left">
               <div class="card-body pb-0 px-0 px-md-4">
                 <img
-                  src="back/assets/img/illustrations/man-with-laptop-light.png"
+                  src="{{ photo() ? asset('/upload/image/'.photo()) : 'back/assets/img/illustrations/man-with-laptop-light.png' }}"
                   height="150"
                   alt="View Badge User"
-                  data-app-dark-img="illustrations/man-with-laptop-dark.png"
-                  data-app-light-img="illustrations/man-with-laptop-light.png" />
+                  data-app-dark-img="{{ photo() ? asset('/upload/image/'.photo()) : 'back/assets/img/illustrations/man-with-laptop-light.png' }}"
+                  data-app-light-img="{{ photo() ? asset('/upload/image/'.photo()) : 'back/assets/img/illustrations/man-with-laptop-light.png' }}"
+                  style=""/>
               </div>
             </div>
           </div>

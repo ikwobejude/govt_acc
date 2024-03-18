@@ -170,4 +170,38 @@ class ApproveLiabilityController extends Controller
             ]);
         }
     }
+
+    public function multiple_approval(Request $request) {
+
+        if(groupId() == 1500){
+            DB::table('liabilities')
+            ->whereIn('id', $request->itemid)
+            ->update([
+                "approved" => 2,
+                "reapproved" => 1,
+                "reapproved_by" => auth()->user()->email,
+                "approved_on" => Carbon::now(),
+                "approved_by" => auth()->user()->email
+            ]);
+
+        }
+
+        if(groupId() == 3000){
+            DB::table('liabilities')
+            ->whereIn('id', $request->itemid)
+            ->update([
+                "approved" => 1,
+                "approved_on" => Carbon::now(),
+                "approved_by" => auth()->user()->email
+            ]);
+
+        }
+
+        $notification = array(
+            'message' => "Liability Approved",
+            'alert-type' => 'info'
+        );
+
+        return redirect()->back()->with($notification);
+    }
 }
