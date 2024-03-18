@@ -102,6 +102,28 @@ function first_use()
 	return auth()->user()->first_use ?? auth('sanctum')->user()->first_use;
 }
 
+// returns if the user is to login for the first time
+function phone()
+{
+	return auth()->user()->phone ?? auth('sanctum')->user()->phone;
+}
+
+// returns if the user is to login for the first time
+function address()
+{
+	return auth()->user()->address ?? auth('sanctum')->user()->address;
+}
+
+// returns if the user is to login for the first time
+function state()
+{
+	return auth()->user()->state ?? auth('sanctum')->user()->state;
+}
+
+
+
+
+
 
 // returns if the user is to login for the first time
 function employee_no()

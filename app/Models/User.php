@@ -37,13 +37,14 @@ class User extends Authenticatable
         "reset_expiry_date",
         "organization_id",
         "organization_code",
-        "agency_id",
+        "address",
         "tax_office_id",
         "user_code",
         "email_verificatied",
         "email_verified_at",
         "password_expiry_date",
         "permissions",
+        "state"
     ];
 
     /**

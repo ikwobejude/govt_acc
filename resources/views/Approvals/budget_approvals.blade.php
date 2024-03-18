@@ -24,7 +24,7 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6 col-sm-12 mb-3">
                                         <div class="form-floating">
-                                            <select name="budgetType" id="sbudgetType" class="form-control" onchange="getRevenueType('sbudgetType')">
+                                            <select name="budgetType" id="sbudgetType" class="form-control selects" style="width: 100%" onchange="getRevenueType('sbudgetType')">
                                                 <option value="">Select option</option>
                                                 <option value="2">Personnel</option>
                                                 <option value="3">Overhead</option>
@@ -40,7 +40,7 @@
                                     <div class="col-md-6 col-sm-12 mb-3">
                                         <span id="seco_noti"></span>
                                         <div class="form-floating">
-                                            <select name="economicCode" id="seconomicCode" class="form-control">
+                                            <select name="economicCode" id="seconomicCode" class="form-control selects" style="width: 100%">
                                                 <option value="">Select option</option>
 
                                             </select>

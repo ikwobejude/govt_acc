@@ -25,7 +25,7 @@
                                             <div class="col-md-3 col-sm-6 mb-3">
                                                 <div class="form-floating ">
                                                     <select name="expenditureType" id="expenditureType"
-                                                        class="form-control">
+                                                        class="form-control selects" style="width: 100%">
                                                         <option value="">-- Select Option --</option>
                                                         @foreach ($expenditureType as $Etype)
                                                             <option value="{{ $Etype->economic_code }}"
@@ -146,7 +146,7 @@
                         <div class="col-6">
                             <div style="text-align: right; padding: 20px">
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#newExpenditure">Add New Expenditure</button>
+                                    data-bs-target="#addModal">Add New Expenditure</button>
                             </div>
                         </div>
                     </div>
@@ -172,7 +172,7 @@
                                             <th>Amount</th>
                                             <th>Description</th>
                                             <th>Approval Status </th>
-                                            <th>Date </th>
+                                            <th>Transaction Date </th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -224,7 +224,7 @@
                                                         </button>
                                                         <div class="dropdown-menu">
                                                             <a class="dropdown-item" href="javascript:void(0);"
-                                                                data-bs-toggle="modal"data-bs-target="#modalCenter"
+                                                                data-bs-toggle="modal"data-bs-target="#updateModal"
                                                                 onclick="update(
                                                 '{{ $item->idexpenditure_payregister }}',
                                                 '{{ $item->expenditure_name . ',' . $item->expenditure_code . ',' . $item->expenditure_type }}',
@@ -270,7 +270,7 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -288,8 +288,8 @@
                                 <div class="col-md-6 col-sm-12">
                                     <input type="hidden" name="id" id="id">
                                     <div class="form-floating mb-3">
-                                        <select name="expenditure_type" id="eexpenditure_type"
-                                            class="form-control @error('batch_type') is-invalid @enderror">
+                                        <select name="expenditure_type" id="eexpenditure_type" style="width: 100%"
+                                            class="form-control selectu @error('batch_type') is-invalid @enderror">
                                             <option value="">-- Select Option --</option>
                                             @foreach ($expenditureType as $Etype)
                                                 <option
@@ -391,7 +391,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="newExpenditure" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -407,8 +407,8 @@
                             <div class="row">
                                 <div class="col-md-6 col-sm-6">
                                     <div class="form-floating mb-3">
-                                        <select name="expenditure_type" id="expenditure_type"
-                                            class="form-control @error('batch_type') is-invalid @enderror">
+                                        <select name="expenditure_type" style="width: 100%" id="expenditure_type"
+                                            class="form-control select @error('batch_type') is-invalid @enderror">
                                             <option value="">-- Select Option --</option>
                                             @foreach ($expenditureType as $Etype)
                                                 <option

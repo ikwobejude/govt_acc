@@ -30,25 +30,27 @@ class BudgetController extends Controller
 
         // dd($budgetType, $economicCode, $project, $approved, $from, $to);
         $budges = DB::table('acct_budgets')
-        ->whereIn('approved', [0, 3])
-        ->where('deleted', 0)
+        ->select("acct_budgets.*", 'users.name')
+        ->leftJoin('users', 'users.email', 'acct_budgets.created_by')
+        ->whereIn('acct_budgets.approved', [0, 3])
+        ->where('acct_budgets.deleted', 0)
         ->when($budgetType, function ($query, string $budgetType) {
-            $query->where('budget_type', $budgetType);
+            $query->where('acct_budgets.budget_type', $budgetType);
         })
         ->when($economicCode, function ($query, string $economicCode) {
-            $query->where('economic_code', $economicCode);
+            $query->where('acct_budgets.economic_code', $economicCode);
         })
         ->when($project, function ($query, string $project) {
-            $query->where('project', $project);
+            $query->where('acct_budgets.project', $project);
         })
         ->when($approved, function ($query, string $approved) {
-            $query->where('approved', $approved);
+            $query->where('acct_budgets.approved', $approved);
         })
         ->when($from, function ($query, string $from) {
-            $query->whereDate('created_at', '>=', $from);
+            $query->whereDate('acct_budgets.created_at', '>=', $from);
         })
         ->when($to, function ($query, string $to) {
-            $query->whereDate('created_at', '<=', $to);
+            $query->whereDate('acct_budgets.created_at', '<=', $to);
         })
         ->get();
         return view('Budget.budget', compact('budges', 'NCOS'));
@@ -80,7 +82,8 @@ class BudgetController extends Controller
                 "found_source" => ($request->budgetType == 2 ? "02101" :
                                   ($request->budgetType == 3 ? "02201" : "03101" )),
                 "project" => $request->project,
-                "current_budget" => $request->current_budget
+                "current_budget" => $request->current_budget,
+                "created_by" => username()
             ]);
 
             $notification = array(

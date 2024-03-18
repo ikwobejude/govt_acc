@@ -33,7 +33,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-floating">
-                                                    <select name="revenuecode" id="revenuecode" class="form-control">
+                                                    <select name="revenuecode" id="revenuecode" style="width: 100%" class="form-control selects">
                                                         <option value="">Select option</option>
                                                         @foreach ($revenue_lines as $item)
                                                             <option value="{{ $item->economic_code }}"
@@ -121,7 +121,7 @@
                         <div class="col-6">
                             <div style="text-align: right; padding: 20px">
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#newRevenue">Add new revenue</button>
+                                    data-bs-target="#addModal">Add new revenue</button>
                             </div>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
                                             <th>Authority Document Ref. No </th>
                                             <th>Amount </th>
                                             <th>Approvals Status </th>
-                                            <th>Date </th>
+                                            <th>Transaction Date </th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -194,7 +194,7 @@
                                                             <i class="bx bx-dots-vertical-rounded"></i>
                                                         </button>
                                                         <div class="dropdown-menu">
-                                                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter"
+                                                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#updateModal"
                                                             onclick="update(
                                                                 '{{ $item->revenue_id}}',
                                                                 '{{ $item->revenue_line . ',' . $item->revenue_code . ',' . $item->asset_name }}',
@@ -238,11 +238,11 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalCenterTitle">Modal title</h5>
+                    <h5 class="modal-title" id="modalCenterTitle">Update Revenue</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('put.revenue') }}" method="post">
@@ -256,7 +256,7 @@
                                 <div class="col-md-6">
                                     <div class="form-floating mb-3">
                                         <input type="hidden" name="id" id="id">
-                                        <select name="revenue_code" id="erevenue_code" class="form-control">
+                                        <select name="revenue_code" id="erevenue_code" style="width: 100%" class="form-control selectu">
                                             <option value="">Select option</option>
                                             @foreach ($revenue_lines as $item)
                                                 <option
@@ -374,7 +374,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="newRevenue" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -388,8 +388,8 @@
                             <h1>Revenue</h1>
                             <div class="row mb-3">
                                 <div class="col-md-4">
-                                    <div class="form-floating">
-                                        <select name="revenue_code" id="revenue_code" class="form-control">
+                                    <div class="form-floating mt-2 mb-3">
+                                        <select name="revenue_code" id="revenue_code" style="width: 100%" class="form-control select">
                                             <option value="">Select option</option>
                                             @foreach ($revenue_lines as $item)
                                                 <option
@@ -406,7 +406,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 mb-3">
                                     <div class="form-floating">
                                         <input type="text"
                                             class="form-control @error('received_from') is-invalid @enderror"
@@ -419,7 +419,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 mb-3">
                                     <div class="form-floating">
                                         <input type="text"
                                             class="form-control @error('description') is-invalid @enderror"
@@ -435,7 +435,7 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="col-md-4">
+                                <div class="col-md-4 mb-3">
                                     <div class="form-floating">
                                         <input type="text"
                                             class="form-control @error('revenue_amount') is-invalid @enderror"
@@ -448,7 +448,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 mb-3">
                                     <div class="form-floating">
                                         <input type="date"
                                             class="form-control @error('settlement_date') is-invalid @enderror"
@@ -461,7 +461,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 mb-3">
                                     <div class="form-floating">
                                         <input type="text"
                                             class="form-control @error('authority_document_ref_no') is-invalid @enderror"
@@ -476,10 +476,10 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-2">
+                                <div class="col-md-2 ">
                                     <div class="form-check form-switch mt-3 mb-3">
                                         <input class="form-check-input" type="checkbox" name="rrr_status"
-                                            class="checkSingle" id="checkSingle" onclick="chk('checkSingle', 'rrr_input_field')" />
+                                            class="checkSingle1" id="checkSingle1" onclick="chk('checkSingle1', 'rrr_input_field')" />
                                         <label class="form-check-label" for="flexSwitchCheckChecked">Has RRR </label>
                                     </div>
                                 </div>
@@ -546,7 +546,10 @@
 
 
     <script>
+
+
         function chk(ck, id) {
+            console.log(ck, id)
             const cb = document.querySelector(`#${ck}`);
             // console.log(cb.checked); // false
             if (cb.checked == true) {

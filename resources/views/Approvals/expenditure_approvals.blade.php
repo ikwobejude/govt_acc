@@ -23,15 +23,15 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-floating mb-3">
-                                        <select name="batch_type" id="batch_type" class="form-control @error('batch_type') is-invalid @enderror">
-                                            <option value="">-- Select Option --</option>
+                                        <select name="batch_type" id="batch_type" class="form-control @error('batch_type') is-invalid @enderror selects" style="width: 100%">
+                                            <option value="">-- Select Batch Type --</option>
                                             @foreach($batchName as $batch)
                                                 <option value="{{ $batch->name }}">{{ $batch->name }}</option>
                                             @endforeach
 
                                             {{-- <option value="Vendor">Vendor</option> --}}
                                         </select>
-                                        <label for="floatingInput">Batch Type</label>
+                                        {{-- <label for="floatingInput">Batch Type</label> --}}
                                         <div id="floatingInputHelp" class="form-text"></div>
                                         @error('batch_type')
                                             <span class="text-danger"> {{ $message }} </span>
@@ -53,15 +53,15 @@
 
                                 <div class="col-md-4 col-sm-6">
                                     <div class="form-floating mb-3">
-                                        <select name="expenditure_type" id="expenditure_type" class="form-control @error('batch_type') is-invalid @enderror">
-                                            <option value="">-- Select Option --</option>
+                                        <select name="expenditure_type" id="selects1" style="width: 100%" class="form-control @error('batch_type') is-invalid @enderror">
+                                            <option value="">SELECT EXPENDITURE TYPE</option>
                                             @foreach ($expenditureType as $Etype)
                                             <option value="{{ $Etype->economic_code }}" {{ old('expenditure_type') == $Etype->description ? 'selected': ''}}>
                                                 {{ $Etype->description  }}
                                             </option>
                                             @endforeach
                                         </select>
-                                        <label for="floatingInput">EXPENDITURE TYPE</label>
+                                        {{-- <label for="floatingInput"></label> --}}
                                         <div id="floatingInputHelp" class="form-text"></div>
                                     </div>
                                 </div>

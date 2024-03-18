@@ -34,9 +34,11 @@ class ExpenditurePayRegisterController extends Controller
         $expenditureType = RevenueLine::where('type', 2)->get();
         $batchName = ExpenditureBatchName::all();
         $ExpenditureRegister = db::table('expenditure_payregister')
-        ->where('service_id', 37483)
-        ->where('deleted', 0)
-        ->where('approved', 0)
+        ->select("expenditure_payregister.*", "users.name")
+        ->leftJoin('users', 'users.email', 'expenditure_payregister.created_by')
+        ->where('expenditure_payregister.service_id', 37483)
+        ->where('expenditure_payregister.deleted', 0)
+        ->where('expenditure_payregister.approved', 0)
         // ->when(!empty($expenditureType), function ($query) use ($expenditureType) {
         //     return $query->where('expenditure_code', $expenditureType);
         // })
@@ -139,7 +141,7 @@ class ExpenditurePayRegisterController extends Controller
             'amount' =>  $request->amount,
             'narration' =>  $request->narration,
             'service_id' => 37483,
-            'created_by' => auth()->user()->email,
+            'created_by' => emailAddress(),
             'payment_ref' => $request->authority_document_ref_no,
             'month' => $month,
             'year' => $year

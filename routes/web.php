@@ -69,6 +69,7 @@ Route::group(['prefix' => 'settings'], function () {
         Route::get('/revenue_line', [SettingsController::class, 'index'])->name('get.revenue_line');
         Route::post('/revenue_line', [SettingsController::class, 'store'])->name('post.revenue_line');
         Route::put('/revenue_line', [SettingsController::class, 'edit'])->name('edit.revenue_line1');
+        Route::get('/delete_revenue_line/{id}', [SettingsController::class, 'destroy'])->name('delete.revenue_line1');
         Route::post('/revenue_line-excel', [RevenueUploadController::class, 'import'])->name('upload.revenue');
 
 
@@ -86,6 +87,9 @@ Route::group(['prefix' => 'settings'], function () {
          // expenditure type
          Route::get('/expenditure_batch_name', [ExpenditureBatchNameController::class, 'index'])->name('expenditure_batch_name');
          Route::post('/expenditure_batch_name', [ExpenditureBatchNameController::class, 'store'])->name('post.expenditure_batch_name');
+         Route::get('/delete_expenditure_batch_name/{id}', [ExpenditureBatchNameController::class, 'destroy'])->name('delete.expenditure_batch_name');
+         Route::put('/expenditure_batch_name', [ExpenditureBatchNameController::class, 'update'])->name('update.expenditure_batch_name');
+
 
         // asset type
         Route::get('/asset_type', [AssetTypeController::class, 'index'])->name('asset.type');
@@ -280,6 +284,12 @@ Route::group(['prefix' => 'user'], function () {
 
         Route::get('/reset_password', [UserController::class, 'resetPassword'])->name('user_reset_password');
         Route::post('/reset_password', [UserController::class, 'reset_Password'])->name('post.user_reset_password');
+
+        Route::get('/profile', [UserController::class, 'user_profile'])->name('user_profile');
+        Route::get('/reset_password2', [UserController::class, 'resetPassword2'])->name('reset_password');
+
+
+        Route::post('/upload_picture', [UserController::class, 'resizeImage'])->name('upload_picture');
     });
 });
 

@@ -22,6 +22,8 @@ class LiabilityController extends Controller
 
         $EconomicLines = RevenueLine::where('type', 4)->get();
         $liabilities = DB::table('liabilities')
+        ->select('liabilities.*', 'users.name')
+        ->leftJoin('users', 'users.email', 'liabilities.created_by')
         ->where('approved', 0)
         ->where('deleted', 0)
         ->when($revenue_code, function ($query, string $revenue_code) {
@@ -66,7 +68,7 @@ class LiabilityController extends Controller
             ->withErrors($validateUser->errors())
             ->withInput();
         }
-        
+
         // dd($request->revenue_code);
 
         $arr = explode(',', $request->revenue_code);
@@ -78,9 +80,9 @@ class LiabilityController extends Controller
             'authorize_ref' => $request->authority_document_ref_no,
             'amount' => $request->amount,
             'narration' => $request->description,
-            'created_by' => $request->created_by,
             'economic_name' => $arr[0],
             'economic_type' => $arr[2],
+            'created_by' => emailAddress()
         ]);
 
         $notification = array(

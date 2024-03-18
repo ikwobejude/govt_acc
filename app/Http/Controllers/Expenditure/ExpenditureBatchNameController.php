@@ -19,7 +19,7 @@ class ExpenditureBatchNameController extends Controller
             'batch_name' => ['required', 'string']
         ]);
 
-        
+
 
         if($validateUser->fails()) {
             return redirect()->back()
@@ -35,6 +35,18 @@ class ExpenditureBatchNameController extends Controller
 
         $notification = array(
             'message' => 'Expenditure Batch Name Created Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
+
+    public function destroy($id) {
+        
+        $name = ExpenditureBatchName::find($id);
+        $name->delete();
+
+        $notification = array(
+            'message' => 'Expenditure Batch Name Deleted Successfully',
             'alert-type' => 'success'
         );
         return redirect()->back()->with($notification);

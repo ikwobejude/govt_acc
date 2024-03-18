@@ -40,6 +40,7 @@ class AssetController extends Controller
         ->leftJoin('acct_assest_categories', 'acct_assest_categories.assest_category_id', 'acct_assests.assest_category_id')
         ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
         ->leftJoin('acct_assest_sizes', 'acct_assest_sizes.id', 'acct_assests.assest_size_id')
+        ->leftJoin('users', 'users.email', 'acct_assests.created_by')
         ->where('acct_assests.service_id', 37483)
         ->where('acct_assests.approved', 0)
         ->where('acct_assests.deleted', 0)

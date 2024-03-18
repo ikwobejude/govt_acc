@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Approvals;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Revenue\RevenueLine;
 use Carbon\Carbon;
 
 class RevenueApprovalsController extends Controller
@@ -153,4 +154,6 @@ class RevenueApprovalsController extends Controller
             ]);
         }
     }
+
+    
 }

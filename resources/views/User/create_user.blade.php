@@ -23,7 +23,7 @@
                             <div class="row">
                                 <div class="col-md-6 col-sm-12 mb-1">
                                     <div class="form-floating">
-                                        <select name="user_role" id="user_role" class="form-control">
+                                        <select name="user_role" id="user_role" class="form-control sel">
                                             <option value="">Select option</option>
                                             @foreach ($groupId as $role)
                                                 <option value="{{ $role->group_id  }}" {{ old('user_role') == $role->group_id ? 'selected': ''}}>
@@ -306,7 +306,7 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-12 mb-3">
                                 <div class="form-floating">
-                                    <select name="user_role" id="user_role" class="form-control">
+                                    <select name="user_role" style="width: 100%" id="user_role" class="form-control select">
                                         <option value="">Select option</option>
                                         @foreach ($groupId as $role)
                                             <option value="{{ $role->group_id  }}" {{ old('user_role') == $role->group_id ? 'selected': ''}}>

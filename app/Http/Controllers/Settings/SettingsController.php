@@ -87,6 +87,18 @@ class SettingsController extends Controller
 
     }
 
+    public function destroy($id) {
+        // User::where('votes', '>', 100)->delete();
+        $revenue = RevenueLine::find($id);
+
+        $revenue->delete();
+        $notification = array(
+            'message' => 'Revenue line deleted successfully',
+            'alert-type' => 'success'
+        );
+        return redirect('/settings/revenue_line')->with($notification);
+    }
+
 
     public function indexExp(Request $request) {
         $revenue_lines = DB::table('revenue_line')->where("type", 2)->paginate(20);

@@ -24,7 +24,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-4">
                                     <div class="form-floating">
-                                        <select name="revenue_code" id="revenue_code" class="form-control">
+                                        <select name="revenue_code" id="revenue_code" class="form-control selects" style="width: 100%">
                                             <option value="">Select option</option>
                                             @foreach ($revenue_lines as $item)
                                                 <option value="{{ $item->economic_code  }}" {{ old('revenue_code') == $item->description ? 'selected': ''}}>

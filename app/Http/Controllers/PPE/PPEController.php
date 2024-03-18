@@ -134,7 +134,7 @@ class PPEController extends Controller
             "residualval" => $request->usefulyears,
             "usefulyears" => $request->residualval,
             "salvage_value" => $request->salvage_value,
-            "created_by" => username(),
+            "created_by" => name(),
             "created_at" =>  $carbon,
             "service_id" => 37483
         ]);

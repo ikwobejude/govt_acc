@@ -23,15 +23,15 @@
                             <div class="row">
                                 <div class="col-md-4 col-sm-6">
                                     <div class="form-floating">
-                                        <select name="revenue_code" id="revenue_code" class="form-control">
-                                            <option value="">Select option</option>
+                                        <select name="revenue_code" id="revenue_code" class="form-control selects" style="width: 100%">
+                                            <option value="">Select Revenue Line/Economic Code</option>
                                             @foreach ($EconomicLines as $item)
                                                 <option value="{{ $item->economic_code  }}" {{ old('revenue_code') == $item->economic_code ? 'selected': ''}}>
                                                     {{ $item->description." :: ".$item->economic_code  }}
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <label for="floatingInput">Revenue Line/Economic Code</label>
+                                        {{-- <label for="floatingInput">Revenue Line/Economic Code</label> --}}
 
                                         @error('economic_code')
                                         <span class="text-danger"> {{ $message }} </span>
@@ -54,13 +54,13 @@
 
                                 <div class="col-md-4 col-sm-6">
                                     <div class="form-floating">
-                                        <select name="type_of_liability" id="type_of_liability" class="form-control">
-                                            <option value="">Select option</option>
+                                        <select name="type_of_liability" id="type_of_liability" class="form-control selects" style="width: 100%">
+                                            <option value="">Select Types of liabilities</option>
                                             <option value="Current liabilities">Current liabilities</option>
                                             <option value="Non-current liabilities">Non-current liabilities</option>
                                             <option value="Current liabilities">Contingent liabilities</option>
                                         </select>
-                                        <label for="floatingInput">Types of liabilities</label>
+                                        {{-- <label for="floatingInput">Types of liabilities</label> --}}
                                         <div id="floatingInputHelp" class="form-text"> </div>
                                         @error('type_of_liability')
                                             <span class="text-danger"> {{ $message }} </span>
@@ -145,7 +145,7 @@
                 </div>
                 <div class="col-6">
                     <div style="text-align: right; padding: 20px">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newRevenue">Add New Liability</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add New Liability</button>
                     </div>
                 </div>
             </div>
@@ -170,7 +170,7 @@
                                 <th>Narration</th>
                                 <th>Authorization Ref</th>
                                 <th>Amount</th>
-                                <th>Date </th>
+                                <th>Transaction Date </th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -200,7 +200,7 @@
                                         <i class="bx bx-dots-vertical-rounded"></i>
                                       </button>
                                       <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter" onclick="update(
+                                        <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#updateModal" onclick="update(
                                             '{{ $item->economic_name.','.$item->economic_code.','.$item->economic_type }}',
                                             '{{ $item->liability }}',
                                             '{{ $item->type_of_liability }}',
@@ -241,7 +241,7 @@
 
 
    <!-- Modal -->
-   <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+   <div class="modal fade" id="updateModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -263,15 +263,15 @@
                             <div class="col-md-4 col-sm-6">
                                 <div class="form-floating mb-2">
                                     <input type="hidden" name="id" id="id">
-                                    <select name="revenue_code" id="erevenue_code" class="form-control">
-                                        <option value="">Select option</option>
+                                    <select name="revenue_code" id="erevenue_code" class="form-control selectu" style="width: 100%">
+                                        <option value="">Select Revenue Line/Economic Code</option>
                                         @foreach ($EconomicLines as $item)
                                             <option value="{{ $item->description.",".$item->economic_code.",".$item->type  }}" {{ old('revenue_code') == $item->economic_code ? 'selected': ''}}>
                                                 {{ $item->description." :: ".$item->economic_code  }}
                                             </option>
                                         @endforeach
                                     </select>
-                                    <label for="floatingInput">Revenue Line/Economic Code</label>
+                                    {{-- <label for="floatingInput">Revenue Line/Economic Code</label> --}}
 
                                     @error('economic_code')
                                     <span class="text-danger"> {{ $message }} </span>
@@ -294,13 +294,13 @@
 
                             <div class="col-md-4 col-sm-6">
                                 <div class="form-floating">
-                                    <select name="type_of_liability" id="etype_of_liability" class="form-control">
-                                        <option value="">Select option</option>
+                                    <select name="type_of_liability" id="etype_of_liability" class="form-control selectu" style="width: 100%">
+                                        <option value="">Select Types of liabilities</option>
                                         <option value="Current liabilities">Current liabilities</option>
                                         <option value="Non-current liabilities">Non-current liabilities</option>
                                         <option value="Current liabilities">Contingent liabilities</option>
                                     </select>
-                                    <label for="floatingInput">Types of liabilities</label>
+                                    {{-- <label for="floatingInput">Types of liabilities</label> --}}
                                     <div id="floatingInputHelp" class="form-text"> </div>
                                     @error('type_of_liability')
                                         <span class="text-danger"> {{ $message }} </span>
@@ -363,7 +363,7 @@
 
 
    <!-- Modal -->
-   <div class="modal fade" id="newRevenue" tabindex="-1" aria-hidden="true">
+   <div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -382,15 +382,15 @@
                     <div class="row">
                         <div class="col-md-4 col-sm-6">
                             <div class="form-floating">
-                                <select name="revenue_code" id="revenue_code" class="form-control">
-                                    <option value="">Select option</option>
+                                <select name="revenue_code" id="select2" class="form-control " style="width: 100%">
+                                    <option value="">Select Revenue Line/Economic Code</option>
                                     @foreach ($EconomicLines as $item)
                                         <option value="{{ $item->description.",".$item->economic_code.",".$item->type  }}" {{ old('revenue_code') == $item->economic_code ? 'selected': ''}}>
                                             {{ $item->description." :: ".$item->economic_code  }}
                                         </option>
                                     @endforeach
                                 </select>
-                                <label for="floatingInput">Revenue Line/Economic Code</label>
+                                {{-- <label for="floatingInput">Revenue Line/Economic Code</label> --}}
 
                                 @error('economic_code')
                                 <span class="text-danger"> {{ $message }} </span>
@@ -413,13 +413,13 @@
 
                         <div class="col-md-4 col-sm-6">
                             <div class="form-floating">
-                                <select name="type_of_liability" id="type_of_liability" class="form-control">
-                                    <option value="">Select option</option>
+                                <select name="type_of_liability" id="select1" class="form-control " style="width: 100%">
+                                    <option value="">Select Types of liabilities</option>
                                     <option value="Current liabilities">Current liabilities</option>
                                     <option value="Non-current liabilities">Non-current liabilities</option>
                                     <option value="Current liabilities">Contingent liabilities</option>
                                 </select>
-                                <label for="floatingInput">Types of liabilities</label>
+                                {{-- <label for="floatingInput">Types of liabilities</label> --}}
                                 <div id="floatingInputHelp" class="form-text"> </div>
                                 @error('type_of_liability')
                                     <span class="text-danger"> {{ $message }} </span>

@@ -21,9 +21,11 @@ class RevenueController extends Controller
         $approvalLevels = $request->query('approvalLevels');
 
         $revenues = DB::table('acc_revenue')
-        ->where('service_id', 37483)
-        ->where('deleted', '0')
-        ->whereIn('approved', ['0','3'])
+        ->select('acc_revenue.*', 'users.name')
+        ->leftJoin('users', 'users.email', 'acc_revenue.created_by')
+        ->where('acc_revenue.service_id', 37483)
+        ->where('acc_revenue.deleted', '0')
+        ->whereIn('acc_revenue.approved', ['0','3'])
         ->when(!empty($economicCode) , function ($query) use ($economicCode) {
             return $query->where('revenue_code', $economicCode);
         })
@@ -95,7 +97,8 @@ class RevenueController extends Controller
             "year" => $year,
             'rrr_status' => $request->rrr_input_field == "on" ? 1 : 0,
             'rrr' => $request->rrr_input_field == "on" ? $request->rrr : '',
-            "service_id" => 37483
+            "service_id" => 37483,
+            "created_by" => emailAddress()
         ]);
 
         // Notification

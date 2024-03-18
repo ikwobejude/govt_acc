@@ -24,7 +24,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-6 col-sm-12 mb-3">
                                     <div class="form-floating">
-                                        <select name="budgetType" id="sbudgetType" class="form-control" onchange="getRevenueType('sbudgetType')">
+                                        <select name="budgetType" id="sbudgetType" class="form-control selects" style="width: 100%" onchange="getRevenueType('sbudgetType')">
                                             <option value="">Select option</option>
                                             <option value="2">Personnel</option>
                                             <option value="3">Overhead</option>
@@ -40,7 +40,7 @@
                                 <div class="col-md-6 col-sm-12 mb-3">
                                     <span id="seco_noti"></span>
                                     <div class="form-floating">
-                                        <select name="economicCode" id="seconomicCode" class="form-control">
+                                        <select name="economicCode" id="seconomicCode" class="form-control selects" style="width: 100%">
                                             <option value="">Select option</option>
 
                                         </select>
@@ -102,7 +102,7 @@
                 </div>
                 <div class="col-6">
                     <div style="text-align: right; padding: 20px">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newRevenue">Add new budget</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add new budget</button>
                     </div>
                 </div>
             </div>
@@ -171,7 +171,7 @@
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                           </button>
                                           <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter" onclick="update(
+                                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#updateModal" onclick="update(
                                              '{{ $item->line.','.$item->economic_code.','.$item->economic_type }}',
                                              '{{ $item->budget_type }}',
                                              '{{ $item->found_source }}',
@@ -210,7 +210,7 @@
 
 
    <!-- Modal -->
-   <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+   <div class="modal fade" id="updateModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -231,13 +231,13 @@
                             <div class="col-md-6 col-sm-12 ">
                                 <div class="form-floating mb-3">
                                     <input type="hidden" name="id" id="id">
-                                    <select name="budgetType" id="ebudgetType" required class="form-control" onchange="getRevenueType('budgetType')">
-                                        <option value="">Select option</option>
+                                    <select name="budgetType" id="ebudgetType" required class="form-control selectu" style="width: 100%" onchange="getRevenueType('budgetType')">
+                                        <option value="">Select Budget Type</option>
                                         <option value="2">Personnel</option>
                                         <option value="3">Overhead</option>
                                         <option value="4">Capital</option>
                                     </select>
-                                    <label for="floatingInput">Budget Type<span class="required">*</span></label>
+                                    {{-- <label for="floatingInput">Budget Type<span class="required">*</span></label> --}}
 
                                     @error('budgetType')
                                     <span class="text-danger"> {{ $message }} </span>
@@ -247,14 +247,14 @@
                             <div class="col-md-6 col-sm-12">
                                 <span id="eco_noti"></span>
                                 <div class="form-floating mb-3">
-                                    <select name="economicCode" id="economicCode" required class="form-control">
-                                        <option value="">Select option</option>
+                                    <select name="economicCode" id="economicCode" required class="form-control selectu" style="width: 100%">
+                                        <option value="">Select Economic Code</option>
                                         @foreach ($NCOS as $item)
                                             <option value="{{ $item->description.",".$item->economic_code.",".$item->type  }}">{{ $item->description." :: ".$item->economic_code  }}</option>
                                         @endforeach
 
                                     </select>
-                                    <label for="floatingInput">Economic Code<span class="required">*</span></label>
+                                    {{-- <label for="floatingInput">Economic Code<span class="required">*</span></label> --}}
 
                                     @error('economicCode')
                                     <span class="text-danger"> {{ $message }} </span>
@@ -305,7 +305,7 @@
   </div>
 
      <!-- Modal -->
-     <div class="modal fade" id="newRevenue" tabindex="-1" aria-hidden="true">
+     <div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -324,7 +324,7 @@
                         <div class="row mb-3">
                             <div class="col-md-6 col-sm-12 mb-3">
                                 <div class="form-floating">
-                                    <select name="budgetType" id="budgetType" required class="form-control" onchange="getRevenueType('budgetType', 'conomicCode')">
+                                    <select name="budgetType" id="budgetType" required class="form-control select" style="width: 100%" onchange="getRevenueType('budgetType', 'conomicCode')">
                                         <option value="">Select option</option>
                                         <option value="2">Personnel</option>
                                         <option value="3">Overhead</option>
@@ -340,7 +340,7 @@
                             <div class="col-md-6 col-sm-12 mb-3">
                                 <span id="eco_noti"></span>
                                 <div class="form-floating">
-                                    <select name="economicCode" id="conomicCode" required class="form-control">
+                                    <select name="economicCode" id="conomicCode" required class="form-control select" style="width: 100%">
                                         <option value="">Select option</option>
 
                                     </select>

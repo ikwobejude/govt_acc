@@ -57,7 +57,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="chefs.html">Chefs</a>
                                 </li> --}}
-                                <li class="nav-item dropdown">
+                                {{-- <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Blog
                                     </a>
@@ -66,15 +66,15 @@
                                         <a class="dropdown-item" href="single-blog.html">Single blog</a>
                                         <a class="dropdown-item" href="elements.html">Elements</a>
                                     </div>
-                                </li>
-                                {{-- <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">login</a>
                                 </li> --}}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('login') }}" class="btn_1 d-none d-sm-block">login</a>
+                                </li>
                             </ul>
                         </div>
-                        <div class="menu_btn">
+                        {{-- <div class="menu_btn">
                             <a href="{{ route('login') }}" class="btn_1 d-none d-sm-block">login</a>
-                        </div>
+                        </div> --}}
                     </nav>
                 </div>
             </div>
@@ -174,7 +174,7 @@
     </section>
     <!--::exclusive_item_part end::-->
 
-  
+
 
 
     <!-- footer part start-->

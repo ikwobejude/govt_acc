@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
@@ -237,4 +238,47 @@ class UserController extends Controller
             return redirect()->back()->with($notification);
         }
     }
+
+
+    public function user_profile(Request $request){
+        $groupId = DB::table('user_groups')->get();
+        return view('User.profile', compact('groupId'));
+    }
+
+    public function resetPassword2(Request $request) {
+        return view('User.reset_password2');
+    }
+
+    public function AdminProfileStore(Request $request){
+
+        $id = Auth::user()->id; // to get the specific user id logged in from the User table
+        $data = User::find($id); // to get the user logged in by the id
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->phone = $request->phone;
+
+
+        if ($request->file('photo')) {
+            $file = $request->file('photo');
+            @unlink(public_path('upload/admin_image/'.$data->photo));
+            $filename = date('YmdHi').$file->getClientOriginalName();
+            $file->move(public_path('upload/admin_image'), $filename);
+            $data['photo'] = $filename;
+            // dd($filename);
+        }
+
+        $data->save();
+
+
+
+        $notification = array(
+            'message' => 'Personal Details Updated Successfully',
+            'alert-type' => 'success'
+        );
+
+
+        return redirect()->back()->with($notification);
+
+    }
+
 }

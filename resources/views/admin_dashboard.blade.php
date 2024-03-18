@@ -45,7 +45,7 @@
      <!-- Toaster js -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
     <!--End Toaster js -->
-
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 
   <style>
@@ -161,6 +161,24 @@
         color: red
     }
 
+
+    .select2-selection__rendered {
+        line-height: 31px !important;
+    }
+    .select2-container .select2-selection--single {
+        height: 45px !important;
+    }
+    .select2-selection__arrow {
+        height: 45px !important;
+    }
+
+    .slt {
+        width: 100%;
+    }
+
+    /* .select2-container .select2-selection {
+        height: 34px;
+    } */
 </style>
   <!-- End Sweet Alert -->
 </head>
@@ -313,10 +331,125 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
   <script>
+    $('#select').select2({
+        width: 'resolve',
+        theme: "classic",
+        dropdownParent: $('#addModal')
+    });
 
+    $('#select1').select2({
+        width: 'resolve',
+        theme: "classic",
+        dropdownParent: $('#addModal')
+    });
 
+    $('#select2').select2({
+        width: 'resolve',
+        theme: "classic",
+        dropdownParent: $('#addModal')
+    });
+    $('#select3').select2({
+        width: 'resolve',
+        theme: "classic",
+        dropdownParent: $('#addModal')
+    });
+
+    $('.select').select2({
+      width: 'resolve',
+      theme: "classic",
+      dropdownParent: $('#addModal'),
+      createTag: function (params) {
+        var term = $.trim(params.term);
+
+        if (term === '') {
+          return null;
+        }
+
+        return {
+          id: term,
+          text: term,
+          newTag: true // add additional parameters
+        }
+      }
+    })
+
+    $('#selects1').select2({
+        width: 'resolve',
+        theme: "classic",
+        // dropdownParent: $('#addModal')
+    });
+    $('#selects2').select2({
+        width: 'resolve',
+        theme: "classic",
+        // dropdownParent: $('#addModal')
+    });
+    $('#selects3').select2({
+        width: 'resolve',
+        theme: "classic",
+        // dropdownParent: $('#addModal')
+    });
+    $('.selects').select2({
+      width: 'resolve',
+      theme: "classic",
+    //   dropdownParent: $('#newRevenue'),
+      createTag: function (params) {
+        var term = $.trim(params.term);
+
+        if (term === '') {
+          return null;
+        }
+
+        return {
+          id: term,
+          text: term,
+          newTag: true ,
+          // add additional parameters
+        }
+      }
+    })
+
+    $('.selectu').select2({
+      width: 'resolve',
+      theme: "classic",
+      dropdownParent: $('#updateModal'),
+      createTag: function (params) {
+        var term = $.trim(params.term);
+
+        if (term === '') {
+          return null;
+        }
+
+        return {
+          id: term,
+          text: term,
+          newTag: true ,
+          // add additional parameters
+        }
+      }
+    })
+
+    // $('.select2').select2({
+    //   createTag: function (params) {
+    //     width: 'resolve',
+    //     theme: "classic",
+    //     var term = $.trim(params.term);
+
+    //     if (term === '') {
+    //       return null;
+    //     }
+
+    //     return {
+    //       id: term,
+    //       text: term,
+    //       newTag: true
+    //       // add additional parameters
+    //     }
+    //   }
+    // });
 
     @if(Session::has('message'))
     var type = "{{ Session::get('alert-type','info') }}"
