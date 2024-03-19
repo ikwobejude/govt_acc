@@ -112,7 +112,7 @@
                 </div>
                 <div class="col-6">
                     <div style="text-align: right; padding: 20px">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newRevenue">Add New User</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add New User</button>
                     </div>
                 </div>
             </div>
@@ -184,7 +184,7 @@
 
 
    <!-- Modal -->
-   <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
+   <div class="modal fade" id="updateModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -203,7 +203,7 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-12 mb-3">
                             <div class="form-floating">
-                                <select name="user_role" id="e_user_role" class="form-control">
+                                <select name="user_role" style="width: 100%" id="e_user_role" class="form-control selectu">
                                     <option value="">Select option</option>
                                     @foreach ($groupId as $role)
                                         <option value="{{ $role->group_id  }}" {{ old('user_role') == $role->group_id ? 'selected': ''}}>
@@ -287,7 +287,7 @@
 
 
      <!-- Modal -->
-     <div class="modal fade" id="newRevenue" tabindex="-1" aria-hidden="true">
+     <div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -307,14 +307,14 @@
                             <div class="col-md-6 col-sm-12 mb-3">
                                 <div class="form-floating">
                                     <select name="user_role" style="width: 100%" id="user_role" class="form-control select">
-                                        <option value="">Select option</option>
+                                        <option value="">Select User Role</option>
                                         @foreach ($groupId as $role)
                                             <option value="{{ $role->group_id  }}" {{ old('user_role') == $role->group_id ? 'selected': ''}}>
                                                 {{ $role->group_name }}
                                             </option>
                                         @endforeach
                                     </select>
-                                    <label for="floatingInput">User Role</label>
+                                    {{-- <label for="floatingInput">User Role</label> --}}
 
                                     @error('user_role')
                                     <span class="text-danger"> {{ $message }} </span>
@@ -409,7 +409,7 @@ function update(name, email, group_id, phone, username, id) {
     $('#e_phone_number').val(phone)
     $('#id').val(id)
 
-    let myModal = new bootstrap.Modal(document.getElementById('edit'), {});
+    let myModal = new bootstrap.Modal(document.getElementById('updateModal'), {});
     myModal.show();
 }
 
