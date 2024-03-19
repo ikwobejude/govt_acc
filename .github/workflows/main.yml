@@ -15,7 +15,7 @@ jobs:
     - name: FTP-Deploy-Action
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
       with:
-        server: ftp.tarabapay.com
-        username: acc@tarabapay.com
+        server: ftp.horbn.ng
+        username: user@horbn.ng
         password: ${{ secrets.PSW }}
 
