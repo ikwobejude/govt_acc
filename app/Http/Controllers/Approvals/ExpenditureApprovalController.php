@@ -32,23 +32,25 @@ class ExpenditureApprovalController extends Controller
 
          if(groupId() == 1500) {
             $ExpenditureRegister = DB::table('expenditure_payregister')
-            ->where('service_id', 37483)
-            ->where('approved', 1)
-            ->where('deleted', 0)
+            ->select("expenditure_payregister.*", "users.name as user_name")
+            ->leftJoin('users', 'users.username', 'expenditure_payregister.created_by')
+            ->where('expenditure_payregister.service_id', 37483)
+            ->where('expenditure_payregister.approved', 1)
+            ->where('expenditure_payregister.deleted', 0)
             ->when(!empty($batch_type) , function ($query) use ($batch_type) {
-               return $query->where('batch_name', $batch_type);
+               return $query->where('expenditure_payregister.batch_name', $batch_type);
             })
             ->when(!empty($authority_document_ref_no) , function ($query) use ($authority_document_ref_no) {
-               return $query->where('payment_ref', $authority_document_ref_no);
+               return $query->where('expenditure_payregister.payment_ref', $authority_document_ref_no);
             })
             ->when(!empty($expenditure_type) , function ($query) use ($expenditure_type) {
-                return $query->where('expenditure_code', $expenditure_type);
+                return $query->where('expenditure_payregister.expenditure_code', $expenditure_type);
              })
              ->when(!empty($from), function ($query) use ($from) {
-                return $query->whereDate('created_at', '>=', $from);
+                return $query->whereDate('expenditure_payregister.created_at', '>=', $from);
              })
              ->when(!empty($to), function ($query) use ($to) {
-               return $query->whereDate('created_at', '<=', $to);
+               return $query->whereDate('expenditure_payregister.created_at', '<=', $to);
               })
            //    ->toSql();
            ->paginate(20);
@@ -57,23 +59,25 @@ class ExpenditureApprovalController extends Controller
 
          if(groupId() == 3000) {
             $ExpenditureRegister = DB::table('expenditure_payregister')
-            ->where('service_id', 37483)
-            ->where('approved', 4)
-            ->where('deleted', 0)
+            ->select("expenditure_payregister.*", "users.name as user_name")
+            ->leftJoin('users', 'users.username', 'expenditure_payregister.created_by')
+            ->where('expenditure_payregister.service_id', 37483)
+            ->where('expenditure_payregister.approved', 4)
+            ->where('expenditure_payregister.deleted', 0)
             ->when(!empty($batch_type) , function ($query) use ($batch_type) {
-               return $query->where('batch_name', $batch_type);
+               return $query->where('expenditure_payregister.batch_name', $batch_type);
             })
             ->when(!empty($authority_document_ref_no) , function ($query) use ($authority_document_ref_no) {
-               return $query->where('payment_ref', $authority_document_ref_no);
+               return $query->where('expenditure_payregister.payment_ref', $authority_document_ref_no);
             })
             ->when(!empty($expenditure_type) , function ($query) use ($expenditure_type) {
-                return $query->where('expenditure_code', $expenditure_type);
+                return $query->where('expenditure_payregister.expenditure_code', $expenditure_type);
              })
              ->when(!empty($from), function ($query) use ($from) {
-                return $query->whereDate('created_at', '>=', $from);
+                return $query->whereDate('expenditure_payregister.created_at', '>=', $from);
              })
              ->when(!empty($to), function ($query) use ($to) {
-               return $query->whereDate('created_at', '<=', $to);
+               return $query->whereDate('expenditure_payregister.created_at', '<=', $to);
               })
            //    ->toSql();
            ->paginate(20);
@@ -82,23 +86,25 @@ class ExpenditureApprovalController extends Controller
 
          if(groupId() == 111111) {
             $ExpenditureRegister = DB::table('expenditure_payregister')
-            ->where('service_id', 37483)
-            ->where('deleted', 0)
-            ->whereIn('approved', [1,2,3,4])
+            ->select("expenditure_payregister.*", "users.name as user_name")
+            ->leftJoin('users', 'users.username', 'expenditure_payregister.created_by')
+            ->where('expenditure_payregister.service_id', 37483)
+            ->where('expenditure_payregister.deleted', 0)
+            ->whereIn('expenditure_payregister.approved', [1,2,3,4])
             ->when(!empty($batch_type) , function ($query) use ($batch_type) {
-               return $query->where('batch_name', $batch_type);
+               return $query->where('expenditure_payregister.batch_name', $batch_type);
             })
             ->when(!empty($authority_document_ref_no) , function ($query) use ($authority_document_ref_no) {
-               return $query->where('payment_ref', $authority_document_ref_no);
+               return $query->where('expenditure_payregister.payment_ref', $authority_document_ref_no);
             })
             ->when(!empty($expenditure_type) , function ($query) use ($expenditure_type) {
-                return $query->where('expenditure_code', $expenditure_type);
+                return $query->where('expenditure_payregister.expenditure_code', $expenditure_type);
              })
              ->when(!empty($from), function ($query) use ($from) {
-                return $query->whereDate('created_at', '>=', $from);
+                return $query->whereDate('expenditure_payregister.created_at', '>=', $from);
              })
              ->when(!empty($to), function ($query) use ($to) {
-               return $query->whereDate('created_at', '<=', $to);
+               return $query->whereDate('expenditure_payregister.created_at', '<=', $to);
               })
            //    ->toSql();
            ->paginate(20);

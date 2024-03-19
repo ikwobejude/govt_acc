@@ -34,8 +34,8 @@ class ExpenditurePayRegisterController extends Controller
         $expenditureType = RevenueLine::where('type', 2)->get();
         $batchName = ExpenditureBatchName::all();
         $ExpenditureRegister = db::table('expenditure_payregister')
-        ->select("expenditure_payregister.*", "users.name")
-        ->leftJoin('users', 'users.email', 'expenditure_payregister.created_by')
+        ->select("expenditure_payregister.*", "users.name as user_name")
+        ->leftJoin('users', 'users.username', 'expenditure_payregister.created_by')
         ->where('expenditure_payregister.service_id', 37483)
         ->where('expenditure_payregister.deleted', 0)
         ->where('expenditure_payregister.approved', 0)

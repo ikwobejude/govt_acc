@@ -147,6 +147,7 @@
                                             <th>Authority Document Ref. No </th>
                                             <th>Amount </th>
                                             <th>Approvals Status </th>
+                                            <th>Created By </th>
                                             <th>Transaction Date </th>
                                             <th>Action</th>
                                         </tr>
@@ -167,6 +168,7 @@
                                                 <td>{{ $item->received_from }}</td>
                                                 <td>{{ $item->description }}</td>
                                                 <td>{{ $item->authority_document_ref_no }}</td>
+                                                <td>{{ $item->name }}</td>
                                                 <td>{{ number_format($item->revenue_amount, 2) }}</td>
                                                 <td>
                                                     @if($item->approved == 0)

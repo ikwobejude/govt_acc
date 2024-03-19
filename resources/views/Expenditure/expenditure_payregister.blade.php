@@ -172,6 +172,7 @@
                                             <th>Amount</th>
                                             <th>Description</th>
                                             <th>Approval Status </th>
+                                            <th>Created by</th>
                                             <th>Transaction Date </th>
                                             <th>Action</th>
                                         </tr>
@@ -214,6 +215,7 @@
                                                     @endif
 
                                                 </td>
+                                                <td> {{ $item->user_name }} </td>
                                                 <td> {{ date('Y-m-d', strtotime($item->created_at)) }}</td>
 
                                                 <td>

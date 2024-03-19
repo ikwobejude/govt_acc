@@ -121,6 +121,8 @@
                                 <th>Change (+/-) </th>
                                 <th>Revised Budget</th>
                                 <th>Budget Type</th>
+                                <th>Created On</th>
+                                <th>Created By</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -203,6 +205,8 @@
                                         @endif
 
                                     </td>
+                                    <td> {{ date("Y-m-d", strtotime($item->created_at)) }}</td>
+                                    <td>{{ $item->name }}</td>
 
                                 </tr>
                             @endforeach

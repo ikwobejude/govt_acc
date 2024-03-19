@@ -115,6 +115,10 @@ Route::group(['prefix' => 'settings'], function () {
         Route::get('/lga/{id}', [fetchController::class, 'localGovernmentArea'])->name('fetch.lga');
         Route::get('/state', [fetchController::class, 'state'])->name('fetch.state');
         Route::get('/economic_lines', [fetchController::class, 'economicLines'])->name('economic_lines');
+        // Asset classification type
+        Route::get('/asset_classificaton_type', [fetchController::class, 'assetClassificationType'])->name('economic_lines');
+
+
         // Route::get('/')
 
         // asset Location
@@ -168,6 +172,9 @@ Route::group(['prefix' => 'ppe'], function () {
         // Account payable
         Route::get('/_class', [PPECLassController::class, 'index'])->name('get.ppeclass');
         Route::post('/_class', [PPECLassController::class, 'store'])->name('post.ppe.class');
+
+        Route::get('/sub_class', [PPECLassController::class, 'indexSb'])->name('get.ppeclass.sub');
+        Route::post('/sub_class', [PPECLassController::class, 'storeSub'])->name('post.ppe.class.sub');
 
 
         Route::get('/', [PPEController::class, 'index'])->name('get.ppe');
@@ -320,5 +327,5 @@ Route::group(['prefix' => 'report'], function () {
     });
 });
 
-Router:
+// Router:
 

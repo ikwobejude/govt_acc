@@ -164,6 +164,7 @@
                                                 aria-checked="false"><i class="input-helper"></i> All</label>
                                     </div>
                                 </th>
+                                <th>Action</th>
                                 <th>Economic Line/Code</th>
                                 <th>Name</th>
                                 <th>Liability Type</th>
@@ -171,7 +172,8 @@
                                 <th>Authorization Ref</th>
                                 <th>Amount</th>
                                 <th>Transaction Date </th>
-                                <th>Action</th>
+                                <th>Created By </th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -186,14 +188,6 @@
                                                 class="input-helper"></i></label>
                                     </div>
                                 </td>
-                                <td>{{ $item->economic_name."/".
-                                    $item->economic_code }}</td>
-                                <td>{{ $item->liability }}</td>
-                                <td>{{ $item->type_of_liability }}</td>
-                                <td>{{ $item->narration }}</td>
-                                <td>{{ $item->authorize_ref }}</td>
-                                <td>{{ $item->amount }}</td>
-                                <td>{{ $item->created_at }}</td>
                                 <td>
                                     <div class="dropdown">
                                       <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -216,6 +210,16 @@
                                       </div>
                                     </div>
                                 </td>
+                                <td>{{ $item->economic_name."/".
+                                    $item->economic_code }}</td>
+                                <td>{{ $item->liability }}</td>
+                                <td>{{ $item->type_of_liability }}</td>
+                                <td>{{ $item->narration }}</td>
+                                <td>{{ $item->authorize_ref }}</td>
+                                <td>{{ $item->amount }}</td>
+                                <td>{{ $item->created_at }}</td>
+                                <td>{{ $item->name }}</td>
+
                             </tr>
                             @endforeach
                             <tr>

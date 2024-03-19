@@ -253,9 +253,6 @@ class UserController extends Controller
         // dd($request->file('upload'));
         $id = Auth::user()->id; // to get the specific user id logged in from the User table
         $data = User::find($id); // to get the user logged in by the id
-        $data->name = $request->name;
-        $data->email = $request->email;
-        $data->phone = $request->phone;
 
 
         if ($request->file('upload')) {

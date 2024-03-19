@@ -27,6 +27,8 @@ class BudgetApprovalsController extends Controller
         // dd($budgetType, $economicCode, $project, $approved, $from, $to);
         if(groupId() == 111111) {
             $budges = DB::table('acct_budgets')
+            ->select("acct_budgets.*", 'users.name')
+            ->leftJoin('users', 'users.username', 'acct_budgets.created_by')
             ->whereIn('approved', [1,2,3,4])
             ->where('deleted', 0)
             ->when($budgetType, function ($query, string $budgetType) {
@@ -52,6 +54,8 @@ class BudgetApprovalsController extends Controller
 
         if(groupId() == 3000) {
             $budges = DB::table('acct_budgets')
+            ->select("acct_budgets.*", 'users.name')
+            ->leftJoin('users', 'users.username', 'acct_budgets.created_by')
             ->where('approved', 4)
             ->where('deleted', 0)
             ->when($budgetType, function ($query, string $budgetType) {
@@ -77,6 +81,8 @@ class BudgetApprovalsController extends Controller
 
         if(groupId() == 1500) {
             $budges = DB::table('acct_budgets')
+            ->select("acct_budgets.*", 'users.name')
+            ->leftJoin('users', 'users.username', 'acct_budgets.created_by')
             ->where('approved', 1)
             ->where('deleted', 0)
             ->when($budgetType, function ($query, string $budgetType) {

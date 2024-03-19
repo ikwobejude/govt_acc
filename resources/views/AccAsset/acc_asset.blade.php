@@ -185,6 +185,7 @@
                                 <th>Asset Size</th>
                                 <th>Opening Value</th>
                                 <th>Status </th>
+                                <th>Created By </th>
                                 <th>Transaction Date </th>
                                 <th>Action</th>
                             </tr>
@@ -227,7 +228,9 @@
                                     @endif
 
                                 </td>
+                                <td>{{ $item->name }}</td>
                                 <td>{{ $item->date_purchased }}</td>
+
                                 <td>
                                     <div class="dropdown">
                                       <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

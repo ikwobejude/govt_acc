@@ -22,7 +22,7 @@ class RevenueController extends Controller
 
         $revenues = DB::table('acc_revenue')
         ->select('acc_revenue.*', 'users.name')
-        ->leftJoin('users', 'users.email', 'acc_revenue.created_by')
+        ->leftJoin('users', 'users.username', 'acc_revenue.created_by')
         ->where('acc_revenue.service_id', 37483)
         ->where('acc_revenue.deleted', '0')
         ->whereIn('acc_revenue.approved', ['0','3'])
@@ -46,6 +46,8 @@ class RevenueController extends Controller
          })
         ->orderBy('revenue_line', 'ASC')
         ->get();
+
+        // dd($revenues);
         $revenue_lines = DB::table('revenue_line')->where('type', 1)->get();
         return view('Revenue.revenue', compact('revenues','revenue_lines'));
     }

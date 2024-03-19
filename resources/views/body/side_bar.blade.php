@@ -206,7 +206,8 @@
         </li>
         <li class="menu-item {{
             (url()->current() == route('get.ppeclass') ? 'active open' :
-            (url()->current() == route('get.ppe') ? 'active open' : ''))
+            (url()->current() == route('get.ppe') ? 'active open' :
+            (url()->current() == route('get.ppeclass.sub') ? 'active open' : '')))
             }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons bx bx-cube-alt"></i>
@@ -215,14 +216,14 @@
             <ul class="menu-sub">
             <li class="menu-item {{ url()->current() == route('get.ppeclass') ? 'active' : ''}}">
                 <a href="{{ route('get.ppeclass')}}" class="menu-link">
-                    <div data-i18n="Depreciation Rate">PPE clasee</div>
+                    <div data-i18n="Depreciation Rate">PPE Classification</div>
                 </a>
             </li>
-            {{-- <li class="menu-item">
-                <a href="#" class="menu-link">
-                <div data-i18n="Depreciation Rate">Depreciation Rate</div>
+            <li class="menu-item {{ url()->current() == route('get.ppeclass.sub') ? 'active' : ''}}">
+                <a href="{{ route('get.ppeclass.sub')}}" class="menu-link">
+                <div data-i18n="Depreciation Rate">PPE Classification Type</div>
                 </a>
-            </li> --}}
+            </li>
             <li class="menu-item {{ url()->current() == route('get.ppe') ? 'active' : ''}}">
                 <a href="{{ route('get.ppe') }}" class="menu-link">
                 <div data-i18n="Asset Register">Asset Register</div>

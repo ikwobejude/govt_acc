@@ -37,4 +37,16 @@ class fetchController extends Controller
             "data" => $state
         ]);
     }
+
+
+    public function assetClassificationType(Request $request) {
+        $type = $request->query('asset_class_id');
+        $classtypes = DB::table('acct_ppe_sub_class')
+        ->where('classid', $type)
+        ->get();
+        return response()->json([
+            "status" => true,
+            "data" => $classtypes
+        ]);
+    }
 }

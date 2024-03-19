@@ -31,7 +31,7 @@ class BudgetController extends Controller
         // dd($budgetType, $economicCode, $project, $approved, $from, $to);
         $budges = DB::table('acct_budgets')
         ->select("acct_budgets.*", 'users.name')
-        ->leftJoin('users', 'users.email', 'acct_budgets.created_by')
+        ->leftJoin('users', 'users.username', 'acct_budgets.created_by')
         ->whereIn('acct_budgets.approved', [0, 3])
         ->where('acct_budgets.deleted', 0)
         ->when($budgetType, function ($query, string $budgetType) {

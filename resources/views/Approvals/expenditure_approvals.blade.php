@@ -129,6 +129,7 @@
                                                 aria-checked="false"><i class="input-helper"></i> All</label>
                                     </div>
                                 </th>
+                                <th>Action</th>
                                 <th>Batch Name</th>
                                 <th>Expenditure Type</th>
                                 <th>Name</th>
@@ -136,7 +137,7 @@
                                 <th>Description</th>
                                 <th>Date </th>
                                 <th>Approval Status </th>
-                                <th>Action</th>
+                                <th>Created by </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -151,31 +152,6 @@
                                                     value="{{ $item->idexpenditure_payregister }}"><i
                                                     class="input-helper"></i></label>
                                         </div>
-                                    </td>
-                                    <td> {{ $item->batch_name }} </td>
-                                    <td> {{ $item->expenditure_name }} </td>
-                                    <td> {{ $item->name }} </td>
-                                    <td> {{ $item->amount }}</td>
-                                    <td> {{ $item->narration }} </td>
-                                    <td> {{ date("Y-m-d", strtotime($item->created_at)) }}</td>
-                                    <td>
-
-                                        @if($item->approved == 0 || $item->approved == 4)
-                                            <span class="badge bg-label-warning">Pending</span>
-                                        @endif
-                                        @if($item->approved == 1)
-                                            <span class="badge bg-label-primary">Await Final Approval</span>
-                                        @endif
-                                        @if($item->approved == 2)
-                                            <span class="badge bg-label-success">Approved</span>
-                                        @endif
-                                        @if($item->approved == 3)
-                                        <button type="button" class="btn btn-sm btn-danger" onclick="viewDisapproveR('{{ $item->reason }}')">
-                                            Rejected
-                                            <span class="badge bg-white text-primary ms-1">View why</span>
-                                            </button>
-                                        @endif
-
                                     </td>
                                     <td>
                                         <div class="dropdown">
@@ -209,6 +185,33 @@
                                         </div>
                                         </div>
                                     </td>
+                                    <td> {{ $item->batch_name }} </td>
+                                    <td> {{ $item->expenditure_name }} </td>
+                                    <td> {{ $item->name }} </td>
+                                    <td> {{ $item->amount }}</td>
+                                    <td> {{ $item->narration }} </td>
+                                    <td> {{ date("Y-m-d", strtotime($item->created_at)) }}</td>
+                                    <td>
+
+                                        @if($item->approved == 0 || $item->approved == 4)
+                                            <span class="badge bg-label-warning">Pending</span>
+                                        @endif
+                                        @if($item->approved == 1)
+                                            <span class="badge bg-label-primary">Await Final Approval</span>
+                                        @endif
+                                        @if($item->approved == 2)
+                                            <span class="badge bg-label-success">Approved</span>
+                                        @endif
+                                        @if($item->approved == 3)
+                                        <button type="button" class="btn btn-sm btn-danger" onclick="viewDisapproveR('{{ $item->reason }}')">
+                                            Rejected
+                                            <span class="badge bg-white text-primary ms-1">View why</span>
+                                            </button>
+                                        @endif
+
+                                    </td>
+                                    <td> {{ $item->user_name }} </td>
+
                                 </tr>
                             @endforeach
                             <tr>

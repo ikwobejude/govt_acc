@@ -22,11 +22,13 @@ class RevenueApprovalsController extends Controller
             // dd($economicCode);
 
             $revenue = DB::table('acc_revenue')
-            ->where('service_id', 37483)
-            ->where('deleted', 0)
-            ->where('approved', 1)
+            ->select("acc_revenue.*", "users.name")
+            ->leftJoin("users", "users.username", "acc_revenue.created_by")
+            ->where('acc_revenue.service_id', 37483)
+            ->where('acc_revenue.deleted', 0)
+            ->where('acc_revenue.approved', 1)
             ->when(!empty($economicCode) , function ($query) use ($economicCode) {
-                return $query->where('revenue_code', $economicCode);
+                return $query->where('acc_revenue.revenue_code', $economicCode);
             })
             ->when(!empty($from), function ($query) use ($from) {
                 return $query->whereDate('acc_revenue.created_at', '>=', $from);
@@ -48,11 +50,13 @@ class RevenueApprovalsController extends Controller
             // dd($economicCode);
 
             $revenue = DB::table('acc_revenue')
-            ->where('service_id', 37483)
-            ->where('deleted', 0)
-            ->where('approved', 4)
+            ->select("acc_revenue.*", "users.name")
+            ->leftJoin("users", "users.username", "acc_revenue.created_by")
+            ->where('acc_revenue.service_id', 37483)
+            ->where('acc_revenue.deleted', 0)
+            ->where('acc_revenue.approved', 4)
             ->when(!empty($economicCode) , function ($query) use ($economicCode) {
-                return $query->where('revenue_code', $economicCode);
+                return $query->where('acc_revenue.revenue_code', $economicCode);
             })
             ->when(!empty($from), function ($query) use ($from) {
                 return $query->whereDate('acc_revenue.created_at', '>=', $from);
@@ -75,11 +79,13 @@ class RevenueApprovalsController extends Controller
             // dd($economicCode);
 
             $revenue = DB::table('acc_revenue')
-            ->where('service_id', 37483)
-            ->where('deleted', 0)
-            ->whereIn('approved', ['1', '2', '4'])
+            ->select("acc_revenue.*", "users.name")
+            ->leftJoin("users", "users.username", "acc_revenue.created_by")
+            ->where('acc_revenue.service_id', 37483)
+            ->where('acc_revenue.deleted', 0)
+            ->whereIn('acc_revenue.approved', ['1', '2', '4'])
             ->when(!empty($economicCode) , function ($query) use ($economicCode) {
-                return $query->where('revenue_code', $economicCode);
+                return $query->where('acc_revenue.revenue_code', $economicCode);
             })
             ->when(!empty($from), function ($query) use ($from) {
                 return $query->whereDate('acc_revenue.created_at', '>=', $from);

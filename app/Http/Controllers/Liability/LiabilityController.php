@@ -23,7 +23,7 @@ class LiabilityController extends Controller
         $EconomicLines = RevenueLine::where('type', 4)->get();
         $liabilities = DB::table('liabilities')
         ->select('liabilities.*', 'users.name')
-        ->leftJoin('users', 'users.email', 'liabilities.created_by')
+        ->leftJoin('users', 'users.username', 'liabilities.created_by')
         ->where('approved', 0)
         ->where('deleted', 0)
         ->when($revenue_code, function ($query, string $revenue_code) {

@@ -245,7 +245,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalCenterTitle">New Asset</h5>
+                    <h5 class="modal-title" id="modalCenterTitle">Update Asset</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('post.ppe') }}" method="post">
@@ -283,14 +283,30 @@
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-floating mb-3">
 
-                                        <select name="ppeclass" id="ppeclass" class="form-control">
+                                        <select name="ppeclass" id="ppeclass1" class="form-control" onchange="getRevenueType('assetType', 'ppeclasstypes')">
                                             <option value="">Select option</option>
                                             @foreach ($ppeClass as $item)
                                                 <option value="{{ $item->classid }}">
-                                                    {{ $item->ppeclass }}</option>
+                                                    {{ $item->ppeclass }} </option>
                                             @endforeach
                                         </select>
-                                        <label for="floatingInput">PPE Class</label>
+                                        <label for="floatingInput">Asset Classification</label>
+
+                                        @error('ppeclass')
+                                            <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-12">
+                                    <span id="co_noti"></span>
+                                    <div class="form-floating mb-3">
+
+                                        <select name="ppeclasstypes" id="ppeclasstypes" class="form-control">
+                                            <option value="">Select option</option>
+
+                                        </select>
+                                        <label for="floatingInput">Asset Classification Type</label>
 
                                         @error('ppeclass')
                                             <span class="text-danger"> {{ $message }} </span>
@@ -441,14 +457,30 @@
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-floating mb-3">
 
-                                        <select name="ppeclass" id="eppeclass" class="form-control">
+                                        <select name="ppeclass" id="eppeclass1" class="form-control" onchange="getRevenueType('eassetType', 'eppeclasstypes')">
                                             <option value="">Select option</option>
                                             @foreach ($ppeClass as $item)
                                                 <option value="{{ $item->classid }}">
                                                     {{ $item->ppeclass }}</option>
                                             @endforeach
                                         </select>
-                                        <label for="floatingInput">PPE Class</label>
+                                        <label for="floatingInput">Asset Classification</label>
+
+                                        @error('ppeclass')
+                                            <span class="text-danger"> {{ $message }} </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-12">
+                                    <span id="eco_noti"></span>
+                                    <div class="form-floating mb-3">
+
+                                        <select name="ppeclasstypes" id="eppeclasstypes" class="form-control">
+                                            <option value="">Select option</option>
+
+                                        </select>
+                                        <label for="floatingInput">Asset Classification Type</label>
 
                                         @error('ppeclass')
                                             <span class="text-danger"> {{ $message }} </span>
@@ -557,6 +589,78 @@
     </div>
 
     <script>
+
+async function getRevenueType(type, id) {
+        if(type == "assetType") {
+            const lgawait = document.getElementById('co_noti');
+
+            const budget_type = $('#ppeclass1').val()
+            console.log(budget_type, "Hello")
+
+            lgawait.textContent = '';
+            lgawait.textContent = 'Fetching Items';
+            lgawait.style = "color:blue";
+            try {
+                const res = await fetch('/settings/asset_classificaton_type?asset_class_id='+budget_type);
+                const data = await res.json();
+                console.log(data)
+                if (data.status == false) {
+                    lgawait.style = "color:red";
+                    lgawait.textContent = data.data;
+                } else {
+                    lgawait.textContent = ' ';
+                    populateLgas(data.data, id)
+                }
+            } catch (error) {
+                lgawait.style = "color:red";
+                lgawait.textContent = error.message;
+            }
+        } else {
+            const lgawait = document.getElementById('eco_noti');
+
+            const budget_type = $('#eppeclass1').val()
+            lgawait.textContent = '';
+            lgawait.textContent = 'Fetching Items';
+            lgawait.style = "color:blue";
+            try {
+                const res = await fetch('/settings/asset_classificaton_type?asset_class_id='+budget_type);
+                const data = await res.json();
+                // console.log(data)
+                if (data.status == false) {
+                    lgawait.style = "color:red";
+                    lgawait.textContent = data.data;
+                } else {
+                    lgawait.textContent = ' ';
+                    populateLgas(data.data, 'eppeclasstypes')
+                }
+            } catch (error) {
+                lgawait.style = "color:red";
+                lgawait.textContent = error.message;
+            }
+        }
+
+
+    }
+
+
+
+    function populateLgas(data, id) {
+        console.log({data})
+        if (data.length > 0) {
+            var html = "";
+            html += "<option disabled selected value> Select option</option>";
+            for (var a = 0; a < data.length; a++) {
+                html +=
+                    '<option value="' + data[a].id +'">' + data[a].ppesubclass + "</option>";
+            }
+            $("#"+id).html(html);
+        } else {
+            var html = "";
+            html += "<option disabled selected value> No option </option>";
+            $("#"+id).html(html);
+        }
+    }
+
         function update(ppename, ppedesc, peclass, state, location, warranty, usefulyears, residualval, salvage_value, id) {
             console.log({ppename, ppedesc, peclass, state, location, warranty, usefulyears, residualval, salvage_value, id})
             $('#id').val(id)
