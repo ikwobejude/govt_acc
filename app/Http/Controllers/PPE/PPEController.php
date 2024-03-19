@@ -22,11 +22,13 @@ class PPEController extends Controller
 
         $ppeClass = DB::table('acct_ppe_class')->get();
         $state = DB::table('_states')->get();
+        $acct_ppe_sub_class = DB::table('acct_ppe_sub_class')->get();
 
 
         $acctPPE = DB::table('acct_ppe')
-        ->select('acct_ppe.*', 'acct_ppe_class.ppeclass as peclass', '_states.state')
+        ->select('acct_ppe.*', 'acct_ppe_class.ppeclass as peclass', '_states.state', 'acct_ppe_sub_class.ppesubclass')
         ->leftJoin('acct_ppe_class', 'acct_ppe_class.classid', 'acct_ppe.ppeclass')
+        ->leftJoin('acct_ppe_sub_class', 'acct_ppe_sub_class.id', 'acct_ppe.ppeacct')
         ->leftJoin('_states', '_states.state_id', 'acct_ppe.ppestate')
         ->where('acct_ppe.deleted', 0)
         ->where('acct_ppe.approved', 0)
@@ -55,7 +57,7 @@ class PPEController extends Controller
         ->paginate(20);
 
 
-        return view('PPE.acc_ppe', compact('ppeClass', 'acctPPE', 'state'));
+        return view('PPE.acc_ppe', compact('ppeClass', 'acctPPE', 'state', 'acct_ppe_sub_class'));
     }
 
     public function store(Request $request) {
@@ -64,6 +66,8 @@ class PPEController extends Controller
             'ppename' => ['required', 'string'],
             'ppedesc' => ['required', 'string'],
             'ppeclass' => ['required', 'string'],
+            'ppeclasstypes' => ['required', 'string'],
+            'ppeclasstypes' => ['required', 'string'],
             'ppestate' => ['required', 'string'],
             'location' => ['required', 'string'],
             'warranty' => ['required', 'string'],
@@ -83,7 +87,7 @@ class PPEController extends Controller
             "ppename" => $request->ppename,
             "ppedesc" => $request->ppedesc,
             "ppeclass" => $request->ppeclass,
-            // "ppeacct" => $request->ppename,
+            "ppeacct" => $request->ppeclasstypes,
             "ppestate" => $request->ppestate,
             "location" => $request->location,
             "warranty" => $request->warranty,

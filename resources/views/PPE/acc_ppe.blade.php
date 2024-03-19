@@ -155,16 +155,18 @@
                                                         aria-checked="false"><i class="input-helper"></i> All</label>
                                             </div>
                                         </th>
-                                        <th>PPE Name</th>
+                                        <th>Action</th>
+                                        <th>Asset Name</th>
                                         <th>Description</th>
-                                        <th>PPE Class</th>
-                                        <th>PPE State</th>
+                                        <th>Asset Class</th>
+                                        <th>Asset Class tYPE</th>
+                                        <th>Asset State</th>
                                         <th>Location</th>
                                         <th>Warrenty</th>
                                         <th>Userfull Years</th>
                                         <th>Residual Value</th>
                                         <th>Salvage Value</th>
-                                        <th>Action</th>
+                                        <th>Created By</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -180,15 +182,6 @@
                                                             class="input-helper"></i></label>
                                                 </div>
                                             </td>
-                                            <td>{{ $item->ppename }}</td>
-                                            <td>{{ $item->ppedesc }}</td>
-                                            <td>{{ $item->peclass }}</td>
-                                            <td>{{ $item->state }}</td>
-                                            <td>{{ $item->location }}</td>
-                                            <td>{{ $item->warranty }}</td>
-                                            <td>{{ $item->usefulyears }}</td>
-                                            <td>{{ $item->residualval }}</td>
-                                            <td>{{ $item->salvage_value }}</td>
                                             <td>
                                                 <div class="dropdown">
                                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -208,6 +201,7 @@
                                                                 '{{$item->residualval}}',
                                                                 '{{$item->salvage_value}}',
                                                                 '{{$item->id}}',
+                                                                '{{$item->ppeacct }}'
                                                             )">
                                                             <i class="bx bx-edit-alt me-1"></i> Edit
                                                         </a>
@@ -216,6 +210,17 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>{{ $item->ppename }}</td>
+                                            <td>{{ $item->ppedesc }}</td>
+                                            <td>{{ $item->peclass }}</td>
+                                            <td>{{ $item->ppesubclass }}</td>
+                                            <td>{{ $item->state }}</td>
+                                            <td>{{ $item->location }}</td>
+                                            <td>{{ $item->warranty }}</td>
+                                            <td>{{ $item->usefulyears }}</td>
+                                            <td>{{ $item->residualval }}</td>
+                                            <td>{{ $item->salvage_value }}</td>
+
                                         </tr>
                                     @endforeach
                                     <tr>
@@ -231,11 +236,6 @@
                 </div>
             </div>
 
-
-
-
-
-
         </div>
     </div>
 
@@ -245,7 +245,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalCenterTitle">Update Asset</h5>
+                    <h5 class="modal-title" id="modalCenterTitle">Add New Asset</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('post.ppe') }}" method="post">
@@ -253,7 +253,7 @@
 
                         @csrf
                         <div class="fieldset">
-                            <h1>Update Detail</h1>
+                            <h1>New Asset</h1>
                             <div class="row ">
                                 <div class="col-md-6 col-sm-12">
                                     <div class="form-floating mb-3">
@@ -418,7 +418,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalCenterTitle">New Asset</h5>
+                    <h5 class="modal-title" id="modalCenterTitle">Update Asset</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('put.ppe') }}" method="post">
@@ -478,6 +478,9 @@
 
                                         <select name="ppeclasstypes" id="eppeclasstypes" class="form-control">
                                             <option value="">Select option</option>
+                                            @foreach ($acct_ppe_sub_class as $item)
+                                              <option value="{{ $item->id }}"> {{ $item->ppesubclass }} </option>
+                                            @endforeach
 
                                         </select>
                                         <label for="floatingInput">Asset Classification Type</label>
@@ -590,7 +593,7 @@
 
     <script>
 
-async function getRevenueType(type, id) {
+    async function getRevenueType(type, id) {
         if(type == "assetType") {
             const lgawait = document.getElementById('co_noti');
 
@@ -661,18 +664,19 @@ async function getRevenueType(type, id) {
         }
     }
 
-        function update(ppename, ppedesc, peclass, state, location, warranty, usefulyears, residualval, salvage_value, id) {
-            console.log({ppename, ppedesc, peclass, state, location, warranty, usefulyears, residualval, salvage_value, id})
+        function update(ppename, ppedesc, peclass, state, location, warranty, usefulyears, residualval, salvage_value, id, eppeclasstypes) {
+            // console.log({ppename, ppedesc, peclass, state, location, warranty, usefulyears, residualval, salvage_value, id})
             $('#id').val(id)
             $('#eppename').val(ppename)
             $('#eppedesc').val(ppedesc)
-            $('#eppeclass').val(peclass)
+            $('#eppeclass1').val(peclass)
             $('#eppestate').val(state)
             $('#elocation').val(location)
             $('#ewarranty').val(warranty)
             $('#eusefulyears').val(usefulyears)
             $('#eresidualval').val(residualval)
-            $('#esalvage_value').val(salvage_value)
+            $('#esalvage_value').val(salvage_value),
+            $('#eppeclasstypes').val(eppeclasstypes)
         }
 
         function viewDisapproveR(str) {
