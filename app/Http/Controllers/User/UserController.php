@@ -250,32 +250,44 @@ class UserController extends Controller
     }
 
     public function AdminProfileStore(Request $request){
-        // dd($request->file('upload'));
-        $id = Auth::user()->id; // to get the specific user id logged in from the User table
-        $data = User::find($id); // to get the user logged in by the id
+        try {
+             // dd($request->file('upload'));
+            $id = Auth::user()->id; // to get the specific user id logged in from the User table
+            $data = User::find($id); // to get the user logged in by the id
 
 
-        if ($request->file('upload')) {
-            // dd("h");
-            $file = $request->file('upload');
-            @unlink(public_path('upload/image/'.$data->photo));
-            $filename = date('YmdHi').$file->getClientOriginalName();
-            $file->move(public_path('upload/image'), $filename);
-            $data['photo'] = $filename;
-            // dd($filename);
+            if ($request->file('upload')) {
+                // dd("h");
+                $file = $request->file('upload');
+                @unlink(public_path('upload/image/'.$data->photo));
+                $filename = date('YmdHi').$file->getClientOriginalName();
+                $file->move(public_path('upload/image'), $filename);
+                $data['photo'] = $filename;
+                // dd($filename);
+            }
+
+            $data->save();
+
+
+
+            $notification = array(
+                'message' => 'Personal Details Updated Successfully',
+                'alert-type' => 'success'
+            );
+
+
+            return redirect()->back()->with($notification);
+
+        } catch (\Throwable $th) {
+            $notification = array(
+                'message' => $th->getMessage(),
+                'alert-type' => 'error'
+            );
+
+
+            return redirect()->back()->with($notification);
+
         }
-
-        $data->save();
-
-
-
-        $notification = array(
-            'message' => 'Personal Details Updated Successfully',
-            'alert-type' => 'success'
-        );
-
-
-        return redirect()->back()->with($notification);
 
     }
 

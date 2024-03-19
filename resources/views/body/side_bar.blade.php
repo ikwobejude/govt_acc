@@ -102,11 +102,11 @@
               <div data-i18n="Depreciation Rate">Asset Type</div>
             </a>
           </li>
-          {{-- <li class="menu-item {{url()->current() == route('asset.size') ? 'active' : ''}}">
+          <li class="menu-item {{url()->current() == route('asset.size') ? 'active' : ''}}">
             <a href="{{ route('asset.size') }}" class="menu-link">
               <div data-i18n="Asset Register">Asset Size</div>
             </a>
-          </li> --}}
+          </li>
           <li class="menu-item {{url()->current() == route('asset.categories') ? 'active' : ''}}">
             <a href="{{ route('asset.categories') }}" class="menu-link">
               <div data-i18n="Asset Register">Asset Class</div>
