@@ -32,9 +32,7 @@
                                         <div class="form-floating mb-3">
                                             <select name="batchType" id="batchType" class="form-control">
                                                 <option value="">-- Select Option --</option>
-                                                @foreach($batchName as $batch)
-                                                    <option value="{{ $batch->name }}">{{ $batch->name }}</option>
-                                                @endforeach
+
 
                                                 {{-- <option value="Vendor">Vendor</option> --}}
                                             </select>
@@ -47,11 +45,7 @@
 
                                                 <select name="expenditureType" id="expenditureType" class="form-control">
                                                     <option value="">-- Select Option --</option>
-                                                    @foreach ($expenditureType as $Etype)
-                                                    <option value="{{ $Etype->economic_code  }}" {{ old('expenditure_type') == $Etype->economic_code ? 'selected': ''}}>
-                                                        {{ $Etype->description."::".$Etype->economic_code  }}
-                                                    </option>
-                                                    @endforeach
+
                                                 </select>
                                             <label for="floatingInput">Batch Type</label>
                                             <div id="floatingInputHelp" class="form-text"></div>
@@ -135,50 +129,39 @@
 
       <div class="col-md-12">
 
-            @if (count([]) > 1)
+            @if (count($account_payable) > 0)
             <div class="card mb-4">
                 <h5 class="card-header">Accounts Payables</h5>
                 <div class="card-body">
                     <div class="table-reponsive">
-                        <table class="table table-stripe ">
+                        <table class="table table-stripe table-bordered ">
+                                <thead>
+                                    <tr>
+                                        <th>Vendor Type</th>
+                                        <th>Receivable From</th>
+                                        <th>Amount Receivable</th>
+                                        <th>Nassarion</th>
+                                        <th>Due Date</th>
+                                        <th>Created On  </th>
+                                        <th>Created By</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-
-                                @foreach ($ExpenditureRegister->groupBy('expenditure_name') as $expenditure_name => $expenditure)
-
-                                        <thead>
-                                            <tr>
-                                                <th>LINE ITEM</th>
-                                                <th>{{ $expenditure_name }}</th>
-                                                <th colspan="3" style="text-align-last: center">NCOA</th>
-                                                <th>{{ $expenditure[0]->expenditure_code }}</th>
-                                            </tr>
-                                            <tr style="border-top: 2px solid black">
-                                                <th class="td">Date</th>
-                                                <th class="td">NARRATION</th>
-                                                <th class="td">REF</th>
-                                                <th class="td">DR(N)</th>
-                                                <th class="td">CR(N)</th>
-                                                <th class="td">BALANCE </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                    @foreach ($expenditure as  $key=>$item)
-
+                                    @foreach ($account_payable as $key => $item)
                                         <tr>
-                                            {{-- <td>{{ $key + 1}}</td> --}}
-                                            <td class="td"> {{ date("Y-m-d", strtotime($item->created_at)) }} </td>
-                                            <td class="td"> {{ $item->narration }} </td>
-                                            <td class="td">  </td>
-                                            <td class="td"> {{ number_format($item->amount, 2)  }} </td>
-                                            <td class="td">  </td>
-                                            <td class="td">{{ number_format($item->amount, 2) }} </td>
+                                            <td> {{ $item->vendor }} </td>
+                                            <td> {{ $item->payable_to }} </td>
+                                            <td> {{ number_format($item->payable_amount, 2) }} </td>
+                                            <td> {{ $item->narration }} </td>
 
+                                            <td> {{ date('Y-m-d', strtotime($item->due_date)) }} </td>
+                                            <td> {{ date('Y-m-d', strtotime($item->created_on)) }} </td>
 
+                                            <td> {{ $item->name }} </td>
                                         </tr>
-
                                     @endforeach
                                 </tbody>
-                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -190,7 +173,7 @@
                 <div class="card-body">
                   <h5 class="card-title">Accounts payable (AP)</h5>
                   <p class="card-text">Amounts due to vendors or suppliers for goods or services received that have not yet been paid for</p>
-                  <a href="javascript:void(0)" class="btn btn-primary">Add new</a>
+                  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add new</button>
                 </div>
                 <div class="card-footer text-muted">{{  now()->toDateTimeString() }}</div>
             </div>
@@ -210,48 +193,66 @@
 
 
    <!-- Modal -->
-   <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+   <div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalCenterTitle">Modal title</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col mb-3">
-              <label for="nameWithTitle" class="form-label">Revenue Line</label>
-              <input
-                type="text"
-                id="nameWithTitle"
-                class="form-control"
-                placeholder="Enter Name" />
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCenterTitle">Add Payable</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-          </div>
-          <div class="row g-2">
-            <div class="col mb-0">
-              <label for="emailWithTitle" class="form-label">Revenue Code</label>
-              <input
-                type="email"
-                id="emailWithTitle"
-                class="form-control"
-                placeholder="xxxx@xxx.xx" />
-            </div>
-          </div>
+            <form action="{{ route('post.account_payable') }}" method="post">
+                @csrf
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5 mb-3">
+                            <label for="payable_to" class="form-label">Vendor</label>
+                            <input type="text" id="vendor" name="vendor" value="{{ old('vendor') }}" class="form-control  @error('vendor') is-invalid @enderror" placeholder="Enter Name" />
+                            @error('vendor')
+                                <span class="text-danger"> {{ $message }} </span>
+                            @enderror
+                        </div>
+                        <div class="col-md-7 mb-3">
+                            <label for="payable_to" class="form-label">Payable to</label>
+                            <input type="text" id="payable_to" name="payable_to" value="{{ old('payable_to') }}" class="form-control  @error('payable_to') is-invalid @enderror" placeholder="Enter Name" />
+                            @error('payable_to')
+                                <span class="text-danger"> {{ $message }} </span>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <label for="payable_amount" class="form-label">Payable Amount</label>
+                            <input type="text" id="payable_amount" name="payable_amount" value="{{ old('payable_amount') }}" class="form-control  @error('payable_amount') is-invalid @enderror" placeholder="10000.00" />
+                            @error('payable_amount')
+                                <span class="text-danger"> {{ $message }} </span>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <label for="due_date" class="form-label">Due Date</label>
+                            <input type="date" id="due_date" name="due_date" value="{{ old('due_date') }}" class="form-control  @error('due_date') is-invalid @enderror" />
+                            @error('due_date')
+                                <span class="text-danger"> {{ $message }} </span>
+                            @enderror
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea type="text" id="description" name="description" class="form-control  @error('description') is-invalid @enderror">{{ old('description') }}</textarea>
+                            @error('description')
+                                <span class="text-danger"> {{ $message }} </span>
+                            @enderror
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 
   @endsection
 

@@ -260,7 +260,9 @@ Route::group(['prefix' => 'general_ledger'], function () {
         // Account payable
         Route::get('/', [GeneralLedgerController::class, 'generalLedger'])->name('view.general.ledger');
         Route::get('/account_payable', [GeneralLedgerController::class, 'payable'])->name('view.account_payable');
+        Route::post('/account_payable', [GeneralLedgerController::class, 'storePayable'])->name('post.account_payable');
         Route::get('/account_receivable', [GeneralLedgerController::class, 'accountReceivable'])->name('view.account_receivable');
+        Route::post('/account_receivable', [GeneralLedgerController::class, 'storeReceivables'])->name('post.account_receivable');
     });
 });
 

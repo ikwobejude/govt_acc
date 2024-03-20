@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Revenue\RevenueLine;
 use App\Http\Controllers\Controller;
 use App\Models\Expenditure\ExpenditureBatchName;
+use Illuminate\Support\Facades\Validator;
 
 class GeneralLedgerController extends Controller
 {
@@ -103,28 +104,68 @@ class GeneralLedgerController extends Controller
         $economicCode = $request->query('revenue_code');
         $from = $request->query("from");
         $to = $request->query('to');
-        $expenditureType = RevenueLine::where('type', 2)->get();
-        $batchName = ExpenditureBatchName::all();
-
-
 
         // Expenditures
-        $ExpenditureRegister = DB::table('expenditure_payregister')
-        ->where('service_id', 37483)
-        ->where('approved', 2)
+        $account_payable = DB::table('account_payable')
+        ->select('account_payable.*', 'users.name')
+        ->leftJoin('users', 'users.username', 'account_payable.created_by')
+        ->where('account_payable.service_id', 37483)
         ->when(!empty($economicCode) , function ($query) use ($economicCode) {
-            return $query->where('expenditure_code', $economicCode);
+            return $query->where('account_payable.expenditure_code', $economicCode);
         })
         ->when(!empty($from), function ($query) use ($from) {
-            return $query->whereDate('created_at', '>=', $from);
+            return $query->whereDate('account_payable.created_at', '>=', $from);
         })
         ->when(!empty($to), function ($query) use ($to) {
-           return $query->whereDate('created_at', '<=', $to);
+           return $query->whereDate('account_payable.created_at', '<=', $to);
         })
-        ->orderBy('expenditure_name', 'ASC')
+        ->orderBy('account_payable.payid', 'DESC')
         ->get();
 
-        return view('GeneralLedger.payable', compact('ExpenditureRegister', 'expenditureType', 'batchName'));
+        // dd($account_payable);
+        return view('GeneralLedger.payable', compact('account_payable'));
+    }
+
+    public function storePayable(Request $request) {
+        try {
+            // dd($request->all());
+            $validateUser = Validator::make($request->all(), [
+                'vendor' => ['required', 'string'],
+                'payable_to' => ['required', 'string'],
+                'payable_amount' => ['required', 'regex:/^(\d+|\d+(\.\d{1,2})?|(\.\d{1,2}))$/'],
+                'due_date' => ['required', 'string'],
+                'description' => ['required', 'string'],
+            ]);
+
+            if($validateUser->fails()) {
+                return redirect()->back()
+                ->withErrors($validateUser->errors())
+                ->withInput();
+            }
+
+            DB::table('account_payable')->insert([
+                "vendor" => $request->vendor,
+                "payable_to" => $request->payable_to,
+                "payable_amount" => $request->payable_amount,
+                "due_date" => $request->due_date,
+                "narration" => $request->description,
+                "service_id" => 37483,
+                "created_by" => emailAddress()
+            ]);
+
+            $notification = array(
+                'message' => 'saved!',
+                'alert-type' => 'success'
+            );
+            return redirect()->back()->with($notification);
+
+        } catch (\Throwable $th) {
+            $notification = array(
+                'message' => $th->getMessage(),
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
     }
 
     public function accountReceivable(Request $request) {
@@ -132,22 +173,64 @@ class GeneralLedgerController extends Controller
         $from = $request->query("from");
         $to = $request->query('to');
 
-        $revenue_lines  = RevenueLine::where('type', 1)->get();
-        $revenue = DB::table('acc_revenue')
-        ->where('service_id', 37483)
-        ->where('approved', 2)
+        // $revenue_lines  = RevenueLine::where('type', 1)->get();
+        $receivables = DB::table('account_receivable')
+        ->select('account_receivable.*', 'users.name')
+        ->leftJoin("users", "users.username", "account_receivable.created_by")
+        ->where('account_receivable.service_id', 37483)
         ->when(!empty($economicCode) , function ($query) use ($economicCode) {
-            return $query->where('revenue_code', $economicCode);
+            return $query->where('account_receivable.vendor', $economicCode);
         })
         ->when(!empty($from), function ($query) use ($from) {
-            return $query->whereDate('created_at', '>=', $from);
+            return $query->whereDate('account_receivable.created_at', '>=', $from);
         })
         ->when(!empty($to), function ($query) use ($to) {
-           return $query->whereDate('created_at', '<=', $to);
+           return $query->whereDate('account_receivable.created_at', '<=', $to);
         })
-        ->orderBy('revenue_line', 'ASC')
+        ->orderBy('accid', 'DESC')
         ->get();
 
-        return view('GeneralLedger.receivable', compact('revenue', 'revenue_lines'));
+        return view('GeneralLedger.receivable', compact('receivables'));
+    }
+
+    public function storeReceivables(Request $request) {
+        try {
+            // dd($request->all());
+            $validateUser = Validator::make($request->all(), [
+                'receivable_from' => ['required', 'string'],
+                'amount' => ['required', 'regex:/^(\d+|\d+(\.\d{1,2})?|(\.\d{1,2}))$/'],
+                'due_date' => ['required', 'string'],
+                'description' => ['required', 'string'],
+            ]);
+
+            if($validateUser->fails()) {
+                return redirect()->back()
+                ->withErrors($validateUser->errors())
+                ->withInput();
+            }
+
+            DB::table('account_receivable')->insert([
+                "receivable_from" => $request->receivable_from,
+                "receivable_amount" => $request->amount,
+                "due_date" => $request->due_date,
+                "narration" => $request->description,
+                "service_id" => 37483,
+                "created_by" => emailAddress()
+            ]);
+
+            $notification = array(
+                'message' => 'saved!',
+                'alert-type' => 'success'
+            );
+            return redirect()->back()->with($notification);
+
+
+        } catch (\Throwable $th) {
+            $notification = array(
+                'message' => $th->getMessage(),
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
     }
 }
