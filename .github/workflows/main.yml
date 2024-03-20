@@ -5,7 +5,7 @@ on:
       - main
 name: Production Deploy
 jobs:
-  FTP-Deploy-Action:
+  FTP-Deploy-Action1:
     name: FTP-Deploy-Action
     runs-on: ubuntu-latest
     steps:
@@ -17,5 +17,19 @@ jobs:
       with:
         server: ftp.tarabapay.com
         username: acc@tarabapay.com
+        password: ${{ secrets.PSW }}
+
+  FTP-Deploy-Action2:
+    name: FTP-Deploy-Action
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+    - name: FTP-Deploy-Action
+      uses: SamKirkland/FTP-Deploy-Action@4.3.2
+      with:
+        server: ftp.horbn.ng
+        username: ftpuser@horbn.ng
         password: ${{ secrets.PSW }}
 
