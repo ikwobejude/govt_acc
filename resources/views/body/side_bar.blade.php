@@ -358,6 +358,8 @@
             </a>
           </li>
 
+
+
         </ul>
       </li>
 
@@ -383,13 +385,19 @@
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Final Accounts</span></li>
       <li class="menu-item {{
         (url()->current() == route('view.account_payable') ? 'active open' :
-        (url()->current() == route('view.account_receivable') ? 'active open' :''))
+        (url()->current() == route('view.account_receivable') ? 'active open' :
+        (url()->current() == route('view.general.ledger') ? 'active open' :'')))
         }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-detail"></i>
           <div data-i18n="Final Accounts">General Ledger</div>
         </a>
         <ul class="menu-sub">
+            <li class="menu-item {{ url()->current() == route('view.general.ledger') ? 'active' : ''}}">
+                <a href="{{ route('view.general.ledger') }}" class="menu-link">
+                    <div data-i18n="Payment Voucher">General Ledger</div>
+                </a>
+            </li>
           <li class="menu-item {{ url()->current() == route('view.account_payable') ? 'active' : ''}}">
             <a href="{{ route('view.account_payable') }}" class="menu-link">
               <div data-i18n="Vertical Form">Accounts Payables</div>

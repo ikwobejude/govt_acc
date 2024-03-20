@@ -17,7 +17,7 @@
 
               <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    <form action="{{ route('view.approve.revenue') }}" method="get" class="mt-3">
+                    <form action="{{ route('revenue.transaction') }}" method="get" class="mt-3">
                         @csrf
                         <div class="fieldset">
                             <h1>Search</h1>

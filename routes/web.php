@@ -258,6 +258,7 @@ Route::group(['prefix' => 'approve'], function () {
 Route::group(['prefix' => 'general_ledger'], function () {
     Route::middleware(['auth'])->group(function () {
         // Account payable
+        Route::get('/', [GeneralLedgerController::class, 'generalLedger'])->name('view.general.ledger');
         Route::get('/account_payable', [GeneralLedgerController::class, 'payable'])->name('view.account_payable');
         Route::get('/account_receivable', [GeneralLedgerController::class, 'accountReceivable'])->name('view.account_receivable');
     });

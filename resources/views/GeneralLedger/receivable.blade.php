@@ -89,6 +89,7 @@
             </div>
 
             <div class="col-md-12">
+                @if (count([]) > 1)
                 <div class="card mb-4">
                     <h5 class="card-header">Accounts Receivables</h5>
                     <div class="card-body">
@@ -137,6 +138,17 @@
 
                     </div>
                 </div>
+                @else
+                <div class="card text-center">
+                    <div class="card-header">Accounts Receivable</div>
+                    <div class="card-body">
+                      <h5 class="card-title">Accounts Receivable (AR)</h5>
+                      <p class="card-text">Payment which the company will receive from its customers who have purchased its goods & services on credit</p>
+                      <a href="javascript:void(0)" class="btn btn-primary">Add new</a>
+                    </div>
+                    <div class="card-footer text-muted">{{  now()->toDateTimeString() }}</div>
+                </div>
+                @endif
             </div>
 
         </div>
