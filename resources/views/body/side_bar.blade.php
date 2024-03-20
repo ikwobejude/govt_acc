@@ -333,26 +333,28 @@
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Transactions</span></li>
 
       <!-- User interface -->
-      <li class="menu-item {{ url()->current() == route('expenditure') ? 'active' : ''}}">
+      <li class="menu-item {{ (url()->current() == route('expenditure.trans') ? 'active open' :
+                              (url()->current() == route('revenue.transaction') ? 'active open' : ''))}}">
         <a href="javascript:void(0)" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-box"></i>
-          <div data-i18n="Revenue Receipts">Revenue/Payment Receipt</div>
+          <div data-i18n="Revenue Receipts">Transactions</div>
         </a>
         <ul class="menu-sub">
-            <li class="menu-item {{ url()->current() == route('expenditure') ? 'active' : ''}}">
+            {{-- <li class="menu-item {{ url()->current() == route('expenditure') ? 'active' : ''}}">
                 <a href="{{ route('expenditure') }}" class="menu-link">
                   <div data-i18n="Payment Voucher">Payment Voucher</div>
                 </a>
-            </li>
+            </li> --}}
 
-          <li class="menu-item ">
-            <a href="{{ route('expenditure') }}" class="menu-link">
-              <div data-i18n="Payment Voucher">Payment Receipt</div>
+
+          <li class="menu-item {{ url()->current() == route('revenue.transaction') ? 'active' : ''}}">
+            <a href="{{ route('revenue.transaction') }}" class="menu-link">
+              <div data-i18n="Journal Voucher">Revenue Receipt</div>
             </a>
           </li>
-          <li class="menu-item">
-            <a href="#" class="menu-link">
-              <div data-i18n="Journal Voucher">Revenue Receipt</div>
+          <li class="menu-item {{ url()->current() == route('expenditure.trans') ? 'active' : ''}}">
+            <a href="{{ route('expenditure.trans') }}" class="menu-link">
+              <div data-i18n="Payment Voucher">Payment Receipt</div>
             </a>
           </li>
 

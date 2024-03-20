@@ -32,6 +32,7 @@ use App\Http\Controllers\Expenditure\ExpenditureBatchNameController;
 use App\Http\Controllers\Expenditure\ExpenditurePayRegisterController;
 use App\Http\Controllers\FinalAccount\FinancialPositionController;
 use App\Http\Controllers\FinalAccount\ReportController;
+use App\Http\Controllers\Transaction\TransactionControllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -136,6 +137,9 @@ Route::group(['prefix' => 'revenue'], function () {
         Route::get('/delete/{id}', [RevenueController::class, 'destroy'])->name('delete_revenue');
 
         Route::post('/submit', [RevenueController::class, 'finalSubmission'])->name('confirm_submission');
+
+        // Transactional
+        Route::get('/transaction', [TransactionControllers::class, 'revenueTransaction'])->name('revenue.transaction');
     });
 });
 
@@ -149,6 +153,8 @@ Route::group(['prefix' => 'expenditure'], function () {
         Route::get('/delete/{id}', [ExpenditurePayRegisterController::class, 'destroy'])->name('deleted_expenditure');
         Route::post('/submit', [ExpenditurePayRegisterController::class, 'finalize'])->name('finalize_expenditure');
 
+
+        Route::get('/transaction', [TransactionControllers::class, 'expenditureTransactions'])->name('expenditure.trans');
     });
 });
 
@@ -298,6 +304,9 @@ Route::group(['prefix' => 'user'], function () {
         Route::post('/', [UserController::class, 'store'])->name('user.store');
         Route::post('/edit', [UserController::class, 'update'])->name('user.edit');
         Route::get('/delete/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+        Route::get('/admin_user_reset/{id}', [UserController::class, 'adminResetPassword'])->name('admin.reset.user.password');
+
+
 
         Route::get('/reset_password', [UserController::class, 'resetPassword'])->name('user_reset_password');
         Route::post('/reset_password', [UserController::class, 'reset_Password'])->name('post.user_reset_password');
@@ -326,6 +335,9 @@ Route::group(['prefix' => 'report'], function () {
 
     });
 });
+
+
+
 
 // Router:
 

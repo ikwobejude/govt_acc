@@ -144,6 +144,7 @@
                                             <th>Revenue Line</th>
                                             <th>Received From </th>
                                             <th>Description </th>
+                                            <th>RRR </th>
                                             <th>Authority Document Ref. No </th>
                                             <th>Amount </th>
                                             <th>Approvals Status </th>
@@ -167,8 +168,9 @@
                                                 <td>{{ $item->revenue_line }}</td>
                                                 <td>{{ $item->received_from }}</td>
                                                 <td>{{ $item->description }}</td>
+                                                <td>{{ $item->rrr }}</td>
                                                 <td>{{ $item->authority_document_ref_no }}</td>
-                                                <td>{{ $item->name }}</td>
+
                                                 <td>{{ number_format($item->revenue_amount, 2) }}</td>
                                                 <td>
                                                     @if($item->approved == 0)
@@ -188,6 +190,7 @@
                                                     @endif
 
                                                 </td>
+                                                <td>{{ $item->name }}</td>
                                                 <td>{{ date('Y-m-d', strtotime($item->settlement_date)) }}</td>
                                                 <td>
                                                     <div class="dropdown">
@@ -210,7 +213,7 @@
                                                             )">
                                                                 <i class="bx bx-edit-alt me-1"></i> Edit
                                                             </a>
-                                                            <a class="dropdown-item" href="{{ route('delete_revenue', $item->revenue_id) }}" onclick="confirm('Are you sure you want to delate?')"><i
+                                                            <a class="dropdown-item" href="{{ route('delete_revenue', $item->revenue_id) }}" onclick="return confirm('Are you sure you want to delate?')"><i
                                                                     class="bx bx-trash me-1"></i> Delete</a>
                                                         </div>
                                                     </div>
@@ -548,9 +551,9 @@
 
 
     <script>
-$('#myTable').DataTable( {
-    autoFill: true
-} );
+// $('#myTable').DataTable( {
+//     autoFill: true
+// } );
 
         function chk(ck, id) {
             console.log(ck, id)
@@ -559,7 +562,7 @@ $('#myTable').DataTable( {
             if (cb.checked == true) {
                 let html = `
                 <div class="form-floating mt-3 mb-3" >
-                    <input type="text" class="form-control" id="floatingInput" name="rrr" placeholder="" value="{{ old('rrr') }}" />
+                    <input type="text" class="form-control" maxlength="12" id="floatingInput" name="rrr" placeholder="" value="{{ old('rrr') }}" />
                     <label for="floatingInput">RRR</label>
                 </div>
                 `;
@@ -602,7 +605,7 @@ $('#myTable').DataTable( {
         }
 
         window.addEventListener('load', function() {
-            console.log("Helo")
+            // console.log("Helo")
             $("#checkedAll").change(function() {
                 if (this.checked) {
                     $(".checkSingle").each(function() {

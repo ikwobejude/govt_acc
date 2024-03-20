@@ -154,6 +154,7 @@
                                         <i class="bx bx-edit-alt me-1"></i> Edit
                                     </a>
                                     <a class="dropdown-item" href="{{ route('user.destroy', $item->id)}}" onclick="confirm('Are you sure you want to deactivate this user?')"><i class="bx bx-trash me-1"></i> Delete</a>
+                                    <a class="dropdown-item" href="{{ route('admin.reset.user.password', $item->id)}}" onclick="confirm('Are you sure you want to reset this password?')"><i class="bx bx-lock me-1"></i> Reset password to default</a>
                                   </div>
                                 </div>
                             </td>

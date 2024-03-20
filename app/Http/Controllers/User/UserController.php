@@ -291,4 +291,25 @@ class UserController extends Controller
 
     }
 
+    public function adminResetPassword($id) {
+        try {
+            User::where("id", $id)->update([
+                'password' => '$2y$12$SjE0ZJm0w/u/AAiX6OsBiOvgrBMVPY39WAxbc3Ulr9sCC37SdITna',
+                'inactive' => 1,
+            ]);
+            $notification = array(
+                'message' => 'The user was successfully updated',
+                'alert-type' => 'success'
+            );
+            return redirect()->back()->with($notification);
+        } catch (\Throwable $th) {
+            $notification = array(
+                'message' => $th->getMessage(),
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
+
+    }
+
 }

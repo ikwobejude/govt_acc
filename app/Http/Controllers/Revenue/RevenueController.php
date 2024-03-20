@@ -54,7 +54,7 @@ class RevenueController extends Controller
 
     public function store(Request $request) {
     //    try {
-        // dd($request->rrr_input_field);
+        // dd($request->all());
         $request->validate([
             'revenue_code' =>['required', 'string', 'max:255'],
             'received_from' => ['required', 'string', 'max:255'],
@@ -97,8 +97,8 @@ class RevenueController extends Controller
             "day" => $day,
             "month" => $month,
             "year" => $year,
-            'rrr_status' => $request->rrr_input_field == "on" ? 1 : 0,
-            'rrr' => $request->rrr_input_field == "on" ? $request->rrr : '',
+            'rrr_status' => $request->rrr_status == "on" ? 1 : 0,
+            'rrr' => $request->rrr_status == "on" ? $request->rrr : '',
             "service_id" => 37483,
             "created_by" => emailAddress()
         ]);
