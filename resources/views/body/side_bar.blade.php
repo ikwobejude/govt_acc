@@ -386,7 +386,7 @@
       <li class="menu-item {{
         (url()->current() == route('view.account_payable') ? 'active open' :
         (url()->current() == route('view.account_receivable') ? 'active open' :
-        (url()->current() == route('view.general.ledger') ? 'active open' :'')))
+        (url()->current() == route('view.general.ledger') ? 'active open' :'' )))
         }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-detail"></i>
