@@ -117,7 +117,7 @@
                 </div>
             </div>
           <div class="card-body">
-            <div class="table-reponsive">
+            <div class="table-responsive">
                 <table class="table table-stripe">
                     <thead>
                         <tr>

@@ -110,7 +110,7 @@
     <!-- banner part start-->
 
     <!--::exclusive_item_part start::-->
-    <section class="exclusive_item_part blog_item_section">
+    {{-- <section class="exclusive_item_part blog_item_section">
         <div class="container">
             <div class="row">
                 <div class="col-xl-5">
@@ -171,7 +171,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!--::exclusive_item_part end::-->
 
 

@@ -28,11 +28,27 @@ class TrialBalanceController extends Controller
         ->groupBy('expenditure_name')
         ->get();
 
+        $assets = DB::table('acct_assests')
+        ->where('service_id',37483)
+        ->where('approved', 2)
+        ->selectRaw("asset_rev_type as uniId, asset_rev as code, asset_rev_name  as line, SUM(opening_value) as total")
+        ->groupBy('asset_rev')
+        ->groupBy('asset_rev_type')
+        ->groupBy('asset_rev_name')
+        ->get();
+
+        $liability = DB::table('liabilities')
+        // ->where('service_id',37483)
+        ->where('approved', 2)
+        ->selectRaw("economic_type as uniId, economic_code as code, economic_name  as line, SUM(amount) as total")
+        ->groupBy('economic_code')
+        ->groupBy('economic_type')
+        ->groupBy('economic_name')
+        ->get();
+
 
         $arr = [];
         foreach ($revenue as $key => $value) {
-            # code...
-
             $arr[] = [
                 "economic_code" => $value->code,
                 "revenue_line" => $value->line,
@@ -43,8 +59,6 @@ class TrialBalanceController extends Controller
         }
 
         foreach ($ExpenditureRegister as $key => $value) {
-            # code...
-
             $arr[] = [
                 "economic_code" => $value->code,
                 "revenue_line" => $value->line,
@@ -53,6 +67,28 @@ class TrialBalanceController extends Controller
                 "totalcr" => "0.00"
             ];
         }
+
+        foreach ($assets as $key => $value) {
+            $arr[] = [
+                "economic_code" => $value->code,
+                "revenue_line" => $value->line,
+                "economic_type" => $value->uniId,
+                "totaldb" => $value->total,
+                "totalcr" => "0.00"
+            ];
+        }
+
+        foreach ($liability as $key => $value) {
+            $arr[] = [
+                "economic_code" => $value->code,
+                "revenue_line" => $value->line,
+                "economic_type" => $value->uniId,
+                "totaldb" => "0.00",
+                "totalcr" => $value->total
+            ];
+        }
+
+
 
 
 
