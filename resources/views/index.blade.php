@@ -181,21 +181,19 @@
     <footer class="footer-area">
         <div class="container">
             <div class="row">
-                <div class="col-xl-3 col-sm-6 col-md-3 col-lg-3">
+                <div class="col-xl-5 col-sm-6 col-md-5 col-lg-3">
                     <div class="single-footer-widget footer_1">
                         <h4>About Us</h4>
-                        <p>Heaven fruitful doesn't over for these theheaven fruitful doe over days
-                            appear creeping seasons sad behold beari ath of it fly signs bearing
-                            be one blessed after.</p>
+                        <p>The establishment and development of the Health Records in Nigeria according to Lorraine Nicholson (2012) began over 40 years ago when a number of Nigeria Medical Records Officers, including Mr. Akanji Daniel O. and Mr. Pius Ogbewe,  went to UK to train at the established schools in the 1960’s and 1970’s. Subsequently, they became qualified to Diploma level which was the highest level of qualification at that time and returned to Nigeria to put their training into practice. In the process they established a national professional association, and influencing the structured of the training programmes leading to recognized professional qualifications..</p>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6 col-md-2 col-lg-3">
+                <div class="col-xl-2 col-sm-6 col-md-2 col-lg-3">
                     <div class="single-footer-widget footer_2">
                         <h4>Important Link</h4>
                         <div class="contact_info">
                             <ul>
                                 <li><a href="https://horbn.ng/">Account software</a></li>
-                                <li><a href="www.hrorbn.org.ng"> hrorbn.org.ng</a></li>
+                                <li><a href="https://hrorbn.org.ng"> hrorbn.org.ng</a></li>
                                 <li><a href="#">My Account</a></li>
                                 <li><a href="#">Shopping Cart</a></li>
                                 <li><a href="#"> Our Shop</a></li>
@@ -203,7 +201,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-6 col-sm-6 col-md-6 col-lg-6">
+                <div class="col-xl-5 col-sm-6 col-md-5 col-lg-6">
                     <div class="single-footer-widget footer_2">
                         <h4>Address</h4>
                         <div class="contact_info">
