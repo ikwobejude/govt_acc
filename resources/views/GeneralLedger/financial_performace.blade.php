@@ -11,7 +11,64 @@
 
         <div class="row">
 
+            <div class="col-md-12">
+                <div class="accordion mb-4" id="accordionExample">
+                    <div class="card accordion-item">
+                      <h2 class="accordion-header" id="headingOne">
+                        <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="true" aria-controls="accordionOne">
+                          Search
+                        </button>
+                      </h2>
 
+                      <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="card-body">
+                                <form action="{{ route('financial_performance') }}" method="get">
+                                    @csrf
+                                    <div class="fieldset">
+                                        <h1>Search</h1>
+                                        <div class="row">
+
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="date" name="from" id="from" class="form-control" >
+                                                    <label for="floatingInput">From</label>
+                                                    <div id="floatingInputHelp" class="form-text"></div>
+                                                    @error('batch_type')
+                                                        <span class="text-danger"> {{ $message }} </span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="date" name="to" id="to" class="form-control" >
+                                                    <label for="floatingInput">TO</label>
+                                                    <div id="floatingInputHelp" class="form-text"></div>
+                                                    @error('batch_type')
+                                                        <span class="text-danger"> {{ $message }} </span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col"></div>
+                                            <div class="col" style="text-align: right">
+                                                <button type="submit" class="btn btn-primary me-2">Search</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                              </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+            </div>
 
             <div class="col-md-12">
                 <div class="card mb-4">

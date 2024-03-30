@@ -209,6 +209,19 @@ function sendEmailNotification($data){
 	}
 }
 
+function firstDay() {
+    $start = new Carbon('first day of this month');
+    return $start->startOfMonth();
+}
+
+function lastDay() {
+    $end = new Carbon('last day of this month');
+    return $end->endOfMonth();
+}
+
+
+
+
 // function sendEmailNotification($data){
 // 	try {
 // 		if($data['EmailType'] == "WelcomeEmail" ){

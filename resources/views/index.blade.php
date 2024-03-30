@@ -67,14 +67,14 @@
                                         <a class="dropdown-item" href="elements.html">Elements</a>
                                     </div>
                                 </li> --}}
-                                <li class="nav-item">
+                                {{-- <li class="nav-item">
                                     <a class="nav-link" href="{{ route('login') }}" class="btn_1 d-none d-sm-block">login</a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
-                        {{-- <div class="menu_btn">
+                        <div class="menu_btn">
                             <a href="{{ route('login') }}" class="btn_1 d-none d-sm-block">login</a>
-                        </div> --}}
+                        </div>
                     </nav>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                                 assets management and other accounting transactions.</p>
                             <div class="banner_btn">
                                 <div class="banner_btn_iner">
-                                    <a href="#" class="btn_2">Reservation <img src="img/icon/left_1.svg" alt=""></a>
+                                    <a href="/login" class="btn_2">login <img src="img/icon/left_1.svg" alt=""></a>
                                 </div>
                                 <a href="#" class="popup-youtube video_popup">
                                     <span><img src="img/icon/play.svg" alt=""></span> Watch our story</a>
@@ -194,8 +194,8 @@
                         <h4>Important Link</h4>
                         <div class="contact_info">
                             <ul>
-                                <li><a href="#">WHMCS-bridge</a></li>
-                                <li><a href="#"> Search Domain</a></li>
+                                <li><a href="https://horbn.ng/">Account software</a></li>
+                                <li><a href="www.hrorbn.org.ng"> hrorbn.org.ng</a></li>
                                 <li><a href="#">My Account</a></li>
                                 <li><a href="#">Shopping Cart</a></li>
                                 <li><a href="#"> Our Shop</a></li>
@@ -203,17 +203,31 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6 col-md-3 col-lg-3">
+                <div class="col-xl-6 col-sm-6 col-md-6 col-lg-6">
                     <div class="single-footer-widget footer_2">
-                        <h4>Contact us</h4>
+                        <h4>Address</h4>
                         <div class="contact_info">
-                            <p><span> Address :</span>Hath of it fly signs bear be one blessed after </p>
-                            <p><span> Phone :</span> +2 36 265 (8060)</p>
-                            <p><span> Email : </span>info@colorlib.com </p>
+                            <p>
+                                <b>NATIONAL SECRETARIAT</b> <br>
+                                #10 Kukawa Street off Gimbiya Street, Area 11, Garki - Abuja. <br>
+                               <b> ZONAL OFFICES:</b> <br>
+                                Medical Compound, #8, Harvey Road, Yaba - Lagos. <br>
+                                Yusuf Dantsoho Memorial Hospital, Polytechnic Road, Tudun Wada - Kaduna. <br>
+                                #29 Salma Plaza along Ganaja/Ajaokuta Road - Lokoja. <br>
+                                Old UNTH, opposite Central Police Station - Enugu. <br>
+                                Federal Secretariat Annex, Room 320-322, Murtala Muhammed High Way, Calabar.
+
+                                 </p>
+                            <p><span> Phone :</span>  0902 980 6732, 0902 980 6733</p>
+                            <p><span> Email : </span>hrorbnabuja@gmail.com
+                                hrorbnyaba@gmail.com
+                                hrorbnyaba@yahoo.com </p>
+                            <p><span>website</span> www.hrorbn.org.ng</p>
+                            <p>POSTAL ADDRESS PMB 5387, Wuse, Abuja PMB 3460, Surulere, Lagos</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6 col-md-4 col-lg-3">
+                {{-- <div class="col-xl-3 col-sm-6 col-md-4 col-lg-3">
                     <div class="single-footer-widget footer_3">
                         <h4>Newsletter</h4>
                         <p>Heaven fruitful doesn't over lesser in days. Appear creeping seas</p>
@@ -229,13 +243,13 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <div class="copyright_part_text">
                 <div class="row">
                     <div class="col-lg-8">
                         <p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved  <a href="https://horbn.ng/" target="_blank">hrorbn</a>
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                     </div>
                     <div class="col-lg-4">

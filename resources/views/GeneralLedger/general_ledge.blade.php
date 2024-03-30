@@ -23,85 +23,44 @@
               <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <div class="card-body">
-                        <form action="{{ route('post.expenditure') }}" method="post">
+                        <form action="{{ route('view.general.ledger') }}" method="get">
                             @csrf
                             <div class="fieldset">
                                 <h1>Accounts Payables</h1>
                                 <div class="row">
                                     <div class="col-md-4 col-sm-6">
-                                        <div class="form-floating mb-3">
-                                            <select name="batchType" id="batchType" class="form-control">
-                                                <option value="">-- Select Option --</option>
-                                                @foreach($batchName as $batch)
-                                                    <option value="{{ $batch->name }}">{{ $batch->name }}</option>
+                                        <div class="form-floating">
+                                            <select name="revenue_code" id="revenue_code" class="form-control selects" style="width: 100%">
+                                                <option value="">-- Economic Line Select Option --</option>
+                                                @foreach ($expenditureType as $Etype)
+                                                <option value="{{ $Etype->economic_code  }}" {{ old('expenditure_type') == $Etype->economic_code ? 'selected': ''}}>
+                                                    {{ $Etype->description."::".$Etype->economic_code  }}
+                                                </option>
                                                 @endforeach
-
-                                                {{-- <option value="Vendor">Vendor</option> --}}
                                             </select>
-                                            <label for="floatingInput">Batch Type</label>
-                                            <div id="floatingInputHelp" class="form-text"></div>
+
+                                            {{-- <label for="floatingInput">Economic Line</label> --}}
+
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 col-sm-6">
                                         <div class="form-floating mb-3">
-
-                                                <select name="expenditureType" id="expenditureType" class="form-control">
-                                                    <option value="">-- Select Option --</option>
-                                                    @foreach ($expenditureType as $Etype)
-                                                    <option value="{{ $Etype->economic_code  }}" {{ old('expenditure_type') == $Etype->economic_code ? 'selected': ''}}>
-                                                        {{ $Etype->description."::".$Etype->economic_code  }}
-                                                    </option>
-                                                    @endforeach
-                                                </select>
-                                            <label for="floatingInput">Batch Type</label>
+                                            <input type="date" name="from" id="from" class="form-control" >
+                                            <label for="floatingInput">From</label>
                                             <div id="floatingInputHelp" class="form-text"></div>
                                             @error('batch_type')
                                                 <span class="text-danger"> {{ $message }} </span>
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 col-sm-6">
                                         <div class="form-floating mb-3">
-                                            <input type="date" name="date" id="date" class="form-control" >
-                                            <label for="floatingInput">Date</label>
+                                            <input type="date" name="to" id="to" class="form-control" >
+                                            <label for="floatingInput">TO</label>
                                             <div id="floatingInputHelp" class="form-text"></div>
                                             @error('batch_type')
                                                 <span class="text-danger"> {{ $message }} </span>
                                             @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control @error('authority_document_ref_no') is-invalid @enderror" id="floatingInput" name="authority_document_ref_no" placeholder="Authority Document Ref. No" value="{{ old('authority_document_ref_no')}}" />
-                                            <label for="floatingInput">Authority Document Ref. No</label>
-
-                                            @error('authority_document_ref_no')
-                                            <span class="text-danger"> {{ $message }} </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3 col-sm-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" id="floatingInput" name="name" placeholder="Year" value="" />
-                                            <label for="floatingInput">Paid to</label>
-                                            <div id="floatingInputHelp" class="form-text"> </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-sm-5">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" id="floatingInput" name="amount" placeholder="Amount" />
-                                            <label for="floatingInput">Amount</label>
-                                            <div id="floatingInputHelp" class="form-text"> </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3 col-sm-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" id="floatingInput" name="narration" placeholder="Narration"  />
-                                            <label for="floatingInput">Narration/Description of Payment</label>
-                                            <div id="floatingInputHelp" class="form-text"> </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -140,7 +99,9 @@
             <h5 class="card-header">CR</h5>
             <div class="table-reponsive">
                 <table class="table table-stripe ">
+                    @if ($revenue)
 
+                    @endif
 
                         @foreach ($revenue->groupBy('economic_name') as $economic_name => $items)
 

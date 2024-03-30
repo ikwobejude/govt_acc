@@ -5,11 +5,81 @@
         border-top: 1px solid black
     }
 </style>
+<?php
+    // dd(strtotime($to));
+
+    $timestamp = $currentT == 1 ? strtotime($to) : \Carbon\Carbon::now()->format('Y-m-d');;
+    // $day = date('D', $timestamp);
+    // $month = date('M', $timestamp);
+
+    // $final_Date = date('d', $timestamp) .' '. date('M', $timestamp)
+    // dd($timestamp);
+?>
+
 @section('admin')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span>Statement of Financial Position</h4>
 
         <div class="row">
+
+            <div class="col-md-12">
+                <div class="accordion mb-4" id="accordionExample">
+                    <div class="card accordion-item">
+                      <h2 class="accordion-header" id="headingOne">
+                        <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="true" aria-controls="accordionOne">
+                          Search
+                        </button>
+                      </h2>
+
+                      <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="card-body">
+                                <form action="{{ route('financial_performance') }}" method="get">
+                                    @csrf
+                                    <div class="fieldset">
+                                        <h1>Search</h1>
+                                        <div class="row">
+
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="date" name="from" id="from" class="form-control" >
+                                                    <label for="floatingInput">From</label>
+                                                    <div id="floatingInputHelp" class="form-text"></div>
+                                                    @error('batch_type')
+                                                        <span class="text-danger"> {{ $message }} </span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="date" name="to" id="to" class="form-control" >
+                                                    <label for="floatingInput">TO</label>
+                                                    <div id="floatingInputHelp" class="form-text"></div>
+                                                    @error('batch_type')
+                                                        <span class="text-danger"> {{ $message }} </span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col"></div>
+                                            <div class="col" style="text-align: right">
+                                                <button type="submit" class="btn btn-primary me-2">Search</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                              </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+            </div>
 
 
 
@@ -18,7 +88,7 @@
                     <h5 class="card-header" style="text-align: center">
                         FEDERAL MINISTRY Of HEALTH: HEALTH RECORDS OFFICER'S REGISTRATION BOARD OF NIGERIA <br>
                         FERDERAL GOVERNMENT OF NIGERIA <br>
-                        STATEMENT OF CASH FLOW FOR THE YEAR ENDED 31ST DECEMBER, 2021
+                        STATEMENT OF CASH FLOW FOR THE  2021
                     </h5>
                     <div class="card-body">
                         <div class="table-responsive">
