@@ -18,7 +18,7 @@
                     <h5 class="card-header" style="text-align: center">
                         FEDERAL GOVERNMENT OF NIGERIA <br>
                         HEALTH RECORDS OFFICERS REGISTRATION BOARD OF NIGERIA <br>
-                        MONTHLY IPSAS ACCRUAL BASIS COMPLIANT TRIAL BALANCE FOR THE YEAR ENDED 31ST DEC 2021. <br>
+                        MONTHLY IPSAS ACCRUAL BASIS COMPLIANT TRIAL BALANCE FROM {{ "JAN 1, ".date('Y')." - ". strtoupper($today->toFormattedDateString()) }}. <br>
                     </h5>
                     <div class="card-body">
                         <div class="table-responsive">

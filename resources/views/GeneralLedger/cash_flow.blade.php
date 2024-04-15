@@ -88,7 +88,7 @@
                     <h5 class="card-header" style="text-align: center">
                         FEDERAL MINISTRY Of HEALTH: HEALTH RECORDS OFFICER'S REGISTRATION BOARD OF NIGERIA <br>
                         FERDERAL GOVERNMENT OF NIGERIA <br>
-                        STATEMENT OF CASH FLOW FOR THE  2021
+                        STATEMENT OF CASH FLOW FOR {{ strtoupper($from->toFormattedDateString()) ." - ".strtoupper($to->toFormattedDateString()) }}
                     </h5>
                     <div class="card-body">
                         <div class="table-responsive">

@@ -57,7 +57,7 @@ class FinancialPositionController extends Controller
         ->get();
 
         // dd($asset, $liability, $revenue);
-        return view('GeneralLedger.statement_of_financial_position', compact('asset', 'liability', 'revenue', 'to'));
+        return view('GeneralLedger.statement_of_financial_position', compact('asset', 'liability', 'revenue', 'to', 'from'));
     }
 
 }

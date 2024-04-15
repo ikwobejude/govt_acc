@@ -7,21 +7,26 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Expenditure\ExpenditureRegister;
 use App\Models\Revenue\Revenue;
+use Carbon\Carbon;
 
 class TrialBalanceController extends Controller
 {
     public function index(Request $request) {
+
         $revenue = Revenue::Where('service_id',37483)
         ->where('approved', 2)
+        ->whereYear('created_at', Carbon::now()->year)
         ->selectRaw("revenue_line as line, revenue_code as code, asset_name as uniId, SUM(revenue_amount) as total")
 
         ->groupBy('revenue_line')
         ->groupBy('revenue_code')
         ->groupBy('asset_name')
+
         ->get();
 
         $ExpenditureRegister = ExpenditureRegister::Where('service_id',37483)
         ->where('approved', 2)
+        ->whereYear('created_at', Carbon::now()->year)
         ->selectRaw("expenditure_type as uniId, expenditure_code as code, expenditure_name  as line, SUM(amount) as total")
         ->groupBy('expenditure_code')
         ->groupBy('expenditure_type')
@@ -29,6 +34,7 @@ class TrialBalanceController extends Controller
         ->get();
 
         $assets = DB::table('acct_assests')
+        ->whereYear('created_at', Carbon::now()->year)
         ->where('service_id',37483)
         ->where('approved', 2)
         ->selectRaw("asset_rev_type as uniId, asset_rev as code, asset_rev_name  as line, SUM(opening_value) as total")
@@ -39,6 +45,7 @@ class TrialBalanceController extends Controller
 
         $liability = DB::table('liabilities')
         // ->where('service_id',37483)
+        ->whereYear('created_at', Carbon::now()->year)
         ->where('approved', 2)
         ->selectRaw("economic_type as uniId, economic_code as code, economic_name  as line, SUM(amount) as total")
         ->groupBy('economic_code')
@@ -88,11 +95,13 @@ class TrialBalanceController extends Controller
             ];
         }
 
+        $today = Carbon::today();
+
 
 
 
 
         // dd($arr,  $revenue);
-        return view('TrialBalance.trial_balance', compact('arr'));
+        return view('TrialBalance.trial_balance', compact('arr', 'today'));
     }
 }

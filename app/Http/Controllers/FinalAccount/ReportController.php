@@ -57,7 +57,7 @@ class ReportController extends Controller
 
 
         // dd($arr,  $revenue);
-        return view('GeneralLedger.financial_performace', compact('revenue', 'ExpenditureRegister', 'currentT'));
+        return view('GeneralLedger.financial_performace', compact('revenue', 'ExpenditureRegister', 'currentT', 'from', 'to'));
     }
 
     public function cashFlow(Request $request) {
@@ -118,6 +118,6 @@ class ReportController extends Controller
         ->get();
 
         // dd($arr,  $revenue);
-        return view('GeneralLedger.cash_flow', compact('revenue', 'ExpenditureRegister', 'asset', 'liability', 'currentT', 'to'));
+        return view('GeneralLedger.cash_flow', compact('revenue', 'ExpenditureRegister', 'asset', 'liability', 'currentT', 'to', 'from'));
     }
 }

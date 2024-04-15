@@ -219,6 +219,23 @@ function lastDay() {
     return $end->endOfMonth();
 }
 
+function Year() {
+    return Carbon::now()->year;
+}
+
+function Month() {
+    return Carbon::now()->month;
+}
+
+function startOfYear() {
+    return Carbon::now()->startOfMonth();
+}
+
+// ->whereYear('created_at', Carbon::now()->year)
+// ->whereMonth('created_at', Carbon::now()->month)
+
+
+
 
 
 

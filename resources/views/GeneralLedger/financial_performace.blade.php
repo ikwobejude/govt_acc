@@ -75,7 +75,7 @@
                     <h5 class="card-header" style="text-align: center">
                         HEALTH RECORDS OFFICER'S  REGISTRATION BOARD OF NIGERIA <br>
                         FEDERAL  GOVERNMENT OF NIGERIA <br>
-                        STATEMENT OF FINANCIAL PERFORMANCE  FOR THE YEAR ENDED 31ST DECEMBER, 2021
+                        STATEMENT OF FINANCIAL PERFORMANCE  FROM {{ strtoupper($from->toFormattedDateString()) ." - ".strtoupper($to->toFormattedDateString()) }}
                     </h5>
                     <div class="card-body">
                         <div class="table-responsive">

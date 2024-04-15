@@ -181,26 +181,6 @@
     <footer class="footer-area">
         <div class="container">
             <div class="row">
-                <div class="col-xl-5 col-sm-6 col-md-5 col-lg-3">
-                    <div class="single-footer-widget footer_1">
-                        <h4>About Us</h4>
-                        <p>The establishment and development of the Health Records in Nigeria according to Lorraine Nicholson (2012) began over 40 years ago when a number of Nigeria Medical Records Officers, including Mr. Akanji Daniel O. and Mr. Pius Ogbewe,  went to UK to train at the established schools in the 1960’s and 1970’s. Subsequently, they became qualified to Diploma level which was the highest level of qualification at that time and returned to Nigeria to put their training into practice. In the process they established a national professional association, and influencing the structured of the training programmes leading to recognized professional qualifications..</p>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-sm-6 col-md-2 col-lg-3">
-                    <div class="single-footer-widget footer_2">
-                        <h4>Important Link</h4>
-                        <div class="contact_info">
-                            <ul>
-                                <li><a href="https://horbn.ng/">Account software</a></li>
-                                <li><a href="https://hrorbn.org.ng"> hrorbn.org.ng</a></li>
-                                <li><a href="#">My Account</a></li>
-                                <li><a href="#">Shopping Cart</a></li>
-                                <li><a href="#"> Our Shop</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-xl-5 col-sm-6 col-md-5 col-lg-6">
                     <div class="single-footer-widget footer_2">
                         <h4>Address</h4>
@@ -208,27 +188,35 @@
                             <p>
                                 <b>NATIONAL SECRETARIAT</b> <br>
                                 #10 Kukawa Street off Gimbiya Street, Area 11, Garki - Abuja. <br>
-                               <b> ZONAL OFFICES:</b> <br>
-                                Medical Compound, #8, Harvey Road, Yaba - Lagos. <br>
-                                Yusuf Dantsoho Memorial Hospital, Polytechnic Road, Tudun Wada - Kaduna. <br>
-                                #29 Salma Plaza along Ganaja/Ajaokuta Road - Lokoja. <br>
-                                Old UNTH, opposite Central Police Station - Enugu. <br>
-                                Federal Secretariat Annex, Room 320-322, Murtala Muhammed High Way, Calabar.
 
-                                 </p>
                             <p><span> Phone :</span>  0902 980 6732, 0902 980 6733</p>
                             <p><span> Email : </span>hrorbnabuja@gmail.com
                                 hrorbnyaba@gmail.com
                                 hrorbnyaba@yahoo.com </p>
                             <p><span>website</span> www.hrorbn.org.ng</p>
-                            <p>POSTAL ADDRESS PMB 5387, Wuse, Abuja PMB 3460, Surulere, Lagos</p>
+                            <p>POSTAL ADDRESS PMB 5387, Wuse, Abuja PMB 3460</p>
                         </div>
                     </div>
                 </div>
-                {{-- <div class="col-xl-3 col-sm-6 col-md-4 col-lg-3">
+                <div class="col-xl-4 col-sm-6 col-md-4 col-lg-3">
+                    <div class="single-footer-widget footer_2">
+                        <h4>Important Link</h4>
+                        <div class="contact_info">
+                            <ul>
+                                <li><a href="https://horbn.ng/">Account software</a></li>
+                                <li><a href="https://hrorbn.org.ng"> hrorbn.org.ng</a></li>
+                                <li><a href="/login">Login</a></li>
+                                {{-- <li><a href="#">Shopping Cart</a></li>
+                                <li><a href="#"> Our Shop</a></li> --}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-sm-6 col-md-4 col-lg-3">
                     <div class="single-footer-widget footer_3">
                         <h4>Newsletter</h4>
-                        <p>Heaven fruitful doesn't over lesser in days. Appear creeping seas</p>
+                        {{-- <p>Heaven fruitful doesn't over lesser in days. Appear creeping seas</p> --}}
                         <form action="#">
                             <div class="form-group">
                                 <div class="input-group mb-3">
@@ -241,7 +229,7 @@
                             </div>
                         </form>
                     </div>
-                </div> --}}
+                </div>
             </div>
             <div class="copyright_part_text">
                 <div class="row">
