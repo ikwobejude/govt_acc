@@ -496,7 +496,7 @@
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
       <li class="menu-item">
         <a
-          href="#"
+          href="https://wa.me/2347031892984"
           target="_blank"
           class="menu-link">
           <i class="menu-icon tf-icons bx bx-support"></i>
@@ -505,7 +505,7 @@
       </li>
       <li class="menu-item">
         <a
-          href="#"
+          href="mailto:ikwobejude@gmail.com"
           target="_blank"
           class="menu-link">
           <i class="menu-icon tf-icons bx bx-file"></i>
