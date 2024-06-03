@@ -193,7 +193,7 @@
                                                 <td> {{ $item->batch_name }} </td>
                                                 <td> {{ $item->expenditure_name }} </td>
                                                 <td> {{ $item->name }} </td>
-                                                <td> {{ $item->amount }}</td>
+                                                <td> {{ number_format($item->amount, 2) }}</td>
                                                 <td> {{ $item->narration }} </td>
                                                 <td>
 

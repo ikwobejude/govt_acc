@@ -218,9 +218,9 @@
                                             <td>{{ $item->location }}</td>
                                             <td>{{ $item->warranty }}</td>
                                             <td>{{ $item->usefulyears }}</td>
-                                            <td>{{ $item->residualval }}</td>
-                                            <td>{{ $item->salvage_value }}</td>
-
+                                            <td>{{  number_format($item->residualval, 2) }}</td>
+                                            <td>{{  number_format($item->salvage_value, 2) }}</td>
+                                            <td>{{ $item->name }}</td>
                                         </tr>
                                     @endforeach
                                     <tr>

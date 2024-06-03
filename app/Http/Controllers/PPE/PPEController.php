@@ -25,36 +25,73 @@ class PPEController extends Controller
         $acct_ppe_sub_class = DB::table('acct_ppe_sub_class')->get();
 
 
-        $acctPPE = DB::table('acct_ppe')
-        ->select('acct_ppe.*', 'acct_ppe_class.ppeclass as peclass', '_states.state', 'acct_ppe_sub_class.ppesubclass')
-        ->leftJoin('acct_ppe_class', 'acct_ppe_class.classid', 'acct_ppe.ppeclass')
-        ->leftJoin('acct_ppe_sub_class', 'acct_ppe_sub_class.id', 'acct_ppe.ppeacct')
-        ->leftJoin('_states', '_states.state_id', 'acct_ppe.ppestate')
-        ->where('acct_ppe.deleted', 0)
-        ->where('acct_ppe.approved', 0)
-        ->when(!empty($ppename), function ($query) use ($ppename) {
-            return $query->where('ppename', 'like', "%{$ppename}%");
-        })
-        ->when(!empty($ppeclass), function ($query) use ($ppeclass) {
-            return $query->where('ppeclass', '=', $ppeclass);
-        })
-        ->when(!empty($ppestate), function ($query) use ($ppestate) {
-            return $query->where('ppestate', '=', $ppestate);
-        })
-        ->when(!empty($location), function ($query) use ($location) {
-            return $query->where('location', 'like', "%{$location}%");
-        })
-        ->when(!empty($usefulyears), function ($query) use ($usefulyears) {
-            return $query->where('usefulyears', '=', "{$usefulyears}");
-        })
-        ->when(!empty($from), function ($query) use ($from) {
-            return $query->whereDate('created_at', '>=', $from);
-        })
-        ->when(!empty($to), function ($query) use ($to) {
-            return $query->whereDate('created_at', '<=', $to);
-        })
-        ->orderBy('id', 'desc')
-        ->paginate(20);
+        if(groupId() == 3500 ) {
+            $acctPPE = DB::table('acct_ppe')
+            ->select('acct_ppe.*', 'users.name', 'acct_ppe_class.ppeclass as peclass', '_states.state', 'acct_ppe_sub_class.ppesubclass')
+            ->leftJoin('acct_ppe_class', 'acct_ppe_class.classid', 'acct_ppe.ppeclass')
+            ->leftJoin('acct_ppe_sub_class', 'acct_ppe_sub_class.id', 'acct_ppe.ppeacct')
+            ->leftJoin('_states', '_states.state_id', 'acct_ppe.ppestate')
+            ->leftJoin('users', 'users.email', 'acct_ppe.created_by')
+            ->where('acct_ppe.deleted', 0)
+            ->where('acct_ppe.approved', 0)
+            ->where('acct_ppe.created_by', username())
+            ->when(!empty($ppename), function ($query) use ($ppename) {
+                return $query->where('ppename', 'like', "%{$ppename}%");
+            })
+            ->when(!empty($ppeclass), function ($query) use ($ppeclass) {
+                return $query->where('ppeclass', '=', $ppeclass);
+            })
+            ->when(!empty($ppestate), function ($query) use ($ppestate) {
+                return $query->where('ppestate', '=', $ppestate);
+            })
+            ->when(!empty($location), function ($query) use ($location) {
+                return $query->where('location', 'like', "%{$location}%");
+            })
+            ->when(!empty($usefulyears), function ($query) use ($usefulyears) {
+                return $query->where('usefulyears', '=', "{$usefulyears}");
+            })
+            ->when(!empty($from), function ($query) use ($from) {
+                return $query->whereDate('created_at', '>=', $from);
+            })
+            ->when(!empty($to), function ($query) use ($to) {
+                return $query->whereDate('created_at', '<=', $to);
+            })
+            ->orderBy('id', 'desc')
+            ->paginate(20);
+        } else {
+            $acctPPE = DB::table('acct_ppe')
+            ->select('acct_ppe.*', 'users.name', 'acct_ppe_class.ppeclass as peclass', '_states.state', 'acct_ppe_sub_class.ppesubclass')
+            ->leftJoin('acct_ppe_class', 'acct_ppe_class.classid', 'acct_ppe.ppeclass')
+            ->leftJoin('acct_ppe_sub_class', 'acct_ppe_sub_class.id', 'acct_ppe.ppeacct')
+            ->leftJoin('_states', '_states.state_id', 'acct_ppe.ppestate')
+            ->leftJoin('users', 'users.email', 'acct_ppe.created_by')
+            ->where('acct_ppe.deleted', 0)
+            ->where('acct_ppe.approved', 0)
+            ->when(!empty($ppename), function ($query) use ($ppename) {
+                return $query->where('ppename', 'like', "%{$ppename}%");
+            })
+            ->when(!empty($ppeclass), function ($query) use ($ppeclass) {
+                return $query->where('ppeclass', '=', $ppeclass);
+            })
+            ->when(!empty($ppestate), function ($query) use ($ppestate) {
+                return $query->where('ppestate', '=', $ppestate);
+            })
+            ->when(!empty($location), function ($query) use ($location) {
+                return $query->where('location', 'like', "%{$location}%");
+            })
+            ->when(!empty($usefulyears), function ($query) use ($usefulyears) {
+                return $query->where('usefulyears', '=', "{$usefulyears}");
+            })
+            ->when(!empty($from), function ($query) use ($from) {
+                return $query->whereDate('created_at', '>=', $from);
+            })
+            ->when(!empty($to), function ($query) use ($to) {
+                return $query->whereDate('created_at', '<=', $to);
+            })
+            ->orderBy('id', 'desc')
+            ->paginate(20);
+        }
+
 
 
         return view('PPE.acc_ppe', compact('ppeClass', 'acctPPE', 'state', 'acct_ppe_sub_class'));

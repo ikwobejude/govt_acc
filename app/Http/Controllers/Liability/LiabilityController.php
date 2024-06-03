@@ -21,33 +21,65 @@ class LiabilityController extends Controller
         $approvalLevels = $request->query('approvalLevels');
 
         $EconomicLines = RevenueLine::where('type', 4)->get();
-        $liabilities = DB::table('liabilities')
-        ->select('liabilities.*', 'users.name')
-        ->leftJoin('users', 'users.username', 'liabilities.created_by')
-        ->where('approved', 0)
-        ->where('deleted', 0)
-        ->when($revenue_code, function ($query, string $revenue_code) {
-            $query->where('economic_code', $revenue_code);
-        })
-        ->when($liability, function ($query, string $liability) {
-            $query->where('liability', 'like', "%{$liability}%");
-        })
-        ->when($type_of_liability, function ($query, string $type_of_liability) {
-            $query->where('type_of_liability', $type_of_liability);
-        })
-        ->when($authorize_ref, function ($query, string $authorize_ref) {
-            $query->where('authorize_ref', $authorize_ref);
-        })
-        ->when($approvalLevels, function ($query, string $approvalLevels) {
-            $query->where('approved', $approvalLevels);
-        })
-        ->when($from, function ($query, string $from) {
-            $query->whereDate('created_at', '>=', $from);
-        })
-        ->when($to, function ($query, string $to) {
-            $query->whereDate('created_at', '<=', $to);
-        })
-        ->get();
+        if(groupId() == 3500 ) {
+            $liabilities = DB::table('liabilities')
+            ->select('liabilities.*', 'users.name')
+            ->leftJoin('users', 'users.username', 'liabilities.created_by')
+            ->where('liabilities.created_by', username())
+            ->where('liabilities.approved', 0)
+            ->where('liabilities.deleted', 0)
+            ->when($revenue_code, function ($query, string $revenue_code) {
+                $query->where('economic_code', $revenue_code);
+            })
+            ->when($liability, function ($query, string $liability) {
+                $query->where('liability', 'like', "%{$liability}%");
+            })
+            ->when($type_of_liability, function ($query, string $type_of_liability) {
+                $query->where('type_of_liability', $type_of_liability);
+            })
+            ->when($authorize_ref, function ($query, string $authorize_ref) {
+                $query->where('authorize_ref', $authorize_ref);
+            })
+            ->when($approvalLevels, function ($query, string $approvalLevels) {
+                $query->where('approved', $approvalLevels);
+            })
+            ->when($from, function ($query, string $from) {
+                $query->whereDate('created_at', '>=', $from);
+            })
+            ->when($to, function ($query, string $to) {
+                $query->whereDate('created_at', '<=', $to);
+            })
+            ->get();
+        } else {
+            $liabilities = DB::table('liabilities')
+            ->select('liabilities.*', 'users.name')
+            ->leftJoin('users', 'users.username', 'liabilities.created_by')
+            ->where('approved', 0)
+            ->where('deleted', 0)
+            ->when($revenue_code, function ($query, string $revenue_code) {
+                $query->where('economic_code', $revenue_code);
+            })
+            ->when($liability, function ($query, string $liability) {
+                $query->where('liability', 'like', "%{$liability}%");
+            })
+            ->when($type_of_liability, function ($query, string $type_of_liability) {
+                $query->where('type_of_liability', $type_of_liability);
+            })
+            ->when($authorize_ref, function ($query, string $authorize_ref) {
+                $query->where('authorize_ref', $authorize_ref);
+            })
+            ->when($approvalLevels, function ($query, string $approvalLevels) {
+                $query->where('approved', $approvalLevels);
+            })
+            ->when($from, function ($query, string $from) {
+                $query->whereDate('created_at', '>=', $from);
+            })
+            ->when($to, function ($query, string $to) {
+                $query->whereDate('created_at', '<=', $to);
+            })
+            ->get();
+        }
+
         // Liabilities::all()->sortDesc();
         return view('Liability.Liability', compact('liabilities', 'EconomicLines'));
     }

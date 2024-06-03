@@ -29,30 +29,59 @@ class BudgetController extends Controller
 
 
         // dd($budgetType, $economicCode, $project, $approved, $from, $to);
-        $budges = DB::table('acct_budgets')
-        ->select("acct_budgets.*", 'users.name')
-        ->leftJoin('users', 'users.username', 'acct_budgets.created_by')
-        ->whereIn('acct_budgets.approved', [0, 3])
-        ->where('acct_budgets.deleted', 0)
-        ->when($budgetType, function ($query, string $budgetType) {
-            $query->where('acct_budgets.budget_type', $budgetType);
-        })
-        ->when($economicCode, function ($query, string $economicCode) {
-            $query->where('acct_budgets.economic_code', $economicCode);
-        })
-        ->when($project, function ($query, string $project) {
-            $query->where('acct_budgets.project', $project);
-        })
-        ->when($approved, function ($query, string $approved) {
-            $query->where('acct_budgets.approved', $approved);
-        })
-        ->when($from, function ($query, string $from) {
-            $query->whereDate('acct_budgets.created_at', '>=', $from);
-        })
-        ->when($to, function ($query, string $to) {
-            $query->whereDate('acct_budgets.created_at', '<=', $to);
-        })
-        ->get();
+        if(groupId() == 3500 ) {
+            $budges = DB::table('acct_budgets')
+            ->select("acct_budgets.*", 'users.name')
+            ->leftJoin('users', 'users.username', 'acct_budgets.created_by')
+            ->whereIn('acct_budgets.approved', [0, 3])
+            ->where('acct_budgets.deleted', 0)
+            ->where('acct_budgets.created_by', username())
+            ->when($budgetType, function ($query, string $budgetType) {
+                $query->where('acct_budgets.budget_type', $budgetType);
+            })
+            ->when($economicCode, function ($query, string $economicCode) {
+                $query->where('acct_budgets.economic_code', $economicCode);
+            })
+            ->when($project, function ($query, string $project) {
+                $query->where('acct_budgets.project', $project);
+            })
+            ->when($approved, function ($query, string $approved) {
+                $query->where('acct_budgets.approved', $approved);
+            })
+            ->when($from, function ($query, string $from) {
+                $query->whereDate('acct_budgets.created_at', '>=', $from);
+            })
+            ->when($to, function ($query, string $to) {
+                $query->whereDate('acct_budgets.created_at', '<=', $to);
+            })
+            ->get();
+        } else {
+            $budges = DB::table('acct_budgets')
+            ->select("acct_budgets.*", 'users.name')
+            ->leftJoin('users', 'users.username', 'acct_budgets.created_by')
+            ->whereIn('acct_budgets.approved', [0, 3])
+            ->where('acct_budgets.deleted', 0)
+            ->when($budgetType, function ($query, string $budgetType) {
+                $query->where('acct_budgets.budget_type', $budgetType);
+            })
+            ->when($economicCode, function ($query, string $economicCode) {
+                $query->where('acct_budgets.economic_code', $economicCode);
+            })
+            ->when($project, function ($query, string $project) {
+                $query->where('acct_budgets.project', $project);
+            })
+            ->when($approved, function ($query, string $approved) {
+                $query->where('acct_budgets.approved', $approved);
+            })
+            ->when($from, function ($query, string $from) {
+                $query->whereDate('acct_budgets.created_at', '>=', $from);
+            })
+            ->when($to, function ($query, string $to) {
+                $query->whereDate('acct_budgets.created_at', '<=', $to);
+            })
+            ->get();
+        }
+
         return view('Budget.budget', compact('budges', 'NCOS'));
     }
 

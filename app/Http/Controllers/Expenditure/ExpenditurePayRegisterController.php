@@ -33,35 +33,64 @@ class ExpenditurePayRegisterController extends Controller
         $months = DB::table('_months')->orderBy('month')->get();
         $expenditureType = RevenueLine::where('type', 2)->get();
         $batchName = ExpenditureBatchName::all();
-        $ExpenditureRegister = db::table('expenditure_payregister')
-        ->select("expenditure_payregister.*", "users.name as user_name")
-        ->leftJoin('users', 'users.username', 'expenditure_payregister.created_by')
-        ->where('expenditure_payregister.service_id', 37483)
-        ->where('expenditure_payregister.deleted', 0)
-        ->where('expenditure_payregister.approved', 0)
-        // ->when(!empty($expenditureType), function ($query) use ($expenditureType) {
-        //     return $query->where('expenditure_code', $expenditureType);
-        // })
-        ->when(!empty($name), function ($query) use ($name) {
-            return $query->where('name', 'like', "%{$name}%");
-        })
-        ->when(!empty($batchType), function ($query) use ($batchType) {
-            return $query->where('batch_name', '=', $batchType);
-        })
-        ->when(!empty($doc_ref_no), function ($query) use ($doc_ref_no) {
-            return $query->where('payment_ref', '=', $doc_ref_no);
-        })
-        ->when(!empty($approvalLevels), function ($query) use ($approvalLevels) {
-            return $query->where('approved', '=', $approvalLevels);
-        })
-        ->when(!empty($from), function ($query) use ($from) {
-            return $query->whereDate('created_at', '>=', $from);
-        })
-        ->when(!empty($to), function ($query) use ($to) {
-            return $query->whereDate('created_at', '<=', $to);
-        })
-        ->orderBy('expenditure_name', 'ASC')
-        ->get();
+
+        if(groupId() == 3500 ) {
+            $ExpenditureRegister = db::table('expenditure_payregister')
+            ->select("expenditure_payregister.*", "users.name as user_name")
+            ->leftJoin('users', 'users.username', 'expenditure_payregister.created_by')
+            ->where('expenditure_payregister.service_id', 37483)
+            ->where('expenditure_payregister.created_by', username())
+            ->where('expenditure_payregister.deleted', 0)
+            ->where('expenditure_payregister.approved', 0)
+            ->when(!empty($name), function ($query) use ($name) {
+                return $query->where('name', 'like', "%{$name}%");
+            })
+            ->when(!empty($batchType), function ($query) use ($batchType) {
+                return $query->where('batch_name', '=', $batchType);
+            })
+            ->when(!empty($doc_ref_no), function ($query) use ($doc_ref_no) {
+                return $query->where('payment_ref', '=', $doc_ref_no);
+            })
+            ->when(!empty($approvalLevels), function ($query) use ($approvalLevels) {
+                return $query->where('approved', '=', $approvalLevels);
+            })
+            ->when(!empty($from), function ($query) use ($from) {
+                return $query->whereDate('created_at', '>=', $from);
+            })
+            ->when(!empty($to), function ($query) use ($to) {
+                return $query->whereDate('created_at', '<=', $to);
+            })
+            ->orderBy('expenditure_name', 'ASC')
+            ->get();
+        } else {
+            $ExpenditureRegister = db::table('expenditure_payregister')
+            ->select("expenditure_payregister.*", "users.name as user_name")
+            ->leftJoin('users', 'users.username', 'expenditure_payregister.created_by')
+            ->where('expenditure_payregister.service_id', 37483)
+            ->where('expenditure_payregister.deleted', 0)
+            ->where('expenditure_payregister.approved', 0)
+            ->when(!empty($name), function ($query) use ($name) {
+                return $query->where('name', 'like', "%{$name}%");
+            })
+            ->when(!empty($batchType), function ($query) use ($batchType) {
+                return $query->where('batch_name', '=', $batchType);
+            })
+            ->when(!empty($doc_ref_no), function ($query) use ($doc_ref_no) {
+                return $query->where('payment_ref', '=', $doc_ref_no);
+            })
+            ->when(!empty($approvalLevels), function ($query) use ($approvalLevels) {
+                return $query->where('approved', '=', $approvalLevels);
+            })
+            ->when(!empty($from), function ($query) use ($from) {
+                return $query->whereDate('created_at', '>=', $from);
+            })
+            ->when(!empty($to), function ($query) use ($to) {
+                return $query->whereDate('created_at', '<=', $to);
+            })
+            ->orderBy('expenditure_name', 'ASC')
+            ->get();
+        }
+
         // dd($ExpenditureRegister);
         return view('Expenditure.expenditure_payregister', compact('ExpenditureRegister', 'months', 'expenditureType', 'batchName'));
     }

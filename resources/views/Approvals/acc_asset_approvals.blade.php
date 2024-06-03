@@ -238,7 +238,7 @@
                                 <td>{{ $item->assest_type }}</td>
                                 <td>{{ $item->assest_category }}</td>
                                 <td>{{ $item->assest_size }}</td>
-                                <td>{{ $item->opening_value }}</td>
+                                <td>{{ number_format($item->opening_value, 2) }}</td>
                                 <td>{{ date("Y-m-d", strtotime($item->date_purchased)) }}</td>
                                 <td>
 

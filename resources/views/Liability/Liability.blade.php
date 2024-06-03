@@ -216,7 +216,7 @@
                                 <td>{{ $item->type_of_liability }}</td>
                                 <td>{{ $item->narration }}</td>
                                 <td>{{ $item->authorize_ref }}</td>
-                                <td>{{ $item->amount }}</td>
+                                <td>{{  number_format($item->amount, 2) }}</td>
                                 <td>{{ $item->created_at }}</td>
                                 <td>{{ $item->name }}</td>
 

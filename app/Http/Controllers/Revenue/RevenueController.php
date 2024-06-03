@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 class RevenueController extends Controller
 {
     public function index(Request $request) {
+
         $economicCode = $request->query('revenuecode');
         $from = $request->query("dateFrom");
         $to = $request->query('dateTo');
@@ -20,32 +21,64 @@ class RevenueController extends Controller
         $received_from = $request->query('received_from');
         $approvalLevels = $request->query('approvalLevels');
 
-        $revenues = DB::table('acc_revenue')
-        ->select('acc_revenue.*', 'users.name')
-        ->leftJoin('users', 'users.username', 'acc_revenue.created_by')
-        ->where('acc_revenue.service_id', 37483)
-        ->where('acc_revenue.deleted', '0')
-        ->whereIn('acc_revenue.approved', ['0','3'])
-        ->when(!empty($economicCode) , function ($query) use ($economicCode) {
-            return $query->where('revenue_code', $economicCode);
-        })
-        ->when(!empty($from), function ($query) use ($from) {
-            return $query->whereDate('created_at', '>=', $from);
-        })
-        ->when(!empty($to), function ($query) use ($to) {
-           return $query->whereDate('created_at', '<=', $to);
-        })
-        ->when(!empty($doc_ref_no), function ($query) use ($doc_ref_no) {
-            return $query->where('authority_document_ref_no', '=', $doc_ref_no);
-         })
-         ->when(!empty($approvalLevels), function ($query) use ($approvalLevels) {
-            return $query->where('approved', '=', $approvalLevels);
-         })
-         ->when(!empty($received_from), function ($query) use ($received_from) {
-            return $query->where('received_from', 'LIKE', "%{$received_from}%");
-         })
-        ->orderBy('revenue_line', 'ASC')
-        ->get();
+        if(groupId() == 3500 ) {
+            $revenues = DB::table('acc_revenue')
+            ->select('acc_revenue.*', 'users.name')
+            ->leftJoin('users', 'users.username', 'acc_revenue.created_by')
+            ->where('acc_revenue.service_id', 37483)
+            ->where('acc_revenue.created_by', username())
+            ->where('acc_revenue.deleted', '0')
+            ->whereIn('acc_revenue.approved', ['0','3'])
+            ->when(!empty($economicCode) , function ($query) use ($economicCode) {
+                return $query->where('revenue_code', $economicCode);
+            })
+            ->when(!empty($from), function ($query) use ($from) {
+                return $query->whereDate('created_at', '>=', $from);
+            })
+            ->when(!empty($to), function ($query) use ($to) {
+               return $query->whereDate('created_at', '<=', $to);
+            })
+            ->when(!empty($doc_ref_no), function ($query) use ($doc_ref_no) {
+                return $query->where('authority_document_ref_no', '=', $doc_ref_no);
+             })
+             ->when(!empty($approvalLevels), function ($query) use ($approvalLevels) {
+                return $query->where('approved', '=', $approvalLevels);
+             })
+             ->when(!empty($received_from), function ($query) use ($received_from) {
+                return $query->where('received_from', 'LIKE', "%{$received_from}%");
+             })
+            ->orderBy('revenue_line', 'ASC')
+            ->get();
+        } else {
+            $revenues = DB::table('acc_revenue')
+            ->select('acc_revenue.*', 'users.name')
+            ->leftJoin('users', 'users.username', 'acc_revenue.created_by')
+            ->where('acc_revenue.service_id', 37483)
+            ->where('acc_revenue.deleted', '0')
+            ->whereIn('acc_revenue.approved', ['0','3'])
+            ->when(!empty($economicCode) , function ($query) use ($economicCode) {
+                return $query->where('revenue_code', $economicCode);
+            })
+            ->when(!empty($from), function ($query) use ($from) {
+                return $query->whereDate('created_at', '>=', $from);
+            })
+            ->when(!empty($to), function ($query) use ($to) {
+            return $query->whereDate('created_at', '<=', $to);
+            })
+            ->when(!empty($doc_ref_no), function ($query) use ($doc_ref_no) {
+                return $query->where('authority_document_ref_no', '=', $doc_ref_no);
+            })
+            ->when(!empty($approvalLevels), function ($query) use ($approvalLevels) {
+                return $query->where('approved', '=', $approvalLevels);
+            })
+            ->when(!empty($received_from), function ($query) use ($received_from) {
+                return $query->where('received_from', 'LIKE', "%{$received_from}%");
+            })
+            ->orderBy('revenue_line', 'ASC')
+            ->get();
+        }
+
+
 
         // dd($revenues);
         $revenue_lines = DB::table('revenue_line')->where('type', 1)->get();
