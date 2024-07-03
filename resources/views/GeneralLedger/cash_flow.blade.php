@@ -34,7 +34,7 @@
                       <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             <div class="card-body">
-                                <form action="{{ route('financial_performance') }}" method="get">
+                                <form action="{{ route('cash_flow') }}" method="get">
                                     @csrf
                                     <div class="fieldset">
                                         <h1>Search</h1>
@@ -88,9 +88,14 @@
                     <h5 class="card-header" style="text-align: center">
                         FEDERAL MINISTRY Of HEALTH: HEALTH RECORDS OFFICER'S REGISTRATION BOARD OF NIGERIA <br>
                         FERDERAL GOVERNMENT OF NIGERIA <br>
-                        STATEMENT OF CASH FLOW FOR {{ strtoupper($from->toFormattedDateString()) ." - ".strtoupper($to->toFormattedDateString()) }}
+                        STATEMENT OF CASH FLOW FOR {{ strtoupper($from) ." - ".strtoupper($to) }}
                     </h5>
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 pb-3" style="text-align: right">
+                                <a href="{{ route('download.cash_flow', ['from'=>$from, 'to'=>$to]) }}" class="btn btn-primary">Download to Excel</a>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-bordered table-stripe">
                                 <thead>

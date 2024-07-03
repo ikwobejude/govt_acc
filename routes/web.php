@@ -329,6 +329,7 @@ Route::group(['prefix' => 'statement_of_financial_position'], function () {
     Route::middleware(['auth'])->group(function () {
         // Account payable
         Route::get('/', [FinancialPositionController::class, 'index'])->name('financial_position');
+        Route::get('/download', [FinancialPositionController::class, 'download'])->name('download.financial_position');
     });
 });
 
@@ -337,7 +338,10 @@ Route::group(['prefix' => 'report'], function () {
         // Account payable
         Route::get('/financial_performance', [ReportController::class, 'financialPerformance'])->name('financial_performance');
         Route::get('/financial_performance/download', [ReportController::class, 'downloadFinancialPerformance'])->name('download.financial_performance');
+
+
         Route::get('/cash_flow', [ReportController::class, 'cashFlow'])->name('cash_flow');
+        Route::get('/cash_flow/download', [ReportController::class, 'downloadCCashFlow'])->name('download.cash_flow');
 
     });
 });

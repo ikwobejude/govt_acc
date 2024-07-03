@@ -72,11 +72,18 @@
 
             <div class="col-md-12">
                 <div class="card mb-4">
+
                     <h5 class="card-header" style="text-align: center">
                         HEALTH RECORDS OFFICERS REGISTRATION BOARD OF NIGERIA <br>
                         STATEMENT OF FINACIAL POSITION AS FROM {{ strtoupper($from) ." - ".strtoupper($to) }}. <br>
                     </h5>
+
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 pb-3" style="text-align: right">
+                                <a href="{{ route('download.financial_position', ['from'=>$from, 'to'=>$to]) }}" class="btn btn-primary">Download to Excel</a>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-stripe">
                                 <thead>

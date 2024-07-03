@@ -57,7 +57,7 @@ class FinancialPositionController extends Controller
         return view('GeneralLedger.statement_of_financial_position', compact('asset', 'liability', 'revenue', 'to', 'from'));
     }
 
-    public function donwload(Request $request) {
+    public function download(Request $request) {
         // dd($firstDay, $lastDay);
         $from = $request->query("from") ? $request->query("from") :  firstDay();
         $to = $request->query('to') ? $request->query('to') : lastDay();
@@ -102,7 +102,7 @@ class FinancialPositionController extends Controller
         ->get();
 
         // dd($asset, $liability, $revenue);
-        return view('GeneralLedger.donwload_statement_of_financial_position', compact('asset', 'liability', 'revenue', 'to', 'from'));
+        return view('GeneralLedger.download_statement_of_financial_position', compact('asset', 'liability', 'revenue', 'to', 'from'));
     }
 
 }
