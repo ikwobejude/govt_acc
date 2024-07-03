@@ -21,9 +21,15 @@
                         MONTHLY IPSAS ACCRUAL BASIS COMPLIANT TRIAL BALANCE FROM {{ "JAN 1, ".date('Y')." - ". strtoupper($today->toFormattedDateString()) }}. <br>
                     </h5>
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 pb-3" style="text-align: right">
+                                <a href="{{ route('download.trial_balance') }}" class="btn btn-primary">Download to Excel</a>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-stripe table-bordered">
                                 <thead>
+
                                     <tr>
                                         <th colspan="2">ADMINISTRATATIVE CODE</th>
                                         <th colspan="10">052100800100</th>

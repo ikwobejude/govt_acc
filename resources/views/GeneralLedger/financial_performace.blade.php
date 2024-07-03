@@ -6,6 +6,9 @@
     }
 </style>
 @section('admin')
+<?php
+//  dd($from)
+?>
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="py-3 mb-4"><span class="text-muted fw-light"></span>Statement of Financial Performance</h4>
 
@@ -75,9 +78,14 @@
                     <h5 class="card-header" style="text-align: center">
                         HEALTH RECORDS OFFICER'S  REGISTRATION BOARD OF NIGERIA <br>
                         FEDERAL  GOVERNMENT OF NIGERIA <br>
-                        STATEMENT OF FINANCIAL PERFORMANCE  FROM {{ strtoupper($from->toFormattedDateString()) ." - ".strtoupper($to->toFormattedDateString()) }}
+                        STATEMENT OF FINANCIAL PERFORMANCE  FROM {{ strtoupper($from) ." - ".strtoupper($to) }}
                     </h5>
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 pb-3" style="text-align: right">
+                                <a href="{{ route('download.financial_performance', ['from'=>$from, 'to'=>$to]) }}" class="btn btn-primary">Download to Excel</a>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-bordered table-stripe">
                                 <thead>
@@ -87,7 +95,6 @@
                                         <th><strong>NCOA CODES</strong></th>
                                         <th><strong>Notes</strong></th>
                                         <th><strong>Actual 2024</strong></th>
-                                        {{-- <th><strong>2024</strong></th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>

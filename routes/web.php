@@ -259,6 +259,7 @@ Route::group(['prefix' => 'general_ledger'], function () {
     Route::middleware(['auth'])->group(function () {
         // Account payable
         Route::get('/', [GeneralLedgerController::class, 'generalLedger'])->name('view.general.ledger');
+        Route::get('/download_excel', [GeneralLedgerController::class, 'generalLedgerDownloadExcel'])->name('download.general.ledger.excel');
         Route::get('/account_payable', [GeneralLedgerController::class, 'payable'])->name('view.account_payable');
         Route::post('/account_payable', [GeneralLedgerController::class, 'storePayable'])->name('post.account_payable');
         Route::get('/account_receivable', [GeneralLedgerController::class, 'accountReceivable'])->name('view.account_receivable');
@@ -270,6 +271,7 @@ Route::group(['prefix' => 'trial_balance'], function () {
     Route::middleware(['auth'])->group(function () {
         // Account payable
         Route::get('/', [TrialBalanceController::class, 'index'])->name('view.trial_balcance');
+        Route::get('/download_excel', [TrialBalanceController::class, 'downloadExcel'])->name('download.trial_balance');
         // Route::get('/', [GeneralLedgerController::class, 'accountReceivable'])->name('view.account_receivable');
     });
 });
@@ -334,6 +336,7 @@ Route::group(['prefix' => 'report'], function () {
     Route::middleware(['auth'])->group(function () {
         // Account payable
         Route::get('/financial_performance', [ReportController::class, 'financialPerformance'])->name('financial_performance');
+        Route::get('/financial_performance/download', [ReportController::class, 'downloadFinancialPerformance'])->name('download.financial_performance');
         Route::get('/cash_flow', [ReportController::class, 'cashFlow'])->name('cash_flow');
 
     });

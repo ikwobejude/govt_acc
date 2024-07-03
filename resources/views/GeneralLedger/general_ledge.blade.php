@@ -96,6 +96,12 @@
         <div class="card mb-4">
 
           <div class="card-body">
+            <div class="row">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <a href="{{ route('download.general.ledger.excel', ["from"=>$from, "to"=>$to])}}" class="btn btn-primary">Download to excel</a>
+                </div>
+            </div>
             <h5 class="card-header">CR</h5>
             <div class="table-reponsive">
                 <table class="table table-stripe ">

@@ -74,7 +74,7 @@
                 <div class="card mb-4">
                     <h5 class="card-header" style="text-align: center">
                         HEALTH RECORDS OFFICERS REGISTRATION BOARD OF NIGERIA <br>
-                        STATEMENT OF FINACIAL POSITION AS FROM {{ strtoupper($from) ." - ".strtoupper($to) }}. <br>
+                        STATEMENT OF FINACIAL POSITION AS FROM {{ strtoupper($from->toFormattedDateString()) ." - ".strtoupper($to->toFormattedDateString()) }}. <br>
                     </h5>
                     <div class="card-body">
                         <div class="table-responsive">
