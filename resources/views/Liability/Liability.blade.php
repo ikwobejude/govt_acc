@@ -216,7 +216,7 @@
                                 <td>{{ $item->type_of_liability }}</td>
                                 <td>{{ $item->narration }}</td>
                                 <td>{{ $item->authorize_ref }}</td>
-                                <td>{{  number_format($item->amount, 2) }}</td>
+                                <td>{{ number_format($item->amount, 2) }}</td>
                                 <td>{{ $item->created_at }}</td>
                                 <td>{{ $item->name }}</td>
 
@@ -344,6 +344,16 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-md-4 col-sm-6">
+                                <div class="form-floating">
+                                    <input type="date" class="form-control" id="etransaction_date" value="{{ old('transaction_date')}}" name="transaction_date" placeholder="Description"  />
+                                    <label for="floatingInput">Transaction Date</label>
+                                    <div id="floatingInputHelp" class="form-text"> </div>
+                                    @error('transaction_date')
+                                        <span class="text-danger"> {{ $message }} </span>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
 
                         {{-- <div id="addw">
@@ -459,6 +469,17 @@
                                 <label for="floatingInput">Description</label>
                                 <div id="floatingInputHelp" class="form-text"> </div>
                                 @error('description')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 mt-2">
+                            <div class="form-floating">
+                                <input type="date" class="form-control" id="transaction_date" value="{{ old('transaction_date')}}" name="transaction_date" placeholder="Description"  />
+                                <label for="floatingInput">Transaction Date</label>
+                                <div id="floatingInputHelp" class="form-text"> </div>
+                                @error('transaction_date')
                                     <span class="text-danger"> {{ $message }} </span>
                                 @enderror
                             </div>

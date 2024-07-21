@@ -39,7 +39,8 @@
     <link rel="stylesheet" href="{{ asset('back/assets/vendor/libs/apex-charts/apex-charts.css') }}" />
 
     <!-- Page CSS -->
-    <link href="https://cdn.datatables.net/v/bs5/dt-2.0.2/datatables.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('back/assets/css/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('back/assets/css/datatable-extension.css') }}">
 
 
      <!-- Toaster js -->
@@ -333,8 +334,30 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
+
+  <script src="{{ asset('back/assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/dataTables.buttons.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/jszip.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/buttons.colVis.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/pdfmake.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/vfs_fonts.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/dataTables.autoFill.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/dataTables.select.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/buttons.html5.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/buttons.print.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/dataTables.responsive.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/dataTables.keyTable.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/dataTables.colReorder.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/dataTables.scroller.min.js') }}"></script>
+  <script src="{{ asset('back/assets/js/datatable/datatable-extension/custom.js') }}"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-  <script src="https://cdn.datatables.net/v/bs5/dt-2.0.2/datatables.min.js"></script>
+  {{-- <script src="https://cdn.datatables.net/v/bs5/dt-2.0.2/datatables.min.js"></script> --}}
 
 
   <script>
@@ -488,51 +511,6 @@
     // } );
   </script>
   <!-- End toaster js -->
-
-  <!-- idle timeout -->
-  <script type="text/javascript">
-    // $(document).ready(function($) {
-
-      // function start_timer() {  }
-
-    //   $.jq_easy_session_timeout({
-    //     inactivityDialogDuration: 125,
-    //     maxInactivitySeconds: 250,
-    //     inactivityLogoutUrl: function() {
-    //       //log user off
-    //       $.ajax({
-    //         url: "{{ route('logout') }}",
-    //         method: 'POST',
-    //         data: {
-    //           _token: '{{ csrf_token() }}'
-    //         },
-    //         success: function() {
-    //           // redirect to Laravel login page
-    //           window.location.href = "{{ route('login') }}";
-    //         }
-    //       });
-    //     },
-    //   });
-
-
-    //   $(document).on('click', '.btn_start_timer', function(event) {
-    //     event.preventDefault();
-    //     start_timer();
-    //   });
-
-    // });
-
-    // $(document).ready(function() {
-    //   $('.select2').select2({
-    //     theme: "classic"
-    //   });
-
-    // })
-  </script>
-  <!-- idle timeout ends -->
-
-
-
 </body>
 
 </html>

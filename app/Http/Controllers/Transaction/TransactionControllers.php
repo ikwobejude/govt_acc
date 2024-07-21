@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Transaction;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Revenue\RevenueLine;
@@ -16,8 +17,8 @@ class TransactionControllers extends Controller
         $rrr = $request->query('rrr');
         $authority_ref = $request->query('authority_ref');
         $received_from = $request->query('received_from');
-        $from = $request->query('from');
-        $to = $request->query('to');
+        $from = $request->query("from") ? $request->query("from") : Carbon::now()->format('Y-m-01');
+        $to = $request->query("from")  ? $request->query("to") : Carbon::now()->format('Y-m-t') ;
 
 
         $revenue = DB::table('acc_revenue')
@@ -66,9 +67,11 @@ class TransactionControllers extends Controller
         $expenditure = $request->query("expenditure");
         $authority_document_ref_no = $request->query("authority_document_ref_no");
         $pait_to = $request->query("pait_to");
-        $from = $request->query("from");
-        $to = $request->query("to");
+        $from = $request->query("from") ? $request->query("from") : Carbon::now()->format('Y-m-01');
+        $to = $request->query("from")  ? $request->query("to") : Carbon::now()->format('Y-m-t') ;
         $created_by = $request->query('created_by');
+
+        // dd($from,$to );
 
 
         $months = DB::table('_months')->orderBy('month')->get();

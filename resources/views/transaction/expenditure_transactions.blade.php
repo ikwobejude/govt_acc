@@ -115,7 +115,7 @@
         <div class="card mb-4">
           <h5 class="card-header">Expenditure transactions</h5>
           <div class="card-body">
-            <table class="table table-stripe">
+            <table class="display" id="pagelength-btn">
                 <thead>
                     <tr>
                         <th>S/N</th>
@@ -125,9 +125,7 @@
                         <th>Paid To</th>
                         <th>Amount</th>
                         <th>Description</th>
-                        <th>Date</th>
-
-                        <th>Action</th>
+                        <th>Transaction Date</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -142,9 +140,9 @@
                             <td> {{ $item->narration }} </td>
                             <td> {{ $item->approved_on }}</td>
 
-                            <td>
+                            {{-- <td>
                                 <a href="{{ route('view.voucher', $item->idexpenditure_payregister) }}" class="btn btn-outline-secondary">Voucher</a>
-                            </td>
+                            </td> --}}
                         </tr>
                     @endforeach
                 </tbody>

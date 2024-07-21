@@ -90,7 +90,7 @@
                             <table class="table table-bordered table-stripe">
                                 <thead>
                                     <tr>
-                                        <th><strong>Previous Year Actual (2020)</strong></th>
+                                        {{-- <th><strong>Previous Year Actual (2020)</strong></th> --}}
                                         <th></th>
                                         <th><strong>NCOA CODES</strong></th>
                                         <th><strong>Notes</strong></th>
@@ -113,7 +113,7 @@
                                     @foreach ($revenue as $item)
                                     <?php $totalRevenue += (float)$item->total;  ?>
                                     <tr>
-                                        <td></td>
+                                        {{-- <td></td> --}}
                                         <td>{{ $item->line }}</td>
                                         <td>{{ $item->code }}</td>
                                         <td></td>
@@ -122,7 +122,7 @@
                                     @endforeach
                                     <tr>
                                         <td></td>
-                                        <td colspan="3" style="text-align: right"><strong>Total Revenue (a)</strong></td>
+                                        <td colspan="3" style="text-align: right"><strong>REVENUE</strong></td>
                                         {{-- <td></td>
                                         <td></td> --}}
                                         <td>{{ number_format($totalRevenue, 2) }}</td>

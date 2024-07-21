@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Asset;
 
+use Carbon\Carbon;
 use App\Models\Asset\Assets;
 use Illuminate\Http\Request;
 use App\Models\Asset\AssetType;
@@ -131,12 +132,17 @@ class AssetController extends Controller
         $arr = explode(',', $request->revenue_code);
         // dd($arr);
 
+        $carbon = Carbon::parse($request->date_purchased);
+        $year = $carbon->format('Y');
+        $month = $carbon->format('F');
+        $day = $carbon->day;
+
+
 
         Assets::insert([
             'assest_type_id' => $request->asset_type,
             'assest_category_id' => $request->asset_category,
             'assest_size_id' => $request->asset_size,
-            // 'assest_location_id' => $request->
             'assest_name' => $request->assest_name,
             'assest_decription' => $request->assest_decription,
             'date_purchased' => $request->date_purchased,
@@ -145,7 +151,10 @@ class AssetController extends Controller
             'opening_value' => $request->opening_value,
             'asset_rev_type' => $arr[2],
             'asset_rev_name' => $arr[0],
-            'asset_rev' => $arr[1]
+            'asset_rev' => $arr[1],
+            'day'=> $day,
+            'month' => $month,
+            'year' => $year
         ]);
 
         $notification = array(
@@ -177,6 +186,10 @@ class AssetController extends Controller
 
         $arr = explode(',', $request->revenue_code);
         // dd($arr);
+        $carbon = Carbon::parse($request->date_purchased);
+        $year = $carbon->format('Y');
+        $month = $carbon->format('F');
+        $day = $carbon->day;
 
 
         Assets::where('assest_id', $request->id)->update([
@@ -192,7 +205,10 @@ class AssetController extends Controller
             'opening_value' => $request->opening_value,
             'asset_rev_type' => $arr[2],
             'asset_rev_name' => $arr[0],
-            'asset_rev' => $arr[1]
+            'asset_rev' => $arr[1],
+            'day'=> $day,
+            'month' => $month,
+            'year' => $year
         ]);
 
         $notification = array(

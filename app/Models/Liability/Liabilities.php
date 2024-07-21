@@ -30,6 +30,10 @@ class Liabilities extends Model
         'reason',
         'deleted',
         'narration',
-        'amount'
+        'amount',
+        'transaction_date',
+        'day',
+        'month',
+        'year'
     ];
 }

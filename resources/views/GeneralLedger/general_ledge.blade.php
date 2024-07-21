@@ -77,7 +77,7 @@
                                         {{-- <button type="button" class="btn btn-outline-secondary" onclick="add()">Add</button> --}}
                                     </div>
                                     <div class="col" style="text-align: right">
-                                        <button type="submit" class="btn btn-primary me-2">SAVE</button>
+                                        <button type="submit" class="btn btn-primary me-2">Search</button>
                                     </div>
                                 </div>
                             </div>
@@ -97,177 +97,187 @@
 
           <div class="card-body">
             <div class="row">
-                <div class="col-md-6"></div>
-                <div class="col-md-6">
+                <div class="col-md-12" style="text-align: right">
                     <a href="{{ route('download.general.ledger.excel', ["from"=>$from, "to"=>$to])}}" class="btn btn-primary">Download to excel</a>
+                    <a href="javascript:;" class="btn btn-secondary" onclick="printDiv('print_session')">Print</a>
                 </div>
             </div>
-            <h5 class="card-header">CR</h5>
-            <div class="table-reponsive">
-                <table class="table table-stripe ">
-                    @if ($revenue)
+            <div id="print_session">
+               <div>
+                <h5 class="card-header" style="text-align: center">
+                    HEALTH RECORDS OFFICER'S  REGISTRATION BOARD OF NIGERIA <br>
+                    FEDERAL  GOVERNMENT OF NIGERIA <br>
+                    GENERAL LEDGER {{ strtoupper($from) ." - ".strtoupper($to) }}
+                </h5>
+               </div>
+                <h5 class="card-header">CR</h5>
+                <div class="table-reponsive">
+                    <table class="table table-stripe ">
+                        @if ($revenue)
 
-                    @endif
+                        @endif
 
-                        @foreach ($revenue->groupBy('economic_name') as $economic_name => $items)
+                            @foreach ($revenue->groupBy('economic_name') as $economic_name => $items)
 
-                                <thead>
+                                    <thead>
+                                        <tr>
+                                            <th>LINE ITEM</th>
+                                            <th>{{ $economic_name }}</th>
+                                            <th colspan="3" style="text-align-last: center">NCOA</th>
+                                            <th>{{ $items[0]->economic_code }}</th>
+                                        </tr>
+                                        <tr style="border-top: 2px solid black">
+                                            <th class="td">Date</th>
+                                            <th class="td">NARRATION</th>
+                                            <th class="td">REF</th>
+                                            <th class="td">DR(N)</th>
+                                            <th class="td">CR(N)</th>
+                                            <th class="td">BALANCE </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                @foreach ($items as  $key=>$item)
+
                                     <tr>
-                                        <th>LINE ITEM</th>
-                                        <th>{{ $economic_name }}</th>
-                                        <th colspan="3" style="text-align-last: center">NCOA</th>
-                                        <th>{{ $items[0]->economic_code }}</th>
+                                        {{-- <td>{{ $key + 1}}</td> --}}
+                                        <td class="td"> {{ date("Y-m-d", strtotime($item->created_at)) }} </td>
+                                        <td class="td"> {{ $item->narration }} </td>
+                                        <td class="td">  </td>
+                                        <td class="td">  </td>
+                                        <td class="td"> {{ number_format($item->amount, 2)  }} </td>
+                                        <td class="td">{{ number_format($item->amount, 2) }} </td>
+
+
                                     </tr>
-                                    <tr style="border-top: 2px solid black">
-                                        <th class="td">Date</th>
-                                        <th class="td">NARRATION</th>
-                                        <th class="td">REF</th>
-                                        <th class="td">DR(N)</th>
-                                        <th class="td">CR(N)</th>
-                                        <th class="td">BALANCE </th>
+
+                                @endforeach
+                            </tbody>
+                            @endforeach
+
+                            @foreach ($liabilities->groupBy('economic_name') as $economic_name => $items)
+
+                                    <thead>
+                                        <tr>
+                                            <th>LINE ITEM</th>
+                                            <th>{{ $economic_name }}</th>
+                                            <th colspan="3" style="text-align-last: center">NCOA</th>
+                                            <th>{{ $items[0]->economic_code }}</th>
+                                        </tr>
+                                        <tr style="border-top: 2px solid black">
+                                            <th class="td">Date</th>
+                                            <th class="td">NARRATION</th>
+                                            <th class="td">REF</th>
+                                            <th class="td">DR(N)</th>
+                                            <th class="td">CR(N)</th>
+                                            <th class="td">BALANCE </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                @foreach ($items as  $key=>$item)
+
+                                    <tr>
+                                        {{-- <td>{{ $key + 1}}</td> --}}
+                                        <td class="td"> {{ date("Y-m-d", strtotime($item->created_at)) }} </td>
+                                        <td class="td"> {{ $item->narration }} </td>
+                                        <td class="td">  </td>
+                                        <td class="td">  </td>
+                                        <td class="td"> {{ number_format($item->amount, 2)  }} </td>
+                                        <td class="td">{{ number_format($item->amount, 2) }} </td>
+
+
                                     </tr>
-                                </thead>
-                                <tbody>
-                            @foreach ($items as  $key=>$item)
 
-                                <tr>
-                                    {{-- <td>{{ $key + 1}}</td> --}}
-                                    <td class="td"> {{ date("Y-m-d", strtotime($item->created_at)) }} </td>
-                                    <td class="td"> {{ $item->narration }} </td>
-                                    <td class="td">  </td>
-                                    <td class="td">  </td>
-                                    <td class="td"> {{ number_format($item->amount, 2)  }} </td>
-                                    <td class="td">{{ number_format($item->amount, 2) }} </td>
-
-
-                                </tr>
-
+                                @endforeach
+                            </tbody>
                             @endforeach
                         </tbody>
-                        @endforeach
+                    </table>
+                </div>
 
-                        @foreach ($liabilities->groupBy('economic_name') as $economic_name => $items)
 
-                                <thead>
+                <div class="table-reponsive">
+                    <h5 class="card-header">DB</h5>
+                    <table class="table table-stripe ">
+
+
+                            @foreach ($ExpenditureRegister->groupBy('economic_name') as $economic_name => $items)
+
+                                    <thead>
+                                        <tr>
+                                            <th>LINE ITEM</th>
+                                            <th>{{ $economic_name }}</th>
+                                            <th colspan="3" style="text-align-last: center">NCOA</th>
+                                            <th>{{ $items[0]->economic_code }}</th>
+                                        </tr>
+                                        <tr style="border-top: 2px solid black">
+                                            <th class="td">Date</th>
+                                            <th class="td">NARRATION</th>
+                                            <th class="td">REF</th>
+                                            <th class="td">DR(N)</th>
+                                            <th class="td">CR(N)</th>
+                                            <th class="td">BALANCE </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                @foreach ($items as  $key=>$item)
+
                                     <tr>
-                                        <th>LINE ITEM</th>
-                                        <th>{{ $economic_name }}</th>
-                                        <th colspan="3" style="text-align-last: center">NCOA</th>
-                                        <th>{{ $items[0]->economic_code }}</th>
+                                        {{-- <td>{{ $key + 1}}</td> --}}
+                                        <td class="td"> {{ date("Y-m-d", strtotime($item->created_at)) }} </td>
+                                        <td class="td"> {{ $item->narration }} </td>
+                                        <td class="td">  </td>
+                                        <td class="td"> {{ number_format($item->amount, 2)  }} </td>
+                                        <td class="td">  </td>
+                                        <td class="td">{{ number_format($item->amount, 2) }} </td>
+
+
                                     </tr>
-                                    <tr style="border-top: 2px solid black">
-                                        <th class="td">Date</th>
-                                        <th class="td">NARRATION</th>
-                                        <th class="td">REF</th>
-                                        <th class="td">DR(N)</th>
-                                        <th class="td">CR(N)</th>
-                                        <th class="td">BALANCE </th>
+
+                                @endforeach
+                            </tbody>
+                            @endforeach
+
+                            @foreach ($assests->groupBy('economic_name') as $economic_name => $items)
+
+                                    <thead>
+                                        <tr>
+                                            <th>LINE ITEM</th>
+                                            <th>{{ $economic_name }}</th>
+                                            <th colspan="3" style="text-align-last: center">NCOA</th>
+                                            <th>{{ $items[0]->economic_code }}</th>
+                                        </tr>
+                                        <tr style="border-top: 2px solid black">
+                                            <th class="td">Date</th>
+                                            <th class="td">NARRATION</th>
+                                            <th class="td">REF</th>
+                                            <th class="td">DR(N)</th>
+                                            <th class="td">CR(N)</th>
+                                            <th class="td">BALANCE </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                @foreach ($items as  $key=>$item)
+
+                                    <tr>
+                                        {{-- <td>{{ $key + 1}}</td> --}}
+                                        <td class="td"> {{ date("Y-m-d", strtotime($item->created_at)) }} </td>
+                                        <td class="td"> {{ $item->narration }} </td>
+                                        <td class="td">  </td>
+                                        <td class="td"> {{ number_format($item->amount, 2)  }} </td>
+                                        <td class="td">  </td>
+                                        <td class="td">{{ number_format($item->amount, 2) }} </td>
+
+
                                     </tr>
-                                </thead>
-                                <tbody>
-                            @foreach ($items as  $key=>$item)
 
-                                <tr>
-                                    {{-- <td>{{ $key + 1}}</td> --}}
-                                    <td class="td"> {{ date("Y-m-d", strtotime($item->created_at)) }} </td>
-                                    <td class="td"> {{ $item->narration }} </td>
-                                    <td class="td">  </td>
-                                    <td class="td">  </td>
-                                    <td class="td"> {{ number_format($item->amount, 2)  }} </td>
-                                    <td class="td">{{ number_format($item->amount, 2) }} </td>
-
-
-                                </tr>
-
+                                @endforeach
+                            </tbody>
                             @endforeach
                         </tbody>
-                        @endforeach
-                    </tbody>
-                </table>
+                    </table>
+                </div>
             </div>
 
-
-            <div class="table-reponsive">
-                <h5 class="card-header">DB</h5>
-                <table class="table table-stripe ">
-
-
-                        @foreach ($ExpenditureRegister->groupBy('economic_name') as $economic_name => $items)
-
-                                <thead>
-                                    <tr>
-                                        <th>LINE ITEM</th>
-                                        <th>{{ $economic_name }}</th>
-                                        <th colspan="3" style="text-align-last: center">NCOA</th>
-                                        <th>{{ $items[0]->economic_code }}</th>
-                                    </tr>
-                                    <tr style="border-top: 2px solid black">
-                                        <th class="td">Date</th>
-                                        <th class="td">NARRATION</th>
-                                        <th class="td">REF</th>
-                                        <th class="td">DR(N)</th>
-                                        <th class="td">CR(N)</th>
-                                        <th class="td">BALANCE </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                            @foreach ($items as  $key=>$item)
-
-                                <tr>
-                                    {{-- <td>{{ $key + 1}}</td> --}}
-                                    <td class="td"> {{ date("Y-m-d", strtotime($item->created_at)) }} </td>
-                                    <td class="td"> {{ $item->narration }} </td>
-                                    <td class="td">  </td>
-                                    <td class="td"> {{ number_format($item->amount, 2)  }} </td>
-                                    <td class="td">  </td>
-                                    <td class="td">{{ number_format($item->amount, 2) }} </td>
-
-
-                                </tr>
-
-                            @endforeach
-                        </tbody>
-                        @endforeach
-
-                        @foreach ($assests->groupBy('economic_name') as $economic_name => $items)
-
-                                <thead>
-                                    <tr>
-                                        <th>LINE ITEM</th>
-                                        <th>{{ $economic_name }}</th>
-                                        <th colspan="3" style="text-align-last: center">NCOA</th>
-                                        <th>{{ $items[0]->economic_code }}</th>
-                                    </tr>
-                                    <tr style="border-top: 2px solid black">
-                                        <th class="td">Date</th>
-                                        <th class="td">NARRATION</th>
-                                        <th class="td">REF</th>
-                                        <th class="td">DR(N)</th>
-                                        <th class="td">CR(N)</th>
-                                        <th class="td">BALANCE </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                            @foreach ($items as  $key=>$item)
-
-                                <tr>
-                                    {{-- <td>{{ $key + 1}}</td> --}}
-                                    <td class="td"> {{ date("Y-m-d", strtotime($item->created_at)) }} </td>
-                                    <td class="td"> {{ $item->narration }} </td>
-                                    <td class="td">  </td>
-                                    <td class="td"> {{ number_format($item->amount, 2)  }} </td>
-                                    <td class="td">  </td>
-                                    <td class="td">{{ number_format($item->amount, 2) }} </td>
-
-
-                                </tr>
-
-                            @endforeach
-                        </tbody>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
 
           </div>
         </div>
@@ -326,5 +336,23 @@
     </div>
   </div>
 
+
+  <script>
+
+
+
+
+    function printDiv(invoice) {
+        var printContents = document.getElementById("print_session").innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        // document.body.innerHTML = printContents;
+        document.body.innerHTML = "<html><head><title>Paul</title></head><body>" + printContents + "</body>";
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+    }
+</script>
   @endsection
 

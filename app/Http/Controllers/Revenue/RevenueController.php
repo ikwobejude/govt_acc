@@ -106,11 +106,12 @@ class RevenueController extends Controller
         }
 
 
-            $d = now();
-            $carbon = Carbon::parse($d);
+            // $d =  Carbon::parse($request->settlement_date);
+
+            $carbon = Carbon::parse($request->settlement_date);
             $day = $carbon->day;
-            $year = $d->format('Y');
-            $month = $d->format('F');
+            $month = $carbon->format('F');
+            $year = $carbon->year;
             $arr = explode(',', $request->revenue_code);
             // dd($arr);
         // dd($month);
@@ -175,10 +176,10 @@ class RevenueController extends Controller
 
 
                 $d = now();
-                $carbon = Carbon::parse($d);
+                $carbon = Carbon::parse($request->settlement_date);
                 $day = $carbon->day;
-                $year = $d->format('Y');
-                $month = $d->format('F');
+                $year = $carbon->year;
+                $month = $carbon->format('F');
                 $arr = explode(',', $request->revenue_code);
                 // dd($arr);
             // dd($month);

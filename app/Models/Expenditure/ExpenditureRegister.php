@@ -36,6 +36,8 @@ class ExpenditureRegister extends Model
         'reapproved',
         'reapproved_by',
         'service_id',
-        'reason'
+        'reason',
+        'drafted_on',
+        'day'
     ];
 }

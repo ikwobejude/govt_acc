@@ -3,7 +3,7 @@
 
 @section('admin')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Revenue Transactions /</span> Revenue Receipts</h4>
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Transactions /</span> Treasure casbook</h4>
 
     <div class="row">
       <div class="col-md-12">
@@ -130,38 +130,68 @@
 
       <div class="col-md-12">
         <div class="card mb-4">
-          <h5 class="card-header">Revenue(s)</h5>
+          <h5 class="card-header">TREASURE CASHBOOK</h5>
           <div class="card-body">
                 <div class="table-responsive">
-                    <table class="display" id="pagelength-btn">
-                        <thead>
-                            <tr>
-                                <th>Revenue Line</th>
-                                <th>Received From </th>
-                                <th>Description </th>
-                                <th>Authority Document Ref. No </th>
-                                <th>RRR</th>
-                                <th>Amount </th>
-                                <th>Transaction Date </th>
-                                <th>Created By</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($revenue as  $key=>$item)
-                                <tr>
-                                    <td>{{ $item->revenue_line }}</td>
-                                    <td>{{ $item->received_from }}</td>
-                                    <td>{{ $item->description }}</td>
-                                    <td>{{ $item->authority_document_ref_no }}</td>
-                                    <td>{{ $item->rrr }}</td>
-                                    <td>{{ number_format($item->revenue_amount, 2)  }}</td>
-                                    <td>{{ date("Y-m-d", strtotime($item->settlement_date)) }}</td>
-                                    <td>{{ $item->name }}</td>
-                                </tr>
-                            @endforeach
+                    <table>
+                        <tr>
+                            <td>
+                                <table class="table table-stripe">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Receive from </th>
+                                            <th>Description Details of Receipt </th>
+                                            <th>NCOA (ECONOMIC CODE)</th>
+                                            <th>Authority Document ref no.</th>
+                                            <th>Amount Received </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($revenue as $item)
+                                        <tr>
+                                            <td>{{ $item->revenue_date }}</td>
+                                            <td>{{ $item->received_from }}</td>
+                                            <td>{{ $item->description }}</td>
+                                            <td>{{ $item->revenue_code }}</td>
+                                            <td>{{ $item->authority_document_ref_no }}</td>
+                                            <td>{{ number_format($item->revenue_amount, 2) }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
 
-                        </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                <table class="table table-stripe">
+                                    <thead>
+                                        <tr>
+                                            <th>Date </th>
+                                            <th>Paid To </th>
+                                            <th>Description of Payment </th>
+                                            <th>NCOA (ECONOMIC CODE)</th>
+                                            <th>Authority Document ref no.</th>
+                                            <th>Amount Received </th>
+                                            {{-- <th>Created By</th> --}}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($expenses as $item1)
+                                        <tr>
+                                            <td>{{ $item1->created_at }}</td>
+                                            <td>{{ $item1->name }}</td>
+                                            <td>{{ $item1->narration }}</td>
+                                            <td>{{ $item1->expenditure_code }}</td>
+                                            <td>{{ $item1->payment_ref }}</td>
+                                            <td>{{ number_format($item1->amount, 2) }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
                     </table>
+
                 </div>
 
           </div>

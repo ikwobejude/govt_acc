@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Liability;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Revenue\RevenueLine;
@@ -93,6 +94,7 @@ class LiabilityController extends Controller
             'type_of_liability' => ['required', 'string'],
             'authority_document_ref_no' => ['required', 'string'],
             'amount' => ['required', 'regex:/^(\d+|\d+(\.\d{1,2})?|(\.\d{1,2}))$/'],
+            'transaction_date' => ['required', 'string'],
         ]);
 
         if($validateUser->fails()) {
@@ -105,6 +107,12 @@ class LiabilityController extends Controller
 
         $arr = explode(',', $request->revenue_code);
 
+        $carbon = Carbon::parse($request->transaction_date);
+        $year = $carbon->format('Y');
+        $month = $carbon->format('F');
+        $day = $carbon->day;
+
+
         Liabilities::insert([
             'economic_code' => $arr[1],
             'liability' => $request->liability,
@@ -114,7 +122,11 @@ class LiabilityController extends Controller
             'narration' => $request->description,
             'economic_name' => $arr[0],
             'economic_type' => $arr[2],
-            'created_by' => emailAddress()
+            'created_by' => emailAddress(),
+            'transaction_date' => $request->transaction_date,
+            'day' => $day,
+            'month' => $month,
+            'year' => $year
         ]);
 
         $notification = array(
@@ -131,6 +143,7 @@ class LiabilityController extends Controller
             'revenue_code' => ['required', 'string'],
             'liability' => ['required', 'string'],
             'type_of_liability' => ['required', 'string'],
+            'transaction_date' => ['required', 'string'],
             // 'authority_document_ref_no' => ['required', 'string'],
             'amount' => ['required', 'regex:/^(\d+|\d+(\.\d{1,2})?|(\.\d{1,2}))$/'],
         ]);
@@ -138,6 +151,10 @@ class LiabilityController extends Controller
         // dd($request->revenue_code);
 
         $arr = explode(',', $request->revenue_code);
+        $carbon = Carbon::parse($request->transaction_date);
+        $year = $carbon->format('Y');
+        $month = $carbon->format('F');
+        $day = $carbon->day;
 
         Liabilities::where('id', $request->id)->update([
             'economic_code' => $arr[1],
@@ -149,6 +166,10 @@ class LiabilityController extends Controller
             'narration' => $request->description,
             'economic_name' => $arr[0],
             'economic_type' => $arr[2],
+            'transaction_date' => $request->transaction_date,
+            'day' => $day,
+            'month' => $month,
+            'year' => $year
         ]);
 
         $notification = array(

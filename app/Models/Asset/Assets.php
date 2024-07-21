@@ -21,6 +21,9 @@ class Assets extends Model
         'assest_user_id',
         'assest_decription',
         'date_purchased',
+        'day',
+        'month',
+        'year',
         'insurance_status_id',
         'service_id',
         'created_by',
@@ -39,6 +42,7 @@ class Assets extends Model
         'approved_by',
         'reapproved',
         'reapproved_by',
-        'reason'
+        'reason',
+        'drafted_on'
     ];
 }

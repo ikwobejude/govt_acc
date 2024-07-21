@@ -186,7 +186,8 @@
                                 <th>Opening Value</th>
                                 <th>Status </th>
                                 <th>Created By </th>
-                                <th>Transaction Date </th>
+                                <th>Purchased Date </th>
+                                <th>Drafted On</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -229,7 +230,8 @@
 
                                 </td>
                                 <td>{{ $item->name }}</td>
-                                <td>{{ $item->date_purchased }}</td>
+                                <td>{{ date('d-m-Y', strtotime($item->date_purchased)) }}</td>
+                                <td>{{ date('d-m-Y', strtotime($item->drafted_on)) }}</td>
 
                                 <td>
                                     <div class="dropdown">

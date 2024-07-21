@@ -109,13 +109,14 @@ class ExpenditurePayRegisterController extends Controller
             $carbon = Carbon::parse($request->date);
             $year = $carbon->format('Y');
             $month = $carbon->format('F');
+            $day = $carbon->day;
 
             $arr = explode(',', $request->expenditure_type);
 
             // dd( $arr);
             ExpenditureRegister::insert([
                 'batch_name' => $request->batch_type,
-                'approved_on' => $request->date,
+                'drafted_on' => $request->date,
                 'expenditure_type' =>  $arr[2],
                 'expenditure_code' =>  $arr[1],
                 'expenditure_name' => $arr[0],
@@ -126,7 +127,8 @@ class ExpenditurePayRegisterController extends Controller
                 'created_by' => auth()->user()->email,
                 'payment_ref' => $request->authority_document_ref_no,
                 'month' => $month,
-                'year' => $year
+                'year' => $year,
+                'day' => $day
             ]);
 
             $notification = array(
@@ -156,13 +158,14 @@ class ExpenditurePayRegisterController extends Controller
         $carbon = Carbon::parse($request->date);
         $year = $carbon->format('Y');
         $month = $carbon->format('F');
+        $day = $carbon->day;
 
         $arr = explode(',', $request->expenditure_type);
 
         // dd( $arr);
         ExpenditureRegister::where('idexpenditure_payregister', $request->id)->update([
             'batch_name' => $request->batch_type,
-            'approved_on' => $request->date,
+            'drafted_on' => $request->date,
             'expenditure_type' =>  $arr[2],
             'expenditure_code' =>  $arr[1],
             'expenditure_name' => $arr[0],
@@ -173,7 +176,8 @@ class ExpenditurePayRegisterController extends Controller
             'created_by' => emailAddress(),
             'payment_ref' => $request->authority_document_ref_no,
             'month' => $month,
-            'year' => $year
+            'year' => $year,
+            'day' => $day
         ]);
 
         $notification = array(

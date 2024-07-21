@@ -357,6 +357,13 @@
               <div data-i18n="Payment Voucher">Payment Receipt</div>
             </a>
           </li>
+          <li class="menu-item {{ url()->current() == route('cashbook') ? 'active' : ''}}">
+            <a href="{{ route('cashbook') }}" class="menu-link">
+              <div data-i18n="Payment Voucher">Treasury cashbook</div>
+            </a>
+          </li>
+
+
 
 
 

@@ -28,6 +28,7 @@ use App\Http\Controllers\FinalAccount\GeneralLedgerController;
 use App\Http\Controllers\Expenditure\ExpenditureTypeController;
 use App\Http\Controllers\Approvals\ExpenditureApprovalController;
 use App\Http\Controllers\Approvals\ApproveLiabilityController;
+use App\Http\Controllers\Cashbook\CashbookController;
 use App\Http\Controllers\Expenditure\ExpenditureBatchNameController;
 use App\Http\Controllers\Expenditure\ExpenditurePayRegisterController;
 use App\Http\Controllers\FinalAccount\FinancialPositionController;
@@ -343,6 +344,12 @@ Route::group(['prefix' => 'report'], function () {
         Route::get('/cash_flow', [ReportController::class, 'cashFlow'])->name('cash_flow');
         Route::get('/cash_flow/download', [ReportController::class, 'downloadCCashFlow'])->name('download.cash_flow');
 
+    });
+});
+
+Route::group(['prefix' => 'treasure_cashbook'], function() {
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/', [CashbookController::class, 'cashbook'])->name('cashbook');
     });
 });
 
