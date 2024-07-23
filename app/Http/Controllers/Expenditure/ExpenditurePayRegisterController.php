@@ -60,7 +60,7 @@ class ExpenditurePayRegisterController extends Controller
             ->when(!empty($to), function ($query) use ($to) {
                 return $query->whereDate('created_at', '<=', $to);
             })
-            ->orderBy('expenditure_name', 'ASC')
+            ->orderBy('idexpenditure_payregister', 'DESC')
             ->get();
         } else {
             $ExpenditureRegister = db::table('expenditure_payregister')
@@ -87,8 +87,8 @@ class ExpenditurePayRegisterController extends Controller
             ->when(!empty($to), function ($query) use ($to) {
                 return $query->whereDate('created_at', '<=', $to);
             })
-            ->orderBy('expenditure_name', 'ASC')
-            ->get();
+            ->orderBy('idexpenditure_payregister', 'DESC')
+            ->paginate(20);
         }
 
         // dd($ExpenditureRegister);

@@ -138,7 +138,7 @@
                             <td> {{ $item->name }} </td>
                             <td> {{ number_format($item->amount, 2) }}</td>
                             <td> {{ $item->narration }} </td>
-                            <td> {{ $item->approved_on }}</td>
+                            <td> {{ date("Y-m-d", strtotime($item->drafted_on)) }}</td>
 
                             {{-- <td>
                                 <a href="{{ route('view.voucher', $item->idexpenditure_payregister) }}" class="btn btn-outline-secondary">Voucher</a>
@@ -147,7 +147,9 @@
                     @endforeach
                 </tbody>
             </table>
+
           </div>
+          {{-- {{ $ExpenditureRegister->links() }} --}}
         </div>
       </div>
 

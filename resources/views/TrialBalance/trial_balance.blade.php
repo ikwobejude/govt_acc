@@ -15,117 +15,122 @@
 
             <div class="col-md-12">
                 <div class="card mb-4">
-                    <h5 class="card-header" style="text-align: center">
-                        FEDERAL GOVERNMENT OF NIGERIA <br>
-                        HEALTH RECORDS OFFICERS REGISTRATION BOARD OF NIGERIA <br>
-                        MONTHLY IPSAS ACCRUAL BASIS COMPLIANT TRIAL BALANCE FROM {{ "JAN 1, ".date('Y')." - ". strtoupper($today->toFormattedDateString()) }}. <br>
-                    </h5>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12 pb-3" style="text-align: right">
-                                <a href="{{ route('download.trial_balance') }}" class="btn btn-primary">Download to Excel</a>
-                            </div>
+                    <div class="row" style="padding: 20px">
+                        <div class="col-md-12 pb-3" style="text-align: right">
+                            <a href="{{ route('download.trial_balance') }}" class="btn btn-primary">Download to Excel</a>
+                            <a href="javascript:;" class="btn btn-secondary" onclick="printDiv('print_session')">Print</a>
                         </div>
-                        <div class="table-responsive">
-                            <table class="table table-stripe table-bordered">
-                                <thead>
-
-                                    <tr>
-                                        <th colspan="2">ADMINISTRATATIVE CODE</th>
-                                        <th colspan="10">052100800100</th>
-                                    </tr>
-                                    <tr>
-                                        <th ></th>
-                                        <th></th>
-                                        <th rowspan="2">DR₦</th>
-                                        <th rowspan="2">CR₦</th>
-                                        <th colspan="8">ANALYSIS OF ECONOMIC ITEMS ACCORDING TO SOURCES OF FUNDS</th>
-                                    </tr>
-                                    <tr>
-                                        <th>ECONOMIC CODE</th>
-                                        <th>DESCRIPTION</th>
-                                        {{-- <th></th>
-                                        <th> </th> --}}
-                                        <th>BUDGET </th>
-                                        <th>SERVICE WIDE VOTES </th>
-                                        <th>CAPITAL SUPPPLEMENTATION </th>
-                                        <th>AID & GRANTS </th>
-                                        <th>RETAINED IGR </th>
-                                        <th>LOANS </th>
-                                        <th>OTHER FUNDS </th>
-                                        <th>OTHERS-SPECIFY </th>
-                                    </tr>
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th>02101 </th>
-                                        <th>SERVICE WIDE VOTES </th>
-                                        <th>02203</th>
-                                        <th>08</th>
-                                        <th>10</th>
-                                        <th>09</th>
-                                        <th>06</th>
-                                        <th>xx</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    <?php
-                                        $sumTotalDB = 0;
-                                        $sumTotalCD = 0;
-                                    ?>
-                                    {{-- @foreach ( $arr->groupBy(arr['economic_type']) as $economic_code => $rev) --}}
-                                        @foreach ($arr as $item)
-                                        <?php
-                                            $sumTotalDB += (float)$item['totaldb'];
-                                            $sumTotalCD += (float)$item['totalcr'];
-                                        ?>
-                                            <tr>
-                                                <td>{{ $item['economic_code'] }}</td>
-                                                <td>{{ $item['revenue_line'] }}</td>
-                                                <td>{{  number_format($item['totaldb'], 2) }}</td>
-                                                <td>{{  number_format($item['totalcr'], 2) }}</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    @if ($item['totaldb'] > 0)
-                                                    {{ number_format($item['totaldb'], 2) }}
-                                                    @else
-                                                    {{ number_format($item['totalcr'], 2) }}
-                                                    @endif
-
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                        @endforeach
-                                    {{-- @endforeach --}}
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>{{  number_format($sumTotalDB, 2) }}</td>
-                                        <td>{{  number_format($sumTotalCD, 2) }}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>{{  number_format($sumTotalDB + $sumTotalCD, 2) }}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-
                     </div>
+                    <div id="print_session">
+                        <h5 class="card-header" style="text-align: center">
+                            FEDERAL GOVERNMENT OF NIGERIA <br>
+                            HEALTH RECORDS OFFICERS REGISTRATION BOARD OF NIGERIA <br>
+                            MONTHLY IPSAS ACCRUAL BASIS COMPLIANT TRIAL BALANCE FROM {{ "JAN 1, ".date('Y')." - ". strtoupper($today->toFormattedDateString()) }}. <br>
+                        </h5>
+                        <div class="card-body">
+
+                            <div class="table-responsive">
+                                <table class="table table-stripe table-bordered">
+                                    <thead>
+
+                                        <tr>
+                                            <th colspan="2">ADMINISTRATATIVE CODE</th>
+                                            <th colspan="10">052100800100</th>
+                                        </tr>
+                                        <tr>
+                                            <th ></th>
+                                            <th></th>
+                                            <th rowspan="2">DR₦</th>
+                                            <th rowspan="2">CR₦</th>
+                                            <th colspan="8">ANALYSIS OF ECONOMIC ITEMS ACCORDING TO SOURCES OF FUNDS</th>
+                                        </tr>
+                                        <tr>
+                                            <th>ECONOMIC CODE</th>
+                                            <th>DESCRIPTION</th>
+                                            {{-- <th></th>
+                                            <th> </th> --}}
+                                            <th>BUDGET </th>
+                                            <th>SERVICE WIDE VOTES </th>
+                                            <th>CAPITAL SUPPPLEMENTATION </th>
+                                            <th>AID & GRANTS </th>
+                                            <th>RETAINED IGR </th>
+                                            <th>LOANS </th>
+                                            <th>OTHER FUNDS </th>
+                                            <th>OTHERS-SPECIFY </th>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>02101 </th>
+                                            <th>SERVICE WIDE VOTES </th>
+                                            <th>02203</th>
+                                            <th>08</th>
+                                            <th>10</th>
+                                            <th>09</th>
+                                            <th>06</th>
+                                            <th>xx</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <?php
+                                            $sumTotalDB = 0;
+                                            $sumTotalCD = 0;
+                                        ?>
+                                        {{-- @foreach ( $arr->groupBy(arr['economic_type']) as $economic_code => $rev) --}}
+                                            @foreach ($arr as $item)
+                                            <?php
+                                                $sumTotalDB += (float)$item['totaldb'];
+                                                $sumTotalCD += (float)$item['totalcr'];
+                                            ?>
+                                                <tr>
+                                                    <td>{{ $item['economic_code'] }}</td>
+                                                    <td>{{ $item['revenue_line'] }}</td>
+                                                    <td>{{  number_format($item['totaldb'], 2) }}</td>
+                                                    <td>{{  number_format($item['totalcr'], 2) }}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>
+                                                        @if ($item['totaldb'] > 0)
+                                                        {{ number_format($item['totaldb'], 2) }}
+                                                        @else
+                                                        {{ number_format($item['totalcr'], 2) }}
+                                                        @endif
+
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            @endforeach
+                                        {{-- @endforeach --}}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{  number_format($sumTotalDB, 2) }}</td>
+                                            <td>{{  number_format($sumTotalCD, 2) }}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{  number_format($sumTotalDB + $sumTotalCD, 2) }}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -169,4 +174,18 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function printDiv(invoice) {
+            var printContents = document.getElementById("print_session").innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            // document.body.innerHTML = printContents;
+            document.body.innerHTML = "<html><head><title>Paul</title></head><body>" + printContents + "</body>";
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
+        }
+    </script>
 @endsection

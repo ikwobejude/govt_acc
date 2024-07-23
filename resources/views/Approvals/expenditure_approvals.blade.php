@@ -117,7 +117,7 @@
           <div class="card-body">
             <form action="{{ route('multiple.expenditure.approval') }}" method="post">
                 @csrf
-                <div class="table-reponsive">
+                <div class="table-responsive">
                     <table class="table table-stripe">
                         <thead>
                             <tr>
@@ -135,7 +135,7 @@
                                 <th>Name</th>
                                 <th>Amount</th>
                                 <th>Description</th>
-                                <th>Date </th>
+                                <th>Transaction Date </th>
                                 <th>Approval Status </th>
                                 <th>Created by </th>
                             </tr>
@@ -190,7 +190,7 @@
                                     <td> {{ $item->name }} </td>
                                     <td> {{ number_format($item->amount, 2)  }}</td>
                                     <td> {{ $item->narration }} </td>
-                                    <td> {{ date("Y-m-d", strtotime($item->created_at)) }}</td>
+                                    <td> {{ date("Y-m-d", strtotime($item->drafted_on)) }}</td>
                                     <td>
 
                                         @if($item->approved == 0 || $item->approved == 4)
@@ -220,6 +220,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    {{ $ExpenditureRegister->links() }}
                 </div>
             </form>
 

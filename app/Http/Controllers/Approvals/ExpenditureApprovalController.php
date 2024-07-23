@@ -53,6 +53,7 @@ class ExpenditureApprovalController extends Controller
                return $query->whereDate('expenditure_payregister.created_at', '<=', $to);
               })
            //    ->toSql();
+           ->orderBy('expenditure_payregister.idexpenditure_payregister', 'DESC')
            ->paginate(20);
         //    return view('Approvals.expenditure_approvals', compact('months', 'expenditureType', 'batchName', 'ExpenditureRegister'));
          }
@@ -80,6 +81,7 @@ class ExpenditureApprovalController extends Controller
                return $query->whereDate('expenditure_payregister.created_at', '<=', $to);
               })
            //    ->toSql();
+           ->orderBy('expenditure_payregister.idexpenditure_payregister', 'DESC')
            ->paginate(20);
 
          }
@@ -90,7 +92,7 @@ class ExpenditureApprovalController extends Controller
             ->leftJoin('users', 'users.username', 'expenditure_payregister.created_by')
             ->where('expenditure_payregister.service_id', 37483)
             ->where('expenditure_payregister.deleted', 0)
-            ->whereIn('expenditure_payregister.approved', [1,2,3,4])
+            ->whereIn('expenditure_payregister.approved', [1,3,4])
             ->when(!empty($batch_type) , function ($query) use ($batch_type) {
                return $query->where('expenditure_payregister.batch_name', $batch_type);
             })
@@ -106,7 +108,7 @@ class ExpenditureApprovalController extends Controller
              ->when(!empty($to), function ($query) use ($to) {
                return $query->whereDate('expenditure_payregister.created_at', '<=', $to);
               })
-           //    ->toSql();
+           ->orderBy('expenditure_payregister.idexpenditure_payregister', 'DESC')
            ->paginate(20);
 
          }
@@ -137,7 +139,6 @@ class ExpenditureApprovalController extends Controller
                 ->where('idexpenditure_payregister', $request->query('id'))
                 ->update([
                     "approved" => 1,
-
                     "approved_on" => Carbon::now(),
                     "approved_by" => auth()->user()->email
                 ]);

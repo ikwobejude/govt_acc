@@ -185,9 +185,10 @@
                              </tr>
                         </tbody>
                     </table>
+
                 </div>
             </form>
-
+            {{ $revenue->links() }}
           </div>
         </div>
       </div>

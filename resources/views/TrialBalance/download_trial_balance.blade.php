@@ -3,18 +3,20 @@
 
 // dd($pensions);
 $ExportFileName = $today->toFormattedDateString()."trial_balance.xls";
-// dd($ExportFileName);
+
 
 //Set Content type to Excel
-header('Content-Type: application/vnd.ms-excel');
+// header('Content-Type: application/vnd.ms-excel');
 //Fix IE 5.0-5.5 bug with Content-Disposition=attachment
-if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 5.5;') || strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 5.0;')) {
+// if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 5.5;') || strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 5.0;')) {
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: filename=' . $ExportFileName);
-} else {
-    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    header('Content-Disposition: attachment; filename=' . $ExportFileName);
-}
+// } else {
+//     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+//     header('Content-Disposition: attachment; filename=' . $ExportFileName);
+// }
+
+dd($ExportFileName);
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 

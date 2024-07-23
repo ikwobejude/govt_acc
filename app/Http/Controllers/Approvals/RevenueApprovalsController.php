@@ -37,6 +37,7 @@ class RevenueApprovalsController extends Controller
             ->when(!empty($to), function ($query) use ($to) {
                 return $query->whereDate('acc_revenue.created_at', '<=', $to);
             })
+            ->orderBy('acc_revenue.revenue_id', 'DESC')
             ->paginate(20);
             $revenue_lines = DB::table('revenue_line')->where('type', 1)->get();
             return view('Approvals.revenue_approvals', compact('revenue', 'revenue_lines'));
@@ -65,6 +66,7 @@ class RevenueApprovalsController extends Controller
             ->when(!empty($to), function ($query) use ($to) {
                 return $query->whereDate('acc_revenue.created_at', '<=', $to);
             })
+            ->orderBy('acc_revenue.revenue_id', 'DESC')
             ->paginate(20);
             $revenue_lines = DB::table('revenue_line')->where('type', 1)->get();
             return view('Approvals.revenue_approvals', compact('revenue', 'revenue_lines'));
@@ -83,7 +85,7 @@ class RevenueApprovalsController extends Controller
             ->leftJoin("users", "users.username", "acc_revenue.created_by")
             ->where('acc_revenue.service_id', 37483)
             ->where('acc_revenue.deleted', 0)
-            ->whereIn('acc_revenue.approved', ['1', '2', '4'])
+            ->whereIn('acc_revenue.approved', ['1', '4'])
             ->when(!empty($economicCode) , function ($query) use ($economicCode) {
                 return $query->where('acc_revenue.revenue_code', $economicCode);
             })
@@ -94,12 +96,11 @@ class RevenueApprovalsController extends Controller
             ->when(!empty($to), function ($query) use ($to) {
                 return $query->whereDate('acc_revenue.created_at', '<=', $to);
             })
+            ->orderBy('acc_revenue.revenue_id', 'DESC')
             ->paginate(20);
             $revenue_lines = DB::table('revenue_line')->where('type', 1)->get();
             return view('Approvals.revenue_approvals', compact('revenue', 'revenue_lines'));
         }
-
-
     }
 
     public function approveRevenue(Request $request) {

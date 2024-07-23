@@ -31,10 +31,10 @@ class TransactionControllers extends Controller
             return $query->where('revenue_code', $revenue_code);
         })
         ->when(!empty($from), function ($query) use ($from) {
-            return $query->whereDate('acc_revenue.created_at', '>=', $from);
+            return $query->whereDate('acc_revenue.settlement_date', '>=', $from);
         })
         ->when(!empty($to), function ($query) use ($to) {
-           return $query->whereDate('acc_revenue.created_at', '<=', $to);
+           return $query->whereDate('acc_revenue.settlement_date', '<=', $to);
         })
         ->when(!empty($authority_ref), function ($query) use ($authority_ref) {
             return $query->where('acc_revenue.authority_document_ref_no', '=', $authority_ref);
@@ -63,6 +63,7 @@ class TransactionControllers extends Controller
 
     public function expenditureTransactions(Request $request)
     {
+        // dd($request->query());
         $batch_type = $request->query("batch_type");
         $expenditure = $request->query("expenditure");
         $authority_document_ref_no = $request->query("authority_document_ref_no");
@@ -100,13 +101,16 @@ class TransactionControllers extends Controller
             return $query->where('users.username', '=', $created_by);
         })
         ->when(!empty($from), function ($query) use ($from) {
-            return $query->whereDate('expenditure_payregister.created_at', '>=', $from);
+            return $query->whereDate('expenditure_payregister.drafted_on', '>=', $from);
         })
         ->when(!empty($to), function ($query) use ($to) {
-            return $query->whereDate('expenditure_payregister.created_at', '<=', $to);
+            return $query->whereDate('expenditure_payregister.drafted_on', '<=', $to);
         })
-        ->orderBy('expenditure_name', 'ASC')
+        ->orderBy('idexpenditure_payregister', 'DESC')
+        // ->toSql();
         ->get();
+
+        // dd($ExpenditureRegister);
 
         $initiators = DB::table('users')
         ->select('username', 'name')

@@ -114,6 +114,7 @@ class RevenueController extends Controller
             $year = $carbon->year;
             $arr = explode(',', $request->revenue_code);
             // dd($arr);
+            // dd($carbon, $day, $month, $year);
         // dd($month);
 
         Revenue::create([
