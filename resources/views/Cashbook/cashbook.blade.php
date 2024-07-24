@@ -1,5 +1,5 @@
 @extends('admin_dashboard')
-
+@section('title', 'Treasure casbook')
 
 @section('admin')
 <div class="container-xxl flex-grow-1 container-p-y">
@@ -17,15 +17,15 @@
 
               <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    <form action="{{ route('revenue.transaction') }}" method="get" class="mt-3">
+                    <form action="{{ route('cashbook') }}" method="get" class="mt-3">
                         @csrf
                         <div class="fieldset">
                             <h1>Search</h1>
                             <div class="row mb-3">
                                 <div class="col-md-4">
                                     <div class="form-floating">
-                                        <select name="revenue_code" id="revenue_code" class="form-control selects" style="width: 100%">
-                                            <option value="">SELECT REVENUE LINE</option>
+                                        <select name="code" id="code" class="form-control selects" style="width: 100%">
+                                            <option value="">SELECT LINE</option>
                                             @foreach ($revenue_lines as $item)
                                                 <option value="{{ $item->economic_code  }}" {{ old('revenue_code') == $item->description ? 'selected': ''}}>
                                                     {{ $item->description." :: ".$item->economic_code  }}
@@ -76,8 +76,8 @@
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="received_from" name="received_from" placeholder=""  />
-                                        <label for="floatingInput">RECEIVED FROM</label>
+                                        <input type="text" class="form-control" id="received_pay" name="received_pay" placeholder=""  />
+                                        <label for="floatingInput">RECEIVED FROM/PAID TO</label>
 
                                         @error('settlement_date')
                                         <span class="text-danger"> {{ $message }} </span>
@@ -133,64 +133,69 @@
           <h5 class="card-header">TREASURE CASHBOOK</h5>
           <div class="card-body">
                 <div class="table-responsive">
-                    <table>
-                        <tr>
-                            <td>
-                                <table class="table table-stripe">
-                                    <thead>
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Receive from </th>
-                                            <th>Description Details of Receipt </th>
-                                            <th>NCOA (ECONOMIC CODE)</th>
-                                            <th>Authority Document ref no.</th>
-                                            <th>Amount Received </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($revenue as $item)
-                                        <tr>
-                                            <td>{{ $item->revenue_date }}</td>
-                                            <td>{{ $item->received_from }}</td>
-                                            <td>{{ $item->description }}</td>
-                                            <td>{{ $item->revenue_code }}</td>
-                                            <td>{{ $item->authority_document_ref_no }}</td>
-                                            <td>{{ number_format($item->revenue_amount, 2) }}</td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="display" id="pagelength-btn">
+                                <thead>
 
-                                </table>
-                            </td>
-                            <td>
-                                <table class="table table-stripe">
-                                    <thead>
-                                        <tr>
-                                            <th>Date </th>
-                                            <th>Paid To </th>
-                                            <th>Description of Payment </th>
-                                            <th>NCOA (ECONOMIC CODE)</th>
-                                            <th>Authority Document ref no.</th>
-                                            <th>Amount Received </th>
-                                            {{-- <th>Created By</th> --}}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($expenses as $item1)
-                                        <tr>
-                                            <td>{{ $item1->created_at }}</td>
-                                            <td>{{ $item1->name }}</td>
-                                            <td>{{ $item1->narration }}</td>
-                                            <td>{{ $item1->expenditure_code }}</td>
-                                            <td>{{ $item1->payment_ref }}</td>
-                                            <td>{{ number_format($item1->amount, 2) }}</td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
+                                    <tr>
+                                        <th>Transaction Date</th>
+                                        <th>Authority ref no.</th>
+                                        <th>Line </th>
+                                        <th>Description </th>
+                                        <th>NCOA (ECONOMIC CODE)</th>
+                                        <th>Expenditure (DR)</th>
+                                        <th>Revenue (CR)</th>
+                                        <th>Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                        $balance = 0;
+                                        $cr = 0;
+                                        $db = 0;
+                                    ?>
+                                    @foreach ($sorted as $item)
+                                    <?php
+                                        $rev = $item->code[0] == 1 ? (float) $item->amount : 0;
+                                        $exp = $item->code[0] == 2 ? (float) $item->amount : 0;
+                                        $ba = $rev - $exp;
+                                        $cr = $cr + $rev;
+                                        $db = $db + $exp;
+                                        $balance = $balance + $ba;
+                                    ?>
+                                    <tr>
+                                        <td>{{ date("Y-m-d", strtotime($item->date)) }}</td>
+                                        <td>{{ $item->ref }}</td>
+                                        <td>{{ $item->line }}</td>
+                                        <td>{{ $item->narration }}</td>
+                                        <td>{{ $item->code }}</td>
+                                        <td>{{ $item->code[0] == 2 ? number_format($item->amount, 2) : "0.00" }}</td>
+                                        <td>{{ $item->code[0] == 1 ? number_format($item->amount, 2) : "0.00" }}</td>
+                                        <td>{{ $balance < 0 ? "(".number_format(abs($balance), 2).")" : number_format($balance, 2) }}</td>
+                                    </tr>
+                                    @endforeach
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{ number_format($db, 2) }}</td>
+                                        <td>{{ number_format($cr, 2) }}</td>
+                                        <td>{{ number_format($balance, 2) }}</td>
+                                    </tr>
+                                </tfoot>
+
+
+                            </table>
+
+                        </div>
+                    </div>
+
 
                 </div>
 
