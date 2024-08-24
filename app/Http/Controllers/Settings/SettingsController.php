@@ -11,9 +11,17 @@ use Illuminate\Support\Facades\Validator;
 class SettingsController extends Controller
 {
     public function index(Request $request) {
-        $revenue_lines = DB::table('revenue_line')->where("type", 1)->paginate(20);
+        $revenue_code = $request->query("revenue_code");
+        $revenue_lines = DB::table('revenue_line')
+        ->where("type", 1)
+        ->when(!empty($revenue_code), function ($query) use ($revenue_code) {
+            return $query->where('economic_code', '=', $revenue_code);
+        })
+        ->paginate(20);
+        $notes = DB::table("notes")->get();
+        // dd($notes);
         // dd($revenue_lines,  auth()->user()->name);
-        return view('Settings.revenue_line', compact('revenue_lines'));
+        return view('Settings.revenue_line', compact('revenue_lines', 'notes'));
     }
 
     // create revenue line
@@ -37,7 +45,8 @@ class SettingsController extends Controller
         RevenueLine::create([
             'description' => $request->revenue_line,
             'economic_code' => $request->revenue_code,
-            'type' => $request->type
+            'type' => $request->type,
+            'note' => $request->note
         ]);
 
         // Notification
@@ -45,7 +54,7 @@ class SettingsController extends Controller
             'message' => 'Revenue line created successfully',
             'alert-type' => 'success'
         );
-        return redirect('/settings/revenue_line')->with($notification);
+        return redirect()->back()->with($notification);
     }
 
     public function edit(Request $request) {
@@ -68,7 +77,8 @@ class SettingsController extends Controller
             RevenueLine::where("id", $request->id)->update([
                 'description' => $request->revenue_line,
                 'economic_code' => $request->revenue_code,
-                'type' => $request->type
+                'type' => $request->type,
+                'note' => $request->note
             ]);
 
             // Notification
@@ -76,13 +86,13 @@ class SettingsController extends Controller
                 'message' => 'Revenue line update successfully',
                 'alert-type' => 'success'
             );
-            return redirect('/settings/revenue_line')->with($notification);
+            return redirect()->back()->with($notification);
         } catch (\Throwable $th) {
             $notification = array(
                 'message' => $th->getMessage(),
                 'alert-type' => 'error'
             );
-            return redirect('/settings/revenue_line')->with($notification);
+            return redirect()->back()->with($notification);
         }
 
     }
@@ -96,25 +106,46 @@ class SettingsController extends Controller
             'message' => 'Revenue line deleted successfully',
             'alert-type' => 'success'
         );
-        return redirect('/settings/revenue_line')->with($notification);
+        return redirect()->back()->with($notification);
     }
 
 
     public function indexExp(Request $request) {
-        $revenue_lines = DB::table('revenue_line')->where("type", 2)->paginate(20);
+        $revenue_code = $request->query("revenue_code");
+        $revenue_lines = DB::table('revenue_line')
+        ->where("type", 2)
+        ->when(!empty($revenue_code), function ($query) use ($revenue_code) {
+            return $query->where('economic_code', '=', $revenue_code);
+        })
+        ->paginate(20);
+        $notes = DB::table("notes")->get();
         // dd($revenue_lines,  auth()->user()->name);
-        return view('Settings.expenditure_line', compact('revenue_lines'));
+        return view('Settings.expenditure_line', compact('revenue_lines', 'notes'));
     }
 
     public function indexAsset(Request $request) {
-        $revenue_lines = DB::table('revenue_line')->where("type", 3)->paginate(20);
+        $revenue_code = $request->query("revenue_code");
+        $revenue_lines = DB::table('revenue_line')
+        ->where("type", 3)
+        ->when(!empty($revenue_code), function ($query) use ($revenue_code) {
+            return $query->where('economic_code', '=', $revenue_code);
+        })
+        ->paginate(20);
+        $notes = DB::table("notes")->get();
         // dd($revenue_lines,  auth()->user()->name);
-        return view('Settings.asset_line', compact('revenue_lines'));
+        return view('Settings.asset_line', compact('revenue_lines', 'notes'));
     }
 
     public function indexLiability(Request $request) {
-        $revenue_lines = DB::table('revenue_line')->where("type", 4)->paginate(20);
+        $revenue_code = $request->query("revenue_code");
+        $revenue_lines = DB::table('revenue_line')
+        ->where("type", 4)
+        ->when(!empty($revenue_code), function ($query) use ($revenue_code) {
+            return $query->where('economic_code', '=', $revenue_code);
+        })
+        ->paginate(20);
+        $notes = DB::table("notes")->get();
         // dd($revenue_lines,  auth()->user()->name);
-        return view('Settings.liability_line', compact('revenue_lines'));
+        return view('Settings.liability_line', compact('revenue_lines', 'notes'));
     }
 }

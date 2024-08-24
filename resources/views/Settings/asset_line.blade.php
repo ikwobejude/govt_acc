@@ -4,9 +4,62 @@
     <h4 class="py-3 mb-4"><span class="text-muted fw-light">Settings /</span> Asset Lines</h4>
 
     <div class="row">
-        {{-- @section('alerts') --}}
+        <div class="col-md-6 mb-3">
+            <div class="accordion mt-3" id="accordionExample">
+                <div class="card accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button type="button" class="accordion-button" data-bs-toggle="collapse"
+                            data-bs-target="#accordionOne" aria-expanded="true" aria-controls="accordionOne">
+                            Search
+                        </button>
+                    </h2>
 
-        {{-- @stop --}}
+                    <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <form action="" method="get" class="mt-3">
+                                @csrf
+                                <div class="fieldset">
+                                    <h1>Search</h1>
+                                    <div class="row mb-3">
+
+                                        <div class="col-md-12">
+                                            <div class="form-floating">
+                                                <select name="revenue_code" id="revenue_code" style="width: 100%" class="form-control selects">
+                                                    <option value="">Select Revenue Line/Economic Code</option>
+                                                    @foreach ($revenue_lines as $item)
+                                                        <option value="{{ $item->economic_code }}"
+                                                            {{ old('revenue_code') == $item->economic_code ? 'selected' : '' }}>
+                                                            {{ $item->description . ' :: ' . $item->economic_code }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                {{-- <label for="floatingInput">Revenue Line/Economic Code</label> --}}
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+
+                                    <div class="row">
+
+
+                                        <div class="col-12" style="text-align: right">
+                                            <button type="submit" class="btn btn-primary me-2">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6 mb-3"></div>
+        
       <div class="col-md-4">
         <div class="card mb-4">
           <h5 class="card-header">Asset Item</h5>
@@ -52,6 +105,20 @@
                         @enderror
                     </div>
 
+                    <div class="form-floating mb-3">
+                        <select name="note" id="note" class="form-control">
+                            <option value="">Select note</option>
+                            @foreach ($notes as  $note)
+                              <option value="{{ $note->note_code }}">{{ $note->note_name }}</option>
+                            @endforeach
+                        </select>
+                        <label for="floatingInput">Note</label>
+
+                        @error('note')
+                        <span class="text-danger"> {{ $message }} </span>
+                        @enderror
+                    </div>
+
 
 
                     <div class="row">
@@ -84,6 +151,7 @@
                         <tr>
                             <th>Expenditure Line</th>
                             <th>Expenditure Code </th>
+                            <th>NOTE </th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -92,6 +160,7 @@
                             <tr>
                                 <td>{{ $item->economic_code }}</td>
                                 <td>{{ $item->description }}</td>
+                                <td>{{ $item->note }}</td>
                                 <td>
                                     {{
                                         ($item->type == 1 ? 'REVENUE' :
@@ -110,6 +179,7 @@
                                             '{{ $item->description }}',
                                             '{{ $item->type }}',
                                             '{{ $item->id }}',
+                                            '{{ $item->note }}'
                                         )">
                                             <i class="bx bx-edit-alt me-1"></i> Edit
                                         </a>
@@ -243,12 +313,13 @@
 
 
   <script>
-    function update(economic_code, description, type, revenue_id) {
-        console.log({economic_code, description, type, revenue_id})
+    function update(economic_code, description, type, revenue_id, note) {
+        // console.log({economic_code, description, type, revenue_id})
         $('#etype').val(type)
         $('#erevenue_line').val(description)
         $('#erevenue_code').val(economic_code)
         $('#id').val(revenue_id)
+        $('#enote').val(note)
     }
   </script>
 

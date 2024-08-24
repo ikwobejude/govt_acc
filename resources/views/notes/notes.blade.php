@@ -1,80 +1,28 @@
 @extends('admin_dashboard')
 @section('admin')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Settings /</span> Expenditure Lines</h4>
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Settings /</span> Notes</h4>
 
     <div class="row">
-        <div class="col-md-6 mb-3">
-            <div class="accordion mt-3" id="accordionExample">
-                <div class="card accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                        <button type="button" class="accordion-button" data-bs-toggle="collapse"
-                            data-bs-target="#accordionOne" aria-expanded="true" aria-controls="accordionOne">
-                            Search
-                        </button>
-                    </h2>
+        {{-- @section('alerts') --}}
 
-                    <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <form action="" method="get" class="mt-3">
-                                @csrf
-                                <div class="fieldset">
-                                    <h1>Search</h1>
-                                    <div class="row mb-3">
-
-                                        <div class="col-md-12">
-                                            <div class="form-floating">
-                                                <select name="revenue_code" id="revenue_code" style="width: 100%" class="form-control selects">
-                                                    <option value="">Select Revenue Line/Economic Code</option>
-                                                    @foreach ($revenue_lines as $item)
-                                                        <option value="{{ $item->economic_code }}"
-                                                            {{ old('revenue_code') == $item->economic_code ? 'selected' : '' }}>
-                                                            {{ $item->description . ' :: ' . $item->economic_code }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                {{-- <label for="floatingInput">Revenue Line/Economic Code</label> --}}
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-
-
-
-                                    <div class="row">
-
-
-                                        <div class="col-12" style="text-align: right">
-                                            <button type="submit" class="btn btn-primary me-2">Search</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-md-6 mb-3"></div>
+        {{-- @stop --}}
       <div class="col-md-4">
         <div class="card mb-4">
-          <h5 class="card-header"> Expenditure Item</h5>
+          <h5 class="card-header">Notes</h5>
           <div class="card-body">
             <form action="{{ route('post.revenue_line') }}" method="post">
                 @csrf
                 <div class="fieldset">
-                    <h1>Add Expenditure Items</h1>
+                    <h1>Add Notes</h1>
 
                     <div class="form-floating mb-3">
                         <select name="type" id="type" class="form-control">
                             <option value="">Select options</option>
                             {{-- <option value="1">REVENUE</option> --}}
-                            <option value="2">EXPENDITURE</option>
-                            {{-- <option value="3">ASSET</option>
-                            <option value="4">LAIBILITY</option> --}}
+                            {{-- <option value="2">EXPENDITURE</option> --}}
+                            <option value="3">ASSET</option>
+                            {{-- <option value="4">LAIBILITY</option> --}}
                         </select>
                         <label for="floatingInput">Type</label>
 
@@ -84,10 +32,10 @@
                     </div>
 
                     <div class="form-floating">
-                        <input type="text" class="form-control  @error('revenue_line') is-invalid @enderror" name="revenue_line" id="floatingInput" placeholder="Expenditure Line" value="{{ old('revenue_line')}}" />
-                        <label for="floatingInput">Expenditure Line</label>
+                        <input type="text" class="form-control  @error('revenue_line') is-invalid @enderror" name="revenue_line" id="floatingInput" placeholder="Revenue Line" value="{{ old('revenue_line')}}" />
+                        <label for="floatingInput">Asset Line</label>
                         <div id="floatingInputHelp" class="form-text">
-                            Expenditure line in other word Expenditure name
+                            Asset line in other word Asset name
                         </div>
                         @error('revenue_line')
                         <span class="text-danger"> {{ $message }} </span>
@@ -95,25 +43,11 @@
                     </div>
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control @error('revenue_code') is-invalid @enderror" id="floatingInput" name="revenue_code" placeholder="Expenditure Line" value="{{ old('revenue_code')}}" />
-                        <label for="floatingInput">Expenditure Code</label>
+                        <label for="floatingInput">Asset Code</label>
                         <div id="floatingInputHelp" class="form-text">
-                            Expenditure code for the above inputed Expenditure name
+                            Asset code for the above inputed Asset name
                         </div>
                         @error('revenue_code')
-                        <span class="text-danger"> {{ $message }} </span>
-                        @enderror
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <select name="note" id="note" class="form-control">
-                            <option value="">Select note</option>
-                            @foreach ($notes as  $note)
-                              <option value="{{ $note->note_code }}">{{ $note->note_name }}</option>
-                            @endforeach
-                        </select>
-                        <label for="floatingInput">Note</label>
-
-                        @error('note')
                         <span class="text-danger"> {{ $message }} </span>
                         @enderror
                     </div>
@@ -143,14 +77,13 @@
 
       <div class="col-md-8">
         <div class="card mb-4">
-          <h5 class="card-header">Expenditure Line(s)</h5>
+          <h5 class="card-header">Asset Line(s)</h5>
           <div class="card-body">
                 <table class="table table-stripe">
                     <thead>
                         <tr>
-                            <th>Expenditure Code</th>
-                            <th>Expenditure Line </th>
-                            <th>NOTE </th>
+                            <th>Expenditure Line</th>
+                            <th>Expenditure Code </th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -159,7 +92,6 @@
                             <tr>
                                 <td>{{ $item->economic_code }}</td>
                                 <td>{{ $item->description }}</td>
-                                <td>{{ $item->note }}</td>
                                 <td>
                                     {{
                                         ($item->type == 1 ? 'REVENUE' :
@@ -178,7 +110,6 @@
                                             '{{ $item->description }}',
                                             '{{ $item->type }}',
                                             '{{ $item->id }}',
-                                            '{{ $item->note }}'
                                         )">
                                             <i class="bx bx-edit-alt me-1"></i> Edit
                                         </a>
@@ -230,9 +161,9 @@
                         <select name="type" id="etype" class="form-control">
                             <option value="">Select options</option>
                             {{-- <option value="1">REVENUE</option> --}}
-                            <option value="2">EXPENDITURE</option>
-                            {{-- <option value="3">ASSET</option>
-                            <option value="4">LAIBILITY</option> --}}
+                            {{-- <option value="2">EXPENDITURE</option> --}}
+                             <option value="3">ASSET</option>
+                            {{--<option value="4">LAIBILITY</option> --}}
                         </select>
                         <label for="floatingInput">Type</label>
 
@@ -258,20 +189,6 @@
                             Revenue code for the above inputed revenue name
                         </div>
                         @error('revenue_code')
-                        <span class="text-danger"> {{ $message }} </span>
-                        @enderror
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <select name="note" id="enote" class="form-control">
-                            <option value="">Select note</option>
-                            @foreach ($notes as  $note)
-                              <option value="{{ $note->note_code }}">{{ $note->note_name }}</option>
-                            @endforeach
-                        </select>
-                        <label for="floatingInput">Note</label>
-
-                        @error('type')
                         <span class="text-danger"> {{ $message }} </span>
                         @enderror
                     </div>
@@ -326,13 +243,12 @@
 
 
   <script>
-    function update(economic_code, description, type, revenue_id, note) {
-        // console.log({economic_code, description, type, revenue_id})
+    function update(economic_code, description, type, revenue_id) {
+        console.log({economic_code, description, type, revenue_id})
         $('#etype').val(type)
         $('#erevenue_line').val(description)
         $('#erevenue_code').val(economic_code)
         $('#id').val(revenue_id)
-        $('#enote').val(note)
     }
   </script>
 

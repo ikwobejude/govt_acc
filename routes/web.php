@@ -353,6 +353,14 @@ Route::group(['prefix' => 'treasure_cashbook'], function() {
     });
 });
 
+// notes
+
+Route::group(['prefix' => 'notes'], function() {
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/', [CashbookController::class, 'cashbook'])->name('get_notes');
+        Route::post('/', [CashbookController::class, 'cashbook'])->name('add_note');
+    });
+});
 
 
 

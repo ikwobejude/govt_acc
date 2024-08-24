@@ -18,6 +18,7 @@ class RevenueLine extends Model
         'economic_code',
         'type',
         'created_by',
-        'created_on'
+        'created_on',
+        'note'
     ];
 }
