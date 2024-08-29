@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\FinalAccount;
 
+use Carbon\Carbon;
 use App\Models\Asset\Assets;
 use Illuminate\Http\Request;
 use App\Models\Revenue\Revenue;
@@ -12,21 +13,28 @@ use App\Models\Expenditure\ExpenditureRegister;
 class ReportController extends Controller
 {
     public function financialPerformance(Request $request) {
-        $from = $request->query("from") ? $request->query("from") :  firstDay();
+        $from = $request->query("from") ? $request->query("from") :  Carbon::now()->startOfYear();
         $to = $request->query('to') ? $request->query('to') : lastDay();
         $currentT = $request->query("from") ? 1 : 2;
 
+        // dd($from, $to);
+
         $revenue = Revenue::Where('service_id',37483)
-        ->where('approved', 2)
+        ->selectRaw("acc_revenue.revenue_line as line, acc_revenue.revenue_code as code, acc_revenue.asset_name as uniId, SUM(acc_revenue.revenue_amount) as total, revenue_line.note")
+        ->join("revenue_line", "revenue_line.economic_code", "acc_revenue.revenue_code")
+        ->where('acc_revenue.approved', 2)
+        ->whereIn('revenue_line.note', [6, 7])
         ->when(!empty($from), function ($query) use ($from) {
-            return $query->whereDate('created_at', '>=', $from);
+            return $query->whereDate('acc_revenue.created_at', '>=', $from);
         })
         ->when(!empty($to), function ($query) use ($to) {
-           return $query->whereDate('created_at', '<=', $to);
+           return $query->whereDate('acc_revenue.created_at', '<=', $to);
         })
-        ->selectRaw("revenue_line as line, revenue_code as code, asset_name as uniId, revenue_amount as total")
-        ->groupBy('revenue_code')
+
+        ->groupBy('acc_revenue.revenue_code')
         ->get();
+
+        // dd($revenue);
 
         $ExpenditureRegister = ExpenditureRegister::Where('service_id',37483)
         ->where('approved', 2)

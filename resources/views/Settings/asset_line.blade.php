@@ -59,7 +59,7 @@
 
         </div>
         <div class="col-md-6 mb-3"></div>
-        
+
       <div class="col-md-4">
         <div class="card mb-4">
           <h5 class="card-header">Asset Item</h5>
@@ -149,8 +149,8 @@
                 <table class="table table-stripe">
                     <thead>
                         <tr>
-                            <th>Expenditure Line</th>
-                            <th>Expenditure Code </th>
+                            <th>Asset Line</th>
+                            <th>Asset Code </th>
                             <th>NOTE </th>
                             <th>Action</th>
                         </tr>
@@ -259,6 +259,20 @@
                             Revenue code for the above inputed revenue name
                         </div>
                         @error('revenue_code')
+                        <span class="text-danger"> {{ $message }} </span>
+                        @enderror
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <select name="note" id="enote" class="form-control">
+                            <option value="">Select note</option>
+                            @foreach ($notes as  $note)
+                              <option value="{{ $note->note_code }}">{{ $note->note_name }}</option>
+                            @endforeach
+                        </select>
+                        <label for="floatingInput">Note</label>
+
+                        @error('type')
                         <span class="text-danger"> {{ $message }} </span>
                         @enderror
                     </div>
