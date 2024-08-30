@@ -19,9 +19,15 @@ class ReportController extends Controller
 
         // dd($from, $to);
 
-        $revenue = Revenue::Where('service_id',37483)
-        ->selectRaw("acc_revenue.revenue_line as line, acc_revenue.revenue_code as code, acc_revenue.asset_name as uniId, SUM(acc_revenue.revenue_amount) as total, revenue_line.note")
-        ->join("revenue_line", "revenue_line.economic_code", "acc_revenue.revenue_code")
+        $revenue =  DB::table('acc_revenue')
+        ->select([
+            'acc_revenue.revenue_line as line',
+            'acc_revenue.revenue_code as code',
+            'acc_revenue.asset_name as uniId',
+            DB::raw('SUM(acc_revenue.revenue_amount) as total'),
+            'revenue_line.note'
+        ])
+        ->join('revenue_line', 'revenue_line.economic_code', '=', 'acc_revenue.revenue_code')
         ->where('acc_revenue.approved', 2)
         ->whereIn('revenue_line.note', [6, 7])
         ->when(!empty($from), function ($query) use ($from) {
@@ -30,22 +36,31 @@ class ReportController extends Controller
         ->when(!empty($to), function ($query) use ($to) {
            return $query->whereDate('acc_revenue.created_at', '<=', $to);
         })
-
-        ->groupBy('acc_revenue.revenue_code')
+        ->groupBy('revenue_line.note')
+        ->orderBy('revenue_line.note', 'ASC')
         ->get();
 
         // dd($revenue);
 
-        $ExpenditureRegister = ExpenditureRegister::Where('service_id',37483)
-        ->where('approved', 2)
+        $ExpenditureRegister = DB::table('expenditure_payregister')
+        ->select([
+            'expenditure_payregister.expenditure_type as uniId',
+            'expenditure_payregister.expenditure_code as CODE',
+            'expenditure_payregister.expenditure_name as line',
+            DB::raw('SUM(expenditure_payregister.amount) as total'),
+            'revenue_line.note as note',
+        ])
+        ->join('revenue_line', 'revenue_line.economic_code', '=', 'expenditure_payregister.expenditure_code')
+        ->where('expenditure_payregister.approved', 2)
+        ->whereIn('revenue_line.note', [9, 10])
         ->when(!empty($from), function ($query) use ($from) {
-            return $query->whereDate('created_at', '>=', $from);
+            return $query->whereDate('expenditure_payregister.created_at', '>=', $from);
         })
         ->when(!empty($to), function ($query) use ($to) {
-           return $query->whereDate('created_at', '<=', $to);
+           return $query->whereDate('expenditure_payregister.created_at', '<=', $to);
         })
-        ->selectRaw("expenditure_type as uniId, expenditure_code as code, expenditure_name  as line, amount as total")
-        // ->groupBy('expenditure_code')
+        ->groupBy('revenue_line.note')
+        ->orderBy('revenue_line.note', 'ASC')
         ->get();
 
 

@@ -18,10 +18,11 @@ class SettingsController extends Controller
             return $query->where('economic_code', '=', $revenue_code);
         })
         ->paginate(20);
+        $revenue = DB::table('revenue_line')->where("type", 1)->get();
         $notes = DB::table("notes")->get();
-        // dd($notes);
+        // dd(count($revenue));
         // dd($revenue_lines,  auth()->user()->name);
-        return view('Settings.revenue_line', compact('revenue_lines', 'notes'));
+        return view('Settings.revenue_line', compact('revenue_lines', 'revenue', 'notes'));
     }
 
     // create revenue line
@@ -118,9 +119,12 @@ class SettingsController extends Controller
             return $query->where('economic_code', '=', $revenue_code);
         })
         ->paginate(20);
+        $revenue = DB::table('revenue_line')
+        ->where("type", 2)
+        ->get();
         $notes = DB::table("notes")->get();
         // dd($revenue_lines,  auth()->user()->name);
-        return view('Settings.expenditure_line', compact('revenue_lines', 'notes'));
+        return view('Settings.expenditure_line', compact('revenue_lines', 'revenue', 'notes'));
     }
 
     public function indexAsset(Request $request) {

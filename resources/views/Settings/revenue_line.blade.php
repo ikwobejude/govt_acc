@@ -26,7 +26,7 @@
                                             <div class="form-floating">
                                                 <select name="revenue_code" id="revenue_code" style="width: 100%" class="form-control selects">
                                                     <option value="">Select Revenue Line/Economic Code</option>
-                                                    @foreach ($revenue_lines as $item)
+                                                    @foreach ($revenue as $item)
                                                         <option value="{{ $item->economic_code }}"
                                                             {{ old('revenue_code') == $item->economic_code ? 'selected' : '' }}>
                                                             {{ $item->description . ' :: ' . $item->economic_code }}

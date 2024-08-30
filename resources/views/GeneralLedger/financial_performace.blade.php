@@ -14,7 +14,7 @@
 
         <div class="row">
 
-            <div class="col-md-12">
+            <div class="col-md-8">
                 <div class="accordion mb-4" id="accordionExample">
                     <div class="card accordion-item">
                       <h2 class="accordion-header" id="headingOne">
@@ -73,7 +73,7 @@
 
             </div>
 
-            <div class="col-md-12">
+            <div class="col-md-8">
                 <div class="card mb-4">
                     <h5 class="card-header" style="text-align: center">
                         HEALTH RECORDS OFFICER'S  REGISTRATION BOARD OF NIGERIA <br>
@@ -92,17 +92,15 @@
                                     <tr>
                                         {{-- <th><strong>Previous Year Actual (2020)</strong></th> --}}
                                         <th></th>
-                                        <th><strong>NCOA CODES</strong></th>
-                                        <th><strong>Notes</strong></th>
+                                        {{-- <th><strong>NCOA CODES</strong></th> --}}
+                                        <th style="width: 5%"><strong>Notes</strong></th>
                                         <th><strong>Actual 2024</strong></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td></td>
-                                        <td colspan="4">
-                                            <strong>REVENUE </strong>
-                                        </td>
+                                        <td><strong>REVENUE </strong></td>
+                                        <td colspan="2"></td>
                                     </tr>
 
                                     <?php
@@ -114,91 +112,86 @@
                                     <?php $totalRevenue += (float)$item->total;  ?>
                                     <tr>
                                         {{-- <td></td> --}}
-                                        <td>{{ $item->line }}</td>
-                                        <td>{{ $item->code }}</td>
-                                        <td></td>
+                                        <td>{{ $item->note == 6 ? "Recurrent Subvention from Federal Government": "Internally Generated Revenue" }}</td>
+                                        {{-- <td>{{ $item->code }}</td> --}}
+                                        <td>{{ $item->note }}</td>
                                         <td>{{ number_format($item->total, 2) }}</td>
                                     </tr>
                                     @endforeach
                                     <tr>
                                         <td></td>
-                                        <td colspan="3" style="text-align: right"><strong>REVENUE</strong></td>
+                                        <td style="text-align: right"><strong></strong></td>
                                         {{-- <td></td>
                                         <td></td> --}}
-                                        <td>{{ number_format($totalRevenue, 2) }}</td>
+                                        <td><strong>{{ number_format($totalRevenue, 2) }}</strong></td>
                                     </tr>
 
                                     {{-- TODO: TOTAL --}}
 
 
                                     <tr>
-                                        <td></td>
-                                        <td colspan="4">
-                                            <strong>EXPENDITURE </strong>
-                                        </td>
+                                        <td colspan="2"><strong>OPERATING EXPENSES </strong></td>
                                     </tr>
 
                                     @foreach ($ExpenditureRegister as $item)
                                     <?php $totalExpenditure += (float)$item->total; ?>
                                     <tr>
-                                        <td></td>
-                                        <td>{{ $item->line }}</td>
-                                        <td>{{ $item->code }}</td>
-                                        <td></td>
+                                        <td>{{ $item->note == 9 ? "Personnel Cost":  "Administrative Expenses" }}</td>
+                                        <td>{{ $item->note }}</td>
                                         <td>{{ number_format($item->total, 2) }}</td>
                                     </tr>
                                     @endforeach
 
                                     <tr>
                                         <td></td>
-                                        <td colspan="3" style="text-align: right"><strong>Total Expenditure (b)</strong></td>
-                                        {{-- <td></td>
-                                        <td></td> --}}
-                                        <td>{{ number_format($totalExpenditure, 2) }}</td>
+                                        <td style="text-align: right"></td>
+                                        <td><strong>{{ number_format($totalExpenditure, 2) }}</strong></td>
                                     </tr>
                                     <?php
                                         $dta = $totalRevenue - $totalExpenditure;
                                         $dta1 = $totalRevenue + $totalExpenditure;
                                     ?>
 
+
                                     <tr>
-                                        <td colspan="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td colspan="3" style="text-align: right">
-                                            <strong>Surplus/(Deficit) from Ordinary Activities e=(c+d)</strong>
-                                        </td>
-                                        {{-- <td></td>
-                                        <td></td> --}}
-                                        <td>{{ number_format($dta, 2) }}</td>
+                                        <td><strong>Surplus/(Deficit)</strong></td>
+                                        <td style="text-align: right"></td>
+                                        <td><strong>{{ number_format($dta, 2) }}</strong></td>
                                     </tr>
 
-                                    <tr><td colspan="5"></td></tr>
+
                                     <tr>
+                                        <td><strong>Other Comprehensive Income for the Year:</strong></td>
                                         <td></td>
-                                        <td colspan="3" style="text-align: right"><strong>Surplus/(Deficit) from Operating Activities for the Period c=(a-b)</strong></td>
-                                        {{-- <td></td>
-                                        <td></td> --}}
-                                        <td>{{ number_format($dta1, 2) }}</td>
-                                    </tr>
-                                    <tr><td colspan="5"></td></tr>
-                                    <tr>
-                                        <td></td>
-                                        <td><strong>Minority Interest Share of Surplus/ (Deficit) (f)</strong></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>-</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="5"></td>
+                                        <td><strong>Items that will not be reclassified to Receipt and Payments:</strong></td>
+                                        <td></td>
+                                        <td>-</td>
                                     </tr>
                                     <tr>
+                                        <td><strong>Gain on disposal of property</strong></td>
                                         <td></td>
-                                        <td colspan="3" style="text-align: right"><strong>Net Surplus/ (Deficit) for the Period g=(e-f)</strong></td>
-                                        {{-- <td></td>
-                                        <td></td> --}}
-                                        <td>{{ number_format($dta1, 2) }}</td>
+                                        <td>-</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><strong>Items that may be reclassified subsequently to Receipts and Payments</strong></td>
+                                        <td style="text-align: right"></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><strong>Gain on foreign currency translation</strong></td>
+                                        <td style="text-align: right"></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><strong>Total Other Comprehensive Income</strong></td>
+                                        <td style="text-align: right"></td>
+                                        <td><strong>{{ number_format($dta, 2) }}</strong></td>
                                     </tr>
 
 
