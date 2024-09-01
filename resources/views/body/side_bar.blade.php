@@ -121,22 +121,23 @@
       </li>
 
       <li class="menu-item {{
-        (url()->current() == route('get.liability_line') ? 'active open' : '') }}">
+        (url()->current() == route('get.liability_line') ? 'active open' :
+        (url()->current() == route('liability_type.index') ? 'active open' : '' )) }}">
        <a href="javascript:void(0);" class="menu-link menu-toggle">
          <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
          <div data-i18n="Authentications">Liability Setup</div>
        </a>
        <ul class="menu-sub">
-         <li class="menu-item {{url()->current() == route('get.expenditure_line') ? 'active' : ''}}">
+         <li class="menu-item {{url()->current() == route('get.liability_line') ? 'active' : ''}}">
            <a href="{{ route('get.liability_line') }}" class="menu-link" >
              <div data-i18n="Basic">Liability Lines</div>
            </a>
          </li>
-         {{-- <li class="menu-item {{url()->current() == route('post.expenditure_batch_name') ? 'active' : ''}}">
-           <a href="{{ route('post.expenditure_batch_name') }}" class="menu-link">
-             <div data-i18n="Basic">Expenditure Batch Name</div>
+         <li class="menu-item {{url()->current() == route('liability_type.index') ? 'active' : ''}}">
+           <a href="{{ route('liability_type.index') }}" class="menu-link">
+             <div data-i18n="Basic">Laibility Type</div>
            </a>
-         </li> --}}
+         </li>
        </ul>
      </li>
       @endif

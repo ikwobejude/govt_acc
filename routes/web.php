@@ -33,6 +33,7 @@ use App\Http\Controllers\Expenditure\ExpenditureBatchNameController;
 use App\Http\Controllers\Expenditure\ExpenditurePayRegisterController;
 use App\Http\Controllers\FinalAccount\FinancialPositionController;
 use App\Http\Controllers\FinalAccount\ReportController;
+use App\Http\Controllers\Liability\LiabilityTypeController;
 use App\Http\Controllers\Transaction\TransactionControllers;
 
 /*
@@ -104,6 +105,12 @@ Route::group(['prefix' => 'settings'], function () {
         Route::post('/asset_size', [AssetSizeController::class, 'store'])->name('asset.size.post');
         Route::put('/asset_size', [AssetSizeController::class, 'edit'])->name('asset.size.edit');
         Route::post('/delete/asset_size', [AssetSizeController::class, 'destroy'])->name('asset.size.delete');
+
+        // Liability
+        Route::get('/liability_type', [LiabilityTypeController::class, 'index'])->name('liability_type.index');
+        Route::post('/liability_type', [LiabilityTypeController::class, 'create'])->name('liability_type.store.post');
+        Route::put('/liability_type', [LiabilityTypeController::class, 'edit'])->name('liability_type.edit.put');
+        Route::delete('/liability_type/{id}', [LiabilityTypeController::class, 'destroy'])->name('liability_type.destroy');
 
         // asset Categories
         Route::get('/asset_categories', [AssetCategoryController::class, 'index'])->name('asset.categories');

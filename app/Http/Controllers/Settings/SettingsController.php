@@ -135,9 +135,14 @@ class SettingsController extends Controller
             return $query->where('economic_code', '=', $revenue_code);
         })
         ->paginate(20);
+
+        $revenue = DB::table('revenue_line')
+        ->where("type", 3)
+        ->get();
+
         $notes = DB::table("notes")->get();
         // dd($revenue_lines,  auth()->user()->name);
-        return view('Settings.asset_line', compact('revenue_lines', 'notes'));
+        return view('Settings.asset_line', compact('revenue_lines', 'revenue', 'notes'));
     }
 
     public function indexLiability(Request $request) {

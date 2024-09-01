@@ -207,10 +207,11 @@ class AssetApprovalController extends Controller
         try {
 
             // dd($request->itemid);
+            // dd($request->all());
 
             if(groupId() == 3000) {
                 DB::table('acct_assests')
-                ->where('assest_id', $request->itemid)
+                ->whereIn('assest_id', $request->itemid)
                 ->update([
                     "approved" => 1,
                     "approved_on" => Carbon::now(),
@@ -221,7 +222,7 @@ class AssetApprovalController extends Controller
 
             if(groupId() == 1500) {
                 DB::table('acct_assests')
-                ->where('assest_id', $request->itemid)
+                ->whereIn('assest_id', $request->itemid)
                 ->update([
                     "approved" => 2,
                     "reapproved" => 1,
