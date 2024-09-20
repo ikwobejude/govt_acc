@@ -155,7 +155,7 @@
                                     <td>{{ $item->economic_name."/".
                                         $item->economic_code }}</td>
                                     <td>{{ $item->liability }}</td>
-                                    <td>{{ $item->type_of_liability }}</td>
+                                    <td>{{ $item->type }}</td>
                                     <td>{{ $item->narration }}</td>
                                     <td>{{ $item->authorize_ref }}</td>
                                     <td>{{ number_format($item->amount, 2) }}</td>

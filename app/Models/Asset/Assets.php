@@ -43,6 +43,8 @@ class Assets extends Model
         'reapproved',
         'reapproved_by',
         'reason',
-        'drafted_on'
+        'drafted_on',
+        'action_type',
+        'asset_input_category'
     ];
 }

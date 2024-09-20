@@ -37,10 +37,9 @@ class AssetController extends Controller
 
         if(groupId() == 3500 ) {
             $assets = Assets::latest()
-            ->select('acct_assests.*', 'acct_assest_categories.assest_category', 'acct_assest_types.assest_type', 'acct_assest_sizes.assest_size', 'users.name' )
-            ->leftJoin('acct_assest_categories', 'acct_assest_categories.assest_category_id', 'acct_assests.assest_category_id')
+            ->select('acct_assests.*', 'acct_assest_sub_types.assest_sub_type', 'acct_assest_types.assest_type', 'users.name' )
             ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
-            ->leftJoin('acct_assest_sizes', 'acct_assest_sizes.id', 'acct_assests.assest_size_id')
+            ->leftJoin('acct_assest_sub_types', 'acct_assest_sub_types.id', 'acct_assests.assest_sub_type_id')
             ->leftJoin('users', 'users.username', 'acct_assests.created_by')
             ->where('acct_assests.created_by', username())
             ->where('acct_assests.service_id', 37483)
@@ -73,10 +72,10 @@ class AssetController extends Controller
             ->get();
         } else {
             $assets = Assets::latest()
-            ->select('acct_assests.*', 'acct_assest_categories.assest_category', 'acct_assest_types.assest_type', 'acct_assest_sizes.assest_size', 'users.name' )
-            ->leftJoin('acct_assest_categories', 'acct_assest_categories.assest_category_id', 'acct_assests.assest_category_id')
-            ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
-            ->leftJoin('acct_assest_sizes', 'acct_assest_sizes.id', 'acct_assests.assest_size_id')
+            ->select('acct_assests.*', 'acct_assest_sub_types.assest_sub_type', 'acct_assest_types.assest_type', 'users.name' )
+            ->leftJoin('acct_assest_types', 'acct_assest_types.id',  '=', 'acct_assests.assest_type_id')
+            ->leftJoin('acct_assest_sub_types', 'acct_assest_sub_types.id', '=', 'acct_assests.assest_sub_type_id')
+            // ->leftJoin('users', 'users.username', 'acct_assests.created_by')
             ->leftJoin('users', 'users.username', 'acct_assests.created_by')
             ->where('acct_assests.service_id', 37483)
             ->where('acct_assests.approved', 0)
@@ -106,7 +105,10 @@ class AssetController extends Controller
                 $query->where('acct_assests.approved', $approvalLevels);
             })
             ->get();
+            // ->toSql();
         }
+
+        // dd($assets);
 
 
 
@@ -125,14 +127,19 @@ class AssetController extends Controller
             // 'authority_document_ref_no' => ['required', 'string'],
             'date_purchased' => ['required', 'string'],
             'opening_value' => ['required', 'regex:/^(\d+|\d+(\.\d{1,2})?|(\.\d{1,2}))$/'],
-            'asset_category'  => ['required', 'string'],
-            'asset_size'  => ['required', 'string'],
+            // 'asset_category'  => ['required', 'string'],
+            // 'asset_size'  => ['required', 'string'],
         ]);
 
         $arr = explode(',', $request->revenue_code);
         // dd($arr);
 
+        // dd($request->all());
+
         $carbon = Carbon::parse($request->date_purchased);
+
+        // dd($carbon);
+
         $year = $carbon->format('Y');
         $month = $carbon->format('F');
         $day = $carbon->day;
@@ -141,8 +148,7 @@ class AssetController extends Controller
 
         Assets::insert([
             'assest_type_id' => $request->asset_type,
-            'assest_category_id' => $request->asset_category,
-            'assest_size_id' => $request->asset_size,
+            'assest_sub_type_id' => $request->assest_sub_type_id,
             'assest_name' => $request->assest_name,
             'assest_decription' => $request->assest_decription,
             'date_purchased' => $request->date_purchased,
@@ -154,7 +160,9 @@ class AssetController extends Controller
             'asset_rev' => $arr[1],
             'day'=> $day,
             'month' => $month,
-            'year' => $year
+            'year' => $year,
+            'action_type' => $request->action_type,
+            'asset_input_category' => $request->asset_input_category
         ]);
 
         $notification = array(

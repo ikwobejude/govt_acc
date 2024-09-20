@@ -108,7 +108,7 @@
                         <select name="note" id="note" class="form-control">
                             <option value="">Select note</option>
                             @foreach ($notes as  $note)
-                              <option value="{{ $note->note_code }}">{{ $note->note_name }}</option>
+                              <option value="{{ $note->note_code }}">{{ $note->note_name." ".$note->description }}</option>
                             @endforeach
                         </select>
                         <label for="floatingInput">Note</label>
@@ -145,7 +145,8 @@
                             <th>Revenue Line</th>
                             <th>Revenue Code </th>
                             <th>NOTE </th>
-                            <th>Action</th>
+                            <th>TYPE</th>
+                            <th>ACTION</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -260,7 +261,7 @@
                         <select name="note" id="enote" class="form-control">
                             <option value="">Select note</option>
                             @foreach ($notes as  $note)
-                              <option value="{{ $note->note_code }}">{{ $note->note_name }}</option>
+                              <option value="{{ $note->note_code }}">{{ $note->note_name." ".$note->description }}</option>
                             @endforeach
                         </select>
                         <label for="floatingInput">Note</label>

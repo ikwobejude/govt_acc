@@ -22,8 +22,9 @@ class ApproveLiabilityController extends Controller
         $revenue_lines = RevenueLine::where('type', 4)->get();
         if(groupId() == 111111) {
             $liabilities = DB::table('liabilities')
-            ->select('liabilities.*', 'users.name')
+            ->select('liabilities.*', 'users.name', 'liability_type.type')
             ->leftJoin('users', 'users.username', 'liabilities.created_by')
+            ->leftJoin('liability_type', 'liability_type.id', 'liabilities.type_of_liability')
             ->whereIn('liabilities.approved', [1,2,3,4])
             ->where('liabilities.deleted', 0)
             ->when($revenue_code, function ($query, string $revenue_code) {
@@ -52,8 +53,9 @@ class ApproveLiabilityController extends Controller
 
         if(groupId() == 3000) {
             $liabilities = DB::table('liabilities')
-            ->select('liabilities.*', 'users.name')
+            ->select('liabilities.*', 'users.name', 'liability_type.type')
             ->leftJoin('users', 'users.username', 'liabilities.created_by')
+            ->leftJoin('liability_type', 'liability_type.id', 'liabilities.type_of_liability')
             ->where('liabilities.approved', 4)
             ->where('liabilities.deleted', 0)
             ->when($revenue_code, function ($query, string $revenue_code) {
@@ -82,8 +84,9 @@ class ApproveLiabilityController extends Controller
 
         if(groupId() == 1500) {
             $liabilities = DB::table('liabilities')
-            ->select('liabilities.*', 'users.name')
+            ->select('liabilities.*', 'users.name', 'liability_type.type')
             ->leftJoin('users', 'users.username', 'liabilities.created_by')
+            ->leftJoin('liability_type', 'liability_type.id', 'liabilities.type_of_liability')
             ->where('liabilities.approved', 1)
             ->where('liabilities.deleted', 0)
             ->when($revenue_code, function ($query, string $revenue_code) {

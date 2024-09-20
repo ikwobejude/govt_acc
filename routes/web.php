@@ -34,6 +34,7 @@ use App\Http\Controllers\Expenditure\ExpenditurePayRegisterController;
 use App\Http\Controllers\FinalAccount\FinancialPositionController;
 use App\Http\Controllers\FinalAccount\ReportController;
 use App\Http\Controllers\Liability\LiabilityTypeController;
+use App\Http\Controllers\Settings\AssetSubTypeController;
 use App\Http\Controllers\Transaction\TransactionControllers;
 
 /*
@@ -99,6 +100,18 @@ Route::group(['prefix' => 'settings'], function () {
         Route::post('/asset_type', [AssetTypeController::class, 'store'])->name('asset.type.post');
         Route::put('/asset_type', [AssetTypeController::class, 'edit'])->name('asset.type.edit');
         Route::get('/delete/asset_type', [AssetTypeController::class, 'destroy'])->name('asset.type.delete');
+
+
+         // asset type
+         Route::get('/asset_sub_type', [AssetSubTypeController::class, 'index'])->name('asset.sub_type');
+         Route::post('/asset_sub_type', [AssetSubTypeController::class, 'store'])->name('asset.sub_type.post');
+         Route::put('/asset_sub_type', [AssetSubTypeController::class, 'edit'])->name('asset.sub_type.edit');
+         Route::get('/delete/asset_sub_type', [AssetSubTypeController::class, 'destroy'])->name('asset.sub_type.delete');
+
+         Route::get('/fetch-asset-sub-type', [AssetSubTypeController::class, 'retrieve'])->name('asset.retrieve');
+
+
+
 
         // asset Size
         Route::get('/asset_size', [AssetSizeController::class, 'index'])->name('asset.size');
@@ -350,6 +363,11 @@ Route::group(['prefix' => 'report'], function () {
 
         Route::get('/cash_flow', [ReportController::class, 'cashFlow'])->name('cash_flow');
         Route::get('/cash_flow/download', [ReportController::class, 'downloadCCashFlow'])->name('download.cash_flow');
+
+
+        Route::get('/note_statement_of_financial_disclosure', [ReportController::class, 'note_financial_disclosure'])->name('note_financial_disclosure');
+
+
 
     });
 });

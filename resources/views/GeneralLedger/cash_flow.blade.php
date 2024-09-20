@@ -100,45 +100,33 @@
                             <table class="table table-bordered table-stripe">
                                 <thead>
                                     <tr>
-                                        <th rowspan="2"><strong>Description</strong></th>
-                                        <th></th>
-                                        <th rowspan="2"><strong>NCOA CODES</strong></th>
-                                        <th><strong>Notes</strong></th>
-                                        <th colspan="2"><strong>2024</strong></th>
-                                        {{-- <th><strong>2024</strong></th> --}}
+                                        <th><strong>Description</strong></th>
+                                        {{-- <th><strong>Notes</strong></th> --}}
+                                        <th><strong>2024</strong></th>
                                     </tr>
                                     <tr>
-                                        {{-- <th><strong>Description</strong></th> --}}
                                         <th></th>
-                                        {{-- <th><strong>NCOA CODES</strong></th> --}}
-                                        <th><strong>Notes</strong></th>
-                                        <th><strong>N</strong></th>
+                                        {{-- <th><strong>N</strong></th> --}}
                                         <th><strong>N</strong></th>
                                     </tr>
                                     <tr>
                                         <th></th>
-                                        <th>COA REF.</th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
+                                        {{-- <th></th> --}}
                                         <th></th>
                                     </tr>
 
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td colspan="5">
+                                        <td colspan="2">
                                             <strong>CASH FLOWS FROM OPERATING ACTIVITIES</strong>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td colspan="5">
-                                            <strong>Inflows</strong>
-                                        </td>
-                                    </tr>
+
                                     <?php
                                         $totalInflow = 0;
                                         $totalOutflow = 0;
+                                        $totalCashflowFromOperaActiv = 0;
                                         $totalCashflowFromInv = 0;
                                         $totalCashflowFromAct = 0;
                                         $netCashInOutFlow =0;
@@ -147,131 +135,172 @@
                                     @foreach ($revenue as $item)
                                     <?php $totalInflow += $item->total; ?>
                                     <tr>
-                                        <td>{{ $item->line }}</td>
-                                        <td></td>
-                                        <td>{{ $item->code }}</td>
-                                        <td></td>
+                                        <td>{{ $item->note == 6 ? "Recurrent Subvention from Federal Government": "Internally Generated Revenue" }}</td>
+                                        {{-- <td>{{ $item->note }}</td> --}}
                                         <td>{{ number_format($item->total, 2) }}</td>
-                                        <td></td>
                                     </tr>
                                     @endforeach
 
                                     {{-- TODO: TOTAL --}}
                                     <tr>
-                                        <td colspan="4" style="text-align: right">
-                                            <strong>Total Inflow from Operating Activities  (A) </strong>
+                                        <td style="text-align: right">
+                                            {{-- <strong>Total Inflow from Operating Activities  (A) </strong> --}}
                                         </td>
-                                        <td>{{ number_format($totalInflow, 2) }}</td>
                                         <td>{{ number_format($totalInflow, 2) }}</td>
                                     </tr>
 
 
                                     <tr>
-                                        <td colspan="6">
-                                            <strong>Outflows</strong>
+                                        <td colspan="2">
+                                            <strong>Less Operating Expenses</strong>
                                         </td>
                                     </tr>
 
                                     @foreach ($ExpenditureRegister as $item)
-                                    <?php $totalOutflow += $item->total; ?>
+                                    <?php
+                                      $adminstratibe = 0;
+                                        $totalOutflow += $item->total;
+                                        $adminstratibe = $item->note == 9 ? $item->total : +$item->total
+                                    ?>
                                     <tr>
-                                        <td>{{ $item->line }}</td>
-                                        <td></td>
-                                        <td>{{ $item->code }}</td>
-                                        <td></td>
-                                        <td>{{ number_format($item->total, 2) }}</td>
-                                        <td></td>
+                                        <td>{{ $item->note == 9 ? "Personnel cost": "Administrative Expenses" }}</td>
+                                        {{-- <td></td> --}}
+                                        <td>{{ number_format($adminstratibe, 2) }}</td>
                                     </tr>
                                     @endforeach
 
                                     <tr>
-                                        <td colspan="4" style="text-align: right">
-                                            <strong>Total Outflow from Operating Activities (B)</strong>
+                                        <td style="text-align: right">
+                                            {{-- <strong>Total Outflow from Operating Activities (B)</strong> --}}
                                         </td>
-                                        <td>{{ number_format($totalOutflow, 2) }}</td>
                                         <td>{{ number_format($totalOutflow, 2) }}</td>
                                     </tr>
 
                                     <tr>
-                                        <td colspan="4" style="text-align: right">
-                                            <strong>Net Cash Inflow/(Outflow) From Operating Activities* C=(A-B)</strong>
+                                        <td>
+                                            <strong>Cash Inflow/(Outflow) From Operating Activities* </strong>
                                         </td>
-                                        <td></td>
+                                        {{-- <td></td> --}}
                                         <td>
                                             <?php $netCashInOutFlow = $totalInflow - $totalOutflow; ?>
                                             {{ number_format($netCashInOutFlow, 2) }}
                                         </td>
                                     </tr>
 
-
                                     <tr>
-                                        <td colspan="6">
-                                            <strong>CASH FLOW FROM INVESTING ACTIVITIES</strong>
+                                        <td>
+                                            <strong>Net (Increase)/decrease in working capital:</strong>
                                         </td>
+                                        <td></td>
                                     </tr>
+
+
+
                                     @foreach ($asset as $item)
-                                    <?php $totalCashflowFromInv += $item->total; ?>
+                                    <?php $totalCashflowFromOperaActiv += $item->total; ?>
                                     <tr>
-                                        <td>{{ $item->line }}</td>
-                                        <td></td>
-                                        <td>{{ $item->code }}</td>
-                                        <td></td>
+                                        <td>{{ $item->note == 3 ? "Inventory" : "" }}</td>
+                                        {{-- <td></td> --}}
                                         <td>{{ number_format($item->total, 2) }}</td>
-                                        <td></td>
+                                    </tr>
+                                    @endforeach
+
+                                    @foreach ($account_parables as $parables)
+                                    <?php $totalCashflowFromOperaActiv += $parables->total; ?>
+                                    <tr>
+                                        <td>{{ $parables->note == 5 ? "Payables" : "" }}</td>
+                                        {{-- <td></td> --}}
+                                        <td>{{ number_format($parables->total, 2) }}</td>
                                     </tr>
                                     @endforeach
 
                                     <tr>
-                                        <td colspan="4" style="text-align: right">
+                                        <td>
                                             <strong>Net Cash Flow from Investing Activites</strong>
                                         </td>
-                                        <td>{{ number_format($totalCashflowFromInv, 2) }}</td>
-                                        <td>{{ number_format($totalCashflowFromInv, 2) }}</td>
+                                        <td>{{ number_format($totalCashflowFromOperaActiv, 2) }}</td>
                                     </tr>
 
 
                                     <tr>
-                                        <td colspan="6">
+                                        <td>
                                             <strong>CASH FLOW FROM FINANCING ACTIVITIES</strong>
                                         </td>
+                                        <td></td>
                                     </tr>
 
-                                    @foreach ($liability as $item)
-                                    <?php $totalCashflowFromAct += $item->total; ?>
+                                    @foreach ($capital_grant as $grant)
+                                    <?php $totalCashflowFromAct += $grant->total; ?>
                                     <tr>
-                                        <td>{{ $item->line }}</td>
-                                        <td></td>
-                                        <td>{{ $item->code }}</td>
-                                        <td></td>
+                                        <td>Capital grant</td>
                                         <td>{{ number_format($item->total, 2) }}</td>
-                                        <td></td>
                                     </tr>
                                     @endforeach
 
+
                                     <tr>
-                                        <td colspan="4" style="text-align: right">
+                                        <td>
                                             <strong>Net Cash Flow from Financing Activities</strong>
                                         </td>
-                                        <td></td>
+                                        {{-- <td></td> --}}
                                         <td>{{ number_format($totalCashflowFromAct, 2) }}</td>
                                     </tr>
+
+
                                     <tr>
-                                        <td colspan="4" style="text-align: right">
+                                        <td>
                                             <strong>Net Cash Flow from all Activities</strong>
                                         </td>
-                                        <td></td>
+                                        {{-- <td></td> --}}
                                         <?php $all_activity_net_cash_flow = $netCashInOutFlow - $totalCashflowFromInv - $totalCashflowFromAct; ?>
                                         <td>{{ $all_activity_net_cash_flow < 0 ? "(".number_format(abs($all_activity_net_cash_flow), 2). ")" : number_format($all_activity_net_cash_flow, 2) }}</td>
                                     </tr>
 
                                     <tr>
-                                        <td colspan="6">
-                                            <strong>RECONCILIATION:</strong>
+                                        <td>
+                                            <strong>CASH FLOW FROM INVESTING ACTIVITIES</strong>
                                         </td>
+                                        <td></td>
+                                    </tr>
+
+                                    @foreach ($fixed_asset as $fixed)
+
+                                    <?php $totalCashflowFromInv += $fixed->total; ?>
+                                    <tr>
+                                        <td>Purchase of fixed asset</td>
+                                        <td>{{ number_format($fixed->total, 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td  colspan="4" style="text-align: right"><strong>Surplus/ (Deficit) per Statement of Performance</strong></td>
+                                        <td>Prior Year Adjustment</td>
+                                        <td>0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Capital Development Project</td>
+                                        <td>0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Reclasification Asset</td>
+                                        <td>0.00</td>
+                                    </tr>
+                                    @endforeach
+
+                                    <tr>
+                                        <td>
+                                            <strong>Net Cash Flow from investing Activities</strong>
+                                        </td>
+                                        {{-- <td></td> --}}
+                                        <td>{{ $totalCashflowFromInv < 0 ? "(".number_format(abs($totalCashflowFromInv), 2). ")" : number_format($totalCashflowFromInv, 2) }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <strong>RECONCILIATION:</strong>
+                                        </td>
                                         <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Surplus/ (Deficit) per Statement of Performance</strong></td>
+                                        {{-- <td></td> --}}
                                         <td>{{ $netCashInOutFlow < 0 ? "(". number_format(abs($netCashInOutFlow), 2) .")" : number_format($netCashInOutFlow, 2) }}</td>
                                     </tr>
 

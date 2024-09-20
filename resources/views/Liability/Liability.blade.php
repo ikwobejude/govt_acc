@@ -56,9 +56,12 @@
                                     <div class="form-floating">
                                         <select name="type_of_liability" id="type_of_liability" class="form-control selects" style="width: 100%">
                                             <option value="">Select Types of liabilities</option>
-                                            <option value="Current liabilities">Current liabilities</option>
+                                            @foreach ($liabilityType as $item)
+                                              <option value="{{ $item->id }}"  {{ old('type_of_liability') == $item->id ? 'selected': ''}}>{{ $item->type }}</option>
+                                            @endforeach
+                                            {{-- <option value="Current liabilities">Current liabilities</option>
                                             <option value="Non-current liabilities">Non-current liabilities</option>
-                                            <option value="Current liabilities">Contingent liabilities</option>
+                                            <option value="Current liabilities">Contingent liabilities</option> --}}
                                         </select>
                                         {{-- <label for="floatingInput">Types of liabilities</label> --}}
                                         <div id="floatingInputHelp" class="form-text"> </div>
@@ -213,7 +216,7 @@
                                 <td>{{ $item->economic_name."/".
                                     $item->economic_code }}</td>
                                 <td>{{ $item->liability }}</td>
-                                <td>{{ $item->type_of_liability }}</td>
+                                <td>{{ $item->type }}</td>
                                 <td>{{ $item->narration }}</td>
                                 <td>{{ $item->authorize_ref }}</td>
                                 <td>{{ number_format($item->amount, 2) }}</td>
@@ -300,9 +303,9 @@
                                 <div class="form-floating">
                                     <select name="type_of_liability" id="etype_of_liability" class="form-control selectu" style="width: 100%">
                                         <option value="">Select Types of liabilities</option>
-                                        <option value="Current liabilities">Current liabilities</option>
-                                        <option value="Non-current liabilities">Non-current liabilities</option>
-                                        <option value="Current liabilities">Contingent liabilities</option>
+                                        @foreach ($liabilityType as $item)
+                                            <option value="{{ $item->id }}" >{{ $item->type }}</option>
+                                        @endforeach
                                     </select>
                                     {{-- <label for="floatingInput">Types of liabilities</label> --}}
                                     <div id="floatingInputHelp" class="form-text"> </div>

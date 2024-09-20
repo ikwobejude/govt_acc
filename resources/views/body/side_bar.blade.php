@@ -85,7 +85,8 @@
         (url()->current() == route('asset.size') ? 'active open' :
         (url()->current() == route('asset.categories') ? 'active open' :
         (url()->current() == route('asset.location.post') ? 'active open' :
-        (url()->current() == route('get.asset_line') ? 'active open' :'')))))
+        (url()->current() == route('asset.sub_type') ? 'active open' :
+        (url()->current() == route('get.asset_line') ? 'active open' : '' ))))))
         }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-cube-alt"></i>
@@ -100,6 +101,11 @@
           <li class="menu-item {{url()->current() == route('asset.type') ? 'active' : ''}}">
             <a href="{{ route('asset.type') }}" class="menu-link">
               <div data-i18n="Depreciation Rate">Asset Type</div>
+            </a>
+          </li>
+          <li class="menu-item {{url()->current() == route('asset.sub_type') ? 'active' : ''}}">
+            <a href="{{ route('asset.sub_type') }}" class="menu-link">
+              <div data-i18n="Depreciation Rate">Asset Sub Type</div>
             </a>
           </li>
           <li class="menu-item {{url()->current() == route('asset.size') ? 'active' : ''}}">
@@ -464,15 +470,15 @@
 
 
           <li class="menu-item">
-            <a href="#" class="menu-link">
-                <div data-i18n="Horizontal Form">Statement of Change in Equity</div>
+            <a href="{{ route('note_financial_disclosure') }}" class="menu-link">
+                <div data-i18n="Horizontal Form">Note (disclosure) to the financial statement </div>
             </a>
           </li>
-          <li class="menu-item">
+          {{-- <li class="menu-item">
             <a href="#" class="menu-link">
                 <div data-i18n="Horizontal Form">Statement of Actual and Budget Comparison</div>
             </a>
-          </li>
+          </li> --}}
 
 
 

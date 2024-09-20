@@ -151,7 +151,8 @@
                             <th>Liability Code</th>
                             <th>Liability Line  </th>
                             <th>NOTE </th>
-                            <th>Action</th>
+                            <th>TYPE</th>
+                            <th>ACTION</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Revenue\RevenueLine;
 use App\Http\Controllers\Controller;
 use App\Models\Liability\Liabilities;
+use App\Models\Liability\LiabilityType;
 use Illuminate\Support\Facades\Validator;
 
 class LiabilityController extends Controller
@@ -22,6 +23,8 @@ class LiabilityController extends Controller
         $approvalLevels = $request->query('approvalLevels');
 
         $EconomicLines = RevenueLine::where('type', 4)->get();
+        $liabilityType = LiabilityType::get();
+        // dd($liabilityType);
         if(groupId() == 3500 ) {
             $liabilities = DB::table('liabilities')
             ->select('liabilities.*', 'users.name')
@@ -53,8 +56,9 @@ class LiabilityController extends Controller
             ->get();
         } else {
             $liabilities = DB::table('liabilities')
-            ->select('liabilities.*', 'users.name')
+            ->select('liabilities.*', 'users.name', 'liability_type.type')
             ->leftJoin('users', 'users.username', 'liabilities.created_by')
+            ->leftJoin('liability_type', 'liability_type.id', 'liabilities.type_of_liability')
             ->where('liabilities.approved', 0)
             ->where('liabilities.deleted', 0)
             ->when($revenue_code, function ($query, string $revenue_code) {
@@ -83,7 +87,7 @@ class LiabilityController extends Controller
         }
 
         // Liabilities::all()->sortDesc();
-        return view('Liability.Liability', compact('liabilities', 'EconomicLines'));
+        return view('Liability.Liability', compact('liabilities', 'EconomicLines', 'liabilityType'));
     }
 
     public function store(Request $request) {

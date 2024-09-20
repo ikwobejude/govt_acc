@@ -42,15 +42,16 @@ class FinancialPositionController extends Controller
         // dd($asset);
 
         $liability = DB::table('liabilities')
-        ->selecT([
+        ->select([
             'liabilities.liability',
             'liabilities.economic_code',
-            'liabilities.type_of_liability',
+            'liability_type.type as type_of_liability',
             DB::raw('SUM(liabilities.amount) as amount'),
             'revenue_line.note'
 
         ])
         ->join('revenue_line', 'revenue_line.economic_code', '=', 'liabilities.economic_code')
+        ->leftJoin('liability_type', 'liability_type.id', 'liabilities.type_of_liability')
         ->where('approved', 2)
         ->whereIn('revenue_line.note', [5])
         ->when(!empty($from), function ($query) use ($from) {

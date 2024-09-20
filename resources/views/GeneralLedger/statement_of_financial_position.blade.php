@@ -165,14 +165,14 @@
                                         $liabilitySum += (float)$item->amount;
                                     ?>
                                     <tr>
-                                        <td> {{ strtoupper($item->liability) }} </td>
-                                        <td>{{ $count }}</td>
+                                        <td> {{ strtoupper($item->type_of_liability) }} </td>
+                                        <td>{{ $item->note }}</td>
                                         <td>{{ number_format($item->amount, 2) }}</td>
                                     </tr>
                                     @endforeach
                                     <?php $sumTotalLiability += $liabilitySum; ?>
                                     <tr>
-                                        <td style="text-align: right"> <strong> {{ "TOTAL ".strtoupper($type_of_liability)." LIABILITY = ".$alpha1[$key] }} </strong></td>
+                                        <td> <strong> {{ "TOTAL ".strtoupper($type_of_liability)}} </strong></td>
                                         <td></td>
                                         <td>{{ number_format($liabilitySum, 2) }}</td>
                                     </tr>
