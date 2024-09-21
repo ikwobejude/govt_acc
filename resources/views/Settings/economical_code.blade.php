@@ -238,9 +238,9 @@
                         <select name="type" id="etype" class="form-control">
                             <option value="">Select options</option>
                             <option value="1">REVENUE</option>
-                            {{-- <option value="2">EXPENDITURE</option>
+                            <option value="2">EXPENDITURE</option>
                             <option value="3">ASSET</option>
-                            <option value="4">LAIBILITY</option> --}}
+                            <option value="4">LAIBILITY</option>
                         </select>
                         <label for="floatingInput">Type</label>
 
