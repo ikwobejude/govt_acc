@@ -46,6 +46,19 @@
       <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Settings</span>
       </li>
+      <li class="menu-item {{ url()->current() == route('get.notes') ? 'active open' : ''}}">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons bx bx-dock-top"></i>
+          <div data-i18n="Account Settings">Note Setup</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item {{url()->current() == route('get.notes') ? 'active open' : ''}}">
+            <a href="{{ route('get.notes') }}" class="menu-link">
+              <div data-i18n="Account">Notes</div>
+            </a>
+          </li>
+        </ul>
+      </li>
       <li class="menu-item {{ url()->current() == route('get.revenue_line') ? 'active open' : ''}}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-dock-top"></i>
@@ -412,18 +425,24 @@
 
           <li class="menu-item {{ url()->current() == route('personnel.cashbook') ? 'active' : ''}}">
             <a href="{{ route('personnel.cashbook') }}" class="menu-link">
-              <div data-i18n="Payment Voucher">Personnel cashbook</div>
+              <div data-i18n="Personnel cashbook">Personnel cashbook</div>
             </a>
           </li>
           <li class="menu-item {{ url()->current() == route('capital.cashbook') ? 'active' : ''}}">
             <a href="{{ route('capital.cashbook') }}" class="menu-link">
-              <div data-i18n="Payment Voucher">Capital cashbook</div>
+              <div data-i18n="Capital cashbook">Capital cashbook</div>
+            </a>
+          </li>
+
+          <li class="menu-item {{ url()->current() == route('overhead.cashbook') ? 'active' : ''}}">
+            <a href="{{ route('overhead.cashbook') }}" class="menu-link">
+              <div data-i18n="Overhead cashbook">Overhead cashbook</div>
             </a>
           </li>
 
           <li class="menu-item {{ url()->current() == route('cashbook') ? 'active' : ''}}">
             <a href="{{ route('cashbook') }}" class="menu-link">
-              <div data-i18n="Payment Voucher">Treasury cashbook</div>
+              <div data-i18n="Treasury cashbook">Treasury cashbook</div>
             </a>
           </li>
 

@@ -3,7 +3,7 @@
 
 @section('admin')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Cashbook /</span> Capital Cashbook</h4>
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Cashbook /</span> Overhead Cashbook</h4>
 
     <div class="row">
       <div class="col-md-8">
@@ -69,7 +69,7 @@
 
       <div class="col-md-12">
         <div class="card mb-4">
-          <h5 class="card-header">CAPITAL CASHBOOK</h5>
+          <h5 class="card-header">OVERHEAD CASHBOOK</h5>
           <div class="card-body">
                 <div class="table-responsive">
                     <div class="row">
@@ -96,7 +96,7 @@
 
                                         // dd($capital_grant);
                                     ?>
-                                    @foreach ($capital_grant as $item)
+                                    @foreach ($overhead as $item)
                                     <?php
                                         $rev = $item->code[0] == 1 ? (float) $item->amount : 0;
                                         $exp = $item->code[0] == 2 ? (float) $item->amount : 0;

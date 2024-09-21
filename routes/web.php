@@ -35,6 +35,7 @@ use App\Http\Controllers\FinalAccount\FinancialPositionController;
 use App\Http\Controllers\FinalAccount\ReportController;
 use App\Http\Controllers\Liability\LiabilityTypeController;
 use App\Http\Controllers\Settings\AssetSubTypeController;
+use App\Http\Controllers\Settings\NoteControllers;
 use App\Http\Controllers\Transaction\TransactionControllers;
 
 /*
@@ -375,7 +376,7 @@ Route::group(['prefix' => 'report'], function () {
 Route::group(['prefix' => 'treasure_cashbook'], function() {
     Route::middleware(['auth'])->group(function () {
         Route::get('/', [CashbookController::class, 'cashbook'])->name('cashbook');
-        Route::get('/overhead', [CashbookController::class, 'cashbook'])->name('overhead.cashbook');
+        Route::get('/overhead', [CashbookController::class, 'overheadCashbook'])->name('overhead.cashbook');
         Route::get('/capital', [CashbookController::class, 'capitalCashbook'])->name('capital.cashbook');
         Route::get('/personnel', [CashbookController::class, 'personalCashbook'])->name('personnel.cashbook');
 
@@ -386,8 +387,10 @@ Route::group(['prefix' => 'treasure_cashbook'], function() {
 
 Route::group(['prefix' => 'notes'], function() {
     Route::middleware(['auth'])->group(function () {
-        Route::get('/', [CashbookController::class, 'cashbook'])->name('get_notes');
-        Route::post('/', [CashbookController::class, 'cashbook'])->name('add_note');
+        Route::get('/', [NoteControllers::class, 'notes'])->name('get.notes');
+        Route::post('/', [NoteControllers::class, 'create'])->name('post.note');
+        Route::put('/', [NoteControllers::class, 'edit'])->name('edit.note');
+        Route::get('/delete/{id}', [NoteControllers::class, 'destroyNote'])->name('delete.note');
     });
 });
 

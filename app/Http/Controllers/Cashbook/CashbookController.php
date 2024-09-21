@@ -130,15 +130,15 @@ class CashbookController extends Controller
 
         ->join('revenue_line', 'revenue_line.economic_code', '=', 'expenditure_payregister.expenditure_code')
         ->where('expenditure_payregister.approved', 2)
-        ->whereIn('revenue_line.note', [11,12])
+        ->whereIn('revenue_line.note', [11])
         ->when(!empty($from), function ($query) use ($from) {
             return $query->whereDate('expenditure_payregister.created_at', '>=', $from);
         })
         ->when(!empty($to), function ($query) use ($to) {
            return $query->whereDate('expenditure_payregister.created_at', '<=', $to);
         })
-        ->groupBy('revenue_line.note')
-        ->orderBy('revenue_line.note', 'ASC')
+        ->groupBy('expenditure_payregister.expenditure_code')
+        // ->orderBy('revenue_line.note', 'ASC')
         ->get();
         $revenue_lines = RevenueLine::where('type', 2)->get();
 
@@ -153,30 +153,108 @@ class CashbookController extends Controller
         $to = $request->query('to') ? $request->query('to') : lastDay();
         $currentT = $request->query("from") ? 1 : 2;
 
-        $capital_grant = DB::table('acct_assests')
+        $capital_grant = DB::table("acc_revenue")
         ->select([
-            'acct_assests.assest_name AS line',
-            'acct_assests.asset_rev AS code',
-            'acct_assests.assest_decription as narration',
-            DB::raw('SUM(acct_assests.opening_value) as amount'),
-            'revenue_line.note',
-            'acct_assests.asset_rev_type',
-            'acct_assest_types.assest_type'
+            'acc_revenue.authority_document_ref_no as ref',
+            'acc_revenue.description as narration',
+            'acc_revenue.settlement_date as date',
+            'acc_revenue.revenue_code as code',
+            'acc_revenue.revenue_line as line',
+            'acc_revenue.asset_name as uniId',
+            DB::raw('SUM(acc_revenue.revenue_amount) as amount'),
+            'revenue_line.note'
         ])
-        ->join('revenue_line', 'revenue_line.economic_code', '=', 'acct_assests.asset_rev')
-        ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
-        ->where('approved', 2)
-        ->whereIn('revenue_line.note', [8])
+        ->join('revenue_line', 'revenue_line.economic_code', '=', 'acc_revenue.revenue_code')
+        ->where('service_id',37483)
+        ->where('acc_revenue.approved', 2)
+        ->where('revenue_line.note', 8)
         ->when(!empty($from), function ($query) use ($from) {
-            return $query->whereDate('acct_assests.created_at', '>=', $from);
+            return $query->whereDate('acc_revenue.created_at', '>=', $from);
         })
         ->when(!empty($to), function ($query) use ($to) {
-           return $query->whereDate('acct_assests.created_at', '<=', $to);
+           return $query->whereDate('acc_revenue.created_at', '<=', $to);
         })
-        ->groupBy('revenue_line.note')
+
+        // ->selectRaw("acc_revenue.revenue_line as line, acc_revenue.revenue_code as code, acc_revenue.asset_name as uniId, acc_revenue.revenue_amount as total, revenue_line.note")
+        ->groupBy('acc_revenue.revenue_code')
+        // ->groupBy('revenue_line.note')
         ->get();
 
+        $expenditure = DB::table('expenditure_payregister')
+        ->select([
+            'expenditure_payregister.expenditure_type as ref',
+            'expenditure_payregister.narration as narration',
+            'expenditure_payregister.drafted_on as date',
+            'expenditure_payregister.expenditure_code as code',
+            'expenditure_payregister.expenditure_name as line',
+            'expenditure_payregister.expenditure_type as uniId',
+            DB::raw('SUM(expenditure_payregister.amount) as amount'),
+            'revenue_line.note as note'
+        ])
+
+        ->join('revenue_line', 'revenue_line.economic_code', '=', 'expenditure_payregister.expenditure_code')
+        ->where('expenditure_payregister.approved', 2)
+        ->where('revenue_line.note', 8)
+        ->when(!empty($from), function ($query) use ($from) {
+            return $query->whereDate('expenditure_payregister.created_at', '>=', $from);
+        })
+        ->when(!empty($to), function ($query) use ($to) {
+           return $query->whereDate('expenditure_payregister.created_at', '<=', $to);
+        })
+        ->groupBy('expenditure_payregister.expenditure_code')
+        ->get();
+        $cap_grant = $capital_grant->toArray();
+        $exp_grant = $expenditure->toArray();
+
+
+        $resultObj = array_merge($cap_grant, $exp_grant);
+        // Convert the object to a collection
+        // dd($resultObj,  $capital_grant, $expenditure);
+        $collection = collect($resultObj);
+
+        // Sort the collection by the 'date' key
+        $capital_grant = $collection->sortBy('date');
+        // dd($sorted );
+
         return view('Cashbook.capital_cashbook', compact('capital_grant','from', 'to'));
+    }
+
+
+    public function overheadCashbook(Request $request) {
+        $from = $request->query("from") ? $request->query("from") :  Carbon::now()->startOfYear();
+        $to = $request->query('to') ? $request->query('to') : lastDay();
+        $currentT = $request->query("from") ? 1 : 2;
+
+        $overhead = DB::table('expenditure_payregister')
+        ->select([
+            'expenditure_payregister.expenditure_type as payment_ref',
+            'expenditure_payregister.narration as narration',
+            'expenditure_payregister.drafted_on as date',
+            'expenditure_payregister.expenditure_type as uniId',
+            'expenditure_payregister.expenditure_code as code',
+            'expenditure_payregister.expenditure_name as line',
+            DB::raw('SUM(expenditure_payregister.amount) as amount'),
+            'revenue_line.note as note'
+        ])
+
+        ->join('revenue_line', 'revenue_line.economic_code', '=', 'expenditure_payregister.expenditure_code')
+        ->where('expenditure_payregister.approved', 2)
+        ->whereIn('revenue_line.note', [11])
+        ->when(!empty($from), function ($query) use ($from) {
+            return $query->whereDate('expenditure_payregister.created_at', '>=', $from);
+        })
+        ->when(!empty($to), function ($query) use ($to) {
+           return $query->whereDate('expenditure_payregister.created_at', '<=', $to);
+        })
+        ->groupBy('expenditure_payregister.expenditure_code')
+        // ->orderBy('revenue_line.note', 'ASC')
+        ->get();
+        // $revenue_lines = RevenueLine::where('type', 2)->get();
+
+        // dd($personnel);
+
+        return view('Cashbook.overhead_cashbook', compact('overhead', 'from', 'to'));
+
     }
 
 
