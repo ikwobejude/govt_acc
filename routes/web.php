@@ -375,6 +375,10 @@ Route::group(['prefix' => 'report'], function () {
 Route::group(['prefix' => 'treasure_cashbook'], function() {
     Route::middleware(['auth'])->group(function () {
         Route::get('/', [CashbookController::class, 'cashbook'])->name('cashbook');
+        Route::get('/overhead', [CashbookController::class, 'cashbook'])->name('overhead.cashbook');
+        Route::get('/capital', [CashbookController::class, 'capitalCashbook'])->name('capital.cashbook');
+        Route::get('/personnel', [CashbookController::class, 'personalCashbook'])->name('personnel.cashbook');
+
     });
 });
 

@@ -81,7 +81,7 @@
                         HEALTH RECORDS OFFICERS REGISTRATION BOARD OF NIGERIA <br>
                         Note (Disclosure) to the Financial Statements for  {{ strtoupper(explode(" ", $from)[0]) ." - ".strtoupper(explode(" ", $to)[0]) }}. <br>
                     </h5>
-
+                        
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12 pb-3" style="text-align: right">

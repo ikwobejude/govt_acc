@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Revenue\Revenue;
 use Illuminate\Support\Facades\DB;
+use App\Models\Revenue\RevenueLine;
 use App\Http\Controllers\Controller;
 
 class CashbookController extends Controller
@@ -110,5 +111,76 @@ class CashbookController extends Controller
     }
 
 
+    public function personalCashbook(Request $request) {
+        $from = $request->query("from") ? $request->query("from") :  Carbon::now()->startOfYear();
+        $to = $request->query('to') ? $request->query('to') : lastDay();
+        $currentT = $request->query("from") ? 1 : 2;
+
+        $personnel = DB::table('expenditure_payregister')
+        ->select([
+            'expenditure_payregister.expenditure_type as payment_ref',
+            'expenditure_payregister.narration as narration',
+            'expenditure_payregister.drafted_on as date',
+            'expenditure_payregister.expenditure_type as uniId',
+            'expenditure_payregister.expenditure_code as code',
+            'expenditure_payregister.expenditure_name as line',
+            DB::raw('SUM(expenditure_payregister.amount) as amount'),
+            'revenue_line.note as note'
+        ])
+
+        ->join('revenue_line', 'revenue_line.economic_code', '=', 'expenditure_payregister.expenditure_code')
+        ->where('expenditure_payregister.approved', 2)
+        ->whereIn('revenue_line.note', [11,12])
+        ->when(!empty($from), function ($query) use ($from) {
+            return $query->whereDate('expenditure_payregister.created_at', '>=', $from);
+        })
+        ->when(!empty($to), function ($query) use ($to) {
+           return $query->whereDate('expenditure_payregister.created_at', '<=', $to);
+        })
+        ->groupBy('revenue_line.note')
+        ->orderBy('revenue_line.note', 'ASC')
+        ->get();
+        $revenue_lines = RevenueLine::where('type', 2)->get();
+
+        // dd($personnel);
+
+        return view('Cashbook.personnel_cashbook', compact('personnel', 'revenue_lines', 'from', 'to'));
+
+    }
+
+    public function capitalCashbook(Request $request) {
+        $from = $request->query("from") ? $request->query("from") :  Carbon::now()->startOfYear();
+        $to = $request->query('to') ? $request->query('to') : lastDay();
+        $currentT = $request->query("from") ? 1 : 2;
+
+        $capital_grant = DB::table('acct_assests')
+        ->select([
+            'acct_assests.assest_name AS line',
+            'acct_assests.asset_rev AS code',
+            'acct_assests.assest_decription as narration',
+            DB::raw('SUM(acct_assests.opening_value) as amount'),
+            'revenue_line.note',
+            'acct_assests.asset_rev_type',
+            'acct_assest_types.assest_type'
+        ])
+        ->join('revenue_line', 'revenue_line.economic_code', '=', 'acct_assests.asset_rev')
+        ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
+        ->where('approved', 2)
+        ->whereIn('revenue_line.note', [8])
+        ->when(!empty($from), function ($query) use ($from) {
+            return $query->whereDate('acct_assests.created_at', '>=', $from);
+        })
+        ->when(!empty($to), function ($query) use ($to) {
+           return $query->whereDate('acct_assests.created_at', '<=', $to);
+        })
+        ->groupBy('revenue_line.note')
+        ->get();
+
+        return view('Cashbook.capital_cashbook', compact('capital_grant','from', 'to'));
+    }
+
+
 
 }
+
+

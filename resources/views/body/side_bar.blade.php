@@ -364,11 +364,7 @@
               <div data-i18n="Payment Voucher">Payment Receipt</div>
             </a>
           </li>
-          <li class="menu-item {{ url()->current() == route('cashbook') ? 'active' : ''}}">
-            <a href="{{ route('cashbook') }}" class="menu-link">
-              <div data-i18n="Payment Voucher">Treasury cashbook</div>
-            </a>
-          </li>
+
 
 
 
@@ -393,6 +389,51 @@
 
         </ul>
       </li> --}}
+      @endif
+
+
+      @if (groupId() == 111111 || groupId() == 3500 || groupId() == 3000 || groupId()== 1500)
+      <li class="menu-header small text-uppercase"><span class="menu-header-text">Cashbook</span></li>
+
+      <!-- User interface -->
+      <li class="menu-item {{ (url()->current() == route('cashbook') ? 'active open' :
+                              (url()->current() == route('personnel.cashbook') ? 'active open' :
+                              (url()->current() == route('capital.cashbook') ? 'active open' :
+                              (url()->current() == route('overhead.cashbook') ? 'active open' : ''))))}}">
+        <a href="javascript:void(0)" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons bx bx-box"></i>
+          <div data-i18n="Revenue Receipts">Cashbook</div>
+        </a>
+        <ul class="menu-sub">
+
+
+
+
+
+          <li class="menu-item {{ url()->current() == route('personnel.cashbook') ? 'active' : ''}}">
+            <a href="{{ route('personnel.cashbook') }}" class="menu-link">
+              <div data-i18n="Payment Voucher">Personnel cashbook</div>
+            </a>
+          </li>
+          <li class="menu-item {{ url()->current() == route('capital.cashbook') ? 'active' : ''}}">
+            <a href="{{ route('capital.cashbook') }}" class="menu-link">
+              <div data-i18n="Payment Voucher">Capital cashbook</div>
+            </a>
+          </li>
+
+          <li class="menu-item {{ url()->current() == route('cashbook') ? 'active' : ''}}">
+            <a href="{{ route('cashbook') }}" class="menu-link">
+              <div data-i18n="Payment Voucher">Treasury cashbook</div>
+            </a>
+          </li>
+
+
+
+
+        </ul>
+      </li>
+
+
       @endif
 
       @if (groupId() == 111111 || groupId()== 1500 || groupId()== 9000 || groupId()== 9000)
