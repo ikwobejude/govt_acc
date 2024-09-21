@@ -84,7 +84,7 @@ class SettingsController extends Controller
 
             // Notification
             $notification = array(
-                'message' => 'Revenue line update successfully',
+                'message' => 'NCOA (Economical code) updated!',
                 'alert-type' => 'success'
             );
             return redirect()->back()->with($notification);
