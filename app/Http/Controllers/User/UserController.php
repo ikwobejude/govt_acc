@@ -26,6 +26,7 @@ class UserController extends Controller
         ->select('users.*', 'user_groups.group_name')
         ->leftJoin('user_groups', 'users.group_id', 'user_groups.group_id')
         ->whereIn('inactive', [1, 0])
+        ->where("allowdesktoplogin", 0)
         ->when($user_role, function ($query, string $user_role) {
             $query->where('users.group_id', $user_role);
         })
