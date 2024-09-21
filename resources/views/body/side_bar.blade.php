@@ -46,7 +46,8 @@
       <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Settings</span>
       </li>
-      <li class="menu-item {{ url()->current() == route('get.notes') ? 'active open' : ''}}">
+      <li class="menu-item {{ (url()->current() == route('get.notes') ? 'active open' :
+                              (url()->current() == route('ncoa.codes') ? 'active open' : ''))}}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-dock-top"></i>
           <div data-i18n="Account Settings">Note Setup</div>
@@ -58,6 +59,13 @@
             </a>
           </li>
         </ul>
+        <ul class="menu-sub">
+            <li class="menu-item {{url()->current() == route('ncoa.codes') ? 'active open' : ''}}">
+              <a href="{{ route('ncoa.codes') }}" class="menu-link">
+                <div data-i18n="Account">NCOA Economical lines</div>
+              </a>
+            </li>
+          </ul>
       </li>
       <li class="menu-item {{ url()->current() == route('get.revenue_line') ? 'active open' : ''}}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">

@@ -35,6 +35,7 @@ use App\Http\Controllers\FinalAccount\FinancialPositionController;
 use App\Http\Controllers\FinalAccount\ReportController;
 use App\Http\Controllers\Liability\LiabilityTypeController;
 use App\Http\Controllers\Settings\AssetSubTypeController;
+use App\Http\Controllers\Settings\NCOAController;
 use App\Http\Controllers\Settings\NoteControllers;
 use App\Http\Controllers\Transaction\TransactionControllers;
 
@@ -391,6 +392,14 @@ Route::group(['prefix' => 'notes'], function() {
         Route::post('/', [NoteControllers::class, 'create'])->name('post.note');
         Route::put('/', [NoteControllers::class, 'edit'])->name('edit.note');
         Route::get('/delete/{id}', [NoteControllers::class, 'destroyNote'])->name('delete.note');
+    });
+});
+
+
+// General NCOA Economical code
+Route::group(['prefix' => 'economical_code'], function() {
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/', [NCOAController::class, 'NCOAEconomicalCode'])->name('ncoa.codes');
     });
 });
 

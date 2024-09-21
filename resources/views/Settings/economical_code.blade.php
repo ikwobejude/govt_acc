@@ -1,7 +1,8 @@
+
 @extends('admin_dashboard')
 @section('admin')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Settings /</span> Revenue Lines</h4>
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Settings /</span> All NCOA (Economical code)</h4>
 
     <div class="row">
         <div class="col-md-6 mb-3">
@@ -22,7 +23,7 @@
                                     <h1>Search</h1>
                                     <div class="row mb-3">
 
-                                        <div class="col-md-12">
+                                        <div class="col-md-12 mb-3">
                                             <div class="form-floating">
                                                 <select name="revenue_code" id="revenue_code" style="width: 100%" class="form-control selects">
                                                     <option value="">Select Revenue Line/Economic Code</option>
@@ -31,6 +32,17 @@
                                                             {{ old('revenue_code') == $item->economic_code ? 'selected' : '' }}>
                                                             {{ $item->description . ' :: ' . $item->economic_code }}
                                                         </option>
+                                                    @endforeach
+                                                </select>
+                                                {{-- <label for="floatingInput">Revenue Line/Economic Code</label> --}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-floating">
+                                                <select name="note" id="note" style="width: 100%" class="form-control selects">
+                                                    <option value="">Select note</option>
+                                                    @foreach ($notes as  $note)
+                                                    <option value="{{ $note->note_code }}">{{ $note->note_name." ".$note->description }}</option>
                                                     @endforeach
                                                 </select>
                                                 {{-- <label for="floatingInput">Revenue Line/Economic Code</label> --}}
@@ -66,15 +78,15 @@
             <form action="{{ route('post.revenue_line') }}" method="post">
                 @csrf
                 <div class="fieldset">
-                    <h1>Add Revenue Items</h1>
+                    <h1>Add Economical code</h1>
 
                     <div class="form-floating mb-3">
                         <select name="type" id="type" class="form-control">
                             <option value="">Select options</option>
                             <option value="1">REVENUE</option>
-                            {{-- <option value="2">EXPENDITURE</option>
+                            <option value="2">EXPENDITURE</option>
                             <option value="3">ASSET</option>
-                            <option value="4">LAIBILITY</option> --}}
+                            <option value="4">LAIBILITY</option>
                         </select>
                         <label for="floatingInput">Type</label>
 
@@ -142,8 +154,8 @@
                 <table class="table table-stripe">
                     <thead>
                         <tr>
-                            <th>Revenue Line</th>
-                            <th>Revenue Code </th>
+                            <th>NCOA Line</th>
+                            <th>NCOA Code </th>
                             <th>NOTE </th>
                             <th>TYPE</th>
                             <th>ACTION</th>
@@ -168,7 +180,6 @@
                                         <i class="bx bx-dots-vertical-rounded"></i>
                                       </button>
                                       <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="{{ route('ncoa.codes', ['note'=> $item->note])}}"><i class="bx bx-folder me-1"></i>View items in note</a>
                                         <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter" onclick="update(
                                             '{{ $item->economic_code }}',
                                             '{{ $item->description }}',
