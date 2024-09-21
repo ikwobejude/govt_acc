@@ -93,6 +93,7 @@
                                         <i class="bx bx-dots-vertical-rounded"></i>
                                       </button>
                                       <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="{{ route('ncoa.codes', ['note'=> $item->note])}}"><i class="bx bx-folder me-1"></i>View items in note</a>
                                         <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter" onclick="update(
                                             '{{ $item->note_name }}',
                                             '{{ $item->description }}',
