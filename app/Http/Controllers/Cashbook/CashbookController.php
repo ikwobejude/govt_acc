@@ -31,6 +31,7 @@ class CashbookController extends Controller
         $revenue = DB::table('acc_revenue')
         ->select(
             "settlement_date as date",
+            "settlement_date as date1",
             "description as narration",
             "revenue_code as code",
             "revenue_line as line",
@@ -67,6 +68,7 @@ class CashbookController extends Controller
         $expenses = db::table('expenditure_payregister')
         ->select(
             'drafted_on as date',
+            'drafted_on as date1',
             'narration',
             'expenditure_code as code',
             'expenditure_name as line',
@@ -104,7 +106,7 @@ class CashbookController extends Controller
         // Convert the object to a collection
         // dd($resultObj,  $from, $to);
         $collection = collect($resultObj);
-        dd($collection);
+        // dd($collection);
 
         // Sort the collection by the 'date' key
         $sorted = $collection->sortBy('date');
