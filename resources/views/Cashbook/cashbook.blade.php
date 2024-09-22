@@ -165,7 +165,7 @@
                                         $balance = $balance + $ba;
                                     ?>
                                     <tr>
-                                        <td>{{ date("Y-m-d", strtotime($item->date)) }}</td>
+                                        <td>{{ $item->date }}</td>
                                         <td>{{ $item->ref }}</td>
                                         <td>{{ $item->line }}</td>
                                         <td>{{ $item->narration }}</td>
