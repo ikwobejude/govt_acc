@@ -36,7 +36,7 @@ class CashbookController extends Controller
             "revenue_line as line",
             "authority_document_ref_no as ref",
             "revenue_amount as amount"
-            )
+        )
         ->where('acc_revenue.service_id', 37483)
         ->where('acc_revenue.deleted', '0')
         ->where('acc_revenue.approved', 2)
@@ -65,7 +65,14 @@ class CashbookController extends Controller
         ->get();
 
         $expenses = db::table('expenditure_payregister')
-        ->select('drafted_on as date', 'narration', 'expenditure_code as code', 'expenditure_name as line', 'payment_ref as ref', 'amount' )
+        ->select(
+            'drafted_on as date',
+            'narration',
+            'expenditure_code as code',
+            'expenditure_name as line',
+            'payment_ref as ref',
+            'amount'
+        )
         ->where('expenditure_payregister.service_id', 37483)
         ->where('expenditure_payregister.deleted', 0)
         ->where('expenditure_payregister.approved', 2)
@@ -97,6 +104,7 @@ class CashbookController extends Controller
         // Convert the object to a collection
         // dd($resultObj,  $from, $to);
         $collection = collect($resultObj);
+        dd($collection);
 
         // Sort the collection by the 'date' key
         $sorted = $collection->sortBy('date');
