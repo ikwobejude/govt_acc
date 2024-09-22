@@ -139,6 +139,7 @@
         <div class="card mb-4">
           <h5 class="card-header">Revenue Line(s)</h5>
           <div class="card-body">
+            <div class="table-responsive">
                 <table class="table table-stripe">
                     <thead>
                         <tr>
@@ -189,6 +190,7 @@
 
 
                 </table>
+            </div>
                 {{ $revenue_lines->links() }}
           </div>
         </div>

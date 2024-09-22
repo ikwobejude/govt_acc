@@ -71,6 +71,7 @@
         <div class="card mb-4">
           <h5 class="card-header">Asset Line(s)</h5>
           <div class="card-body">
+            <div class="table-responsive">
                 <table class="table table-stripe">
                     <thead>
                         <tr>
@@ -113,6 +114,7 @@
 
 
                 </table>
+            </div>
                 {{ $notes->links() }}
           </div>
         </div>

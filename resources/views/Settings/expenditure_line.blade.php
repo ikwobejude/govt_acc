@@ -145,56 +145,58 @@
         <div class="card mb-4">
           <h5 class="card-header">Expenditure Line(s)</h5>
           <div class="card-body">
-                <table class="table table-stripe">
-                    <thead>
-                        <tr>
-                            <th>Expenditure Code</th>
-                            <th>Expenditure Line </th>
-                            <th>NOTE </th>
-                            <th>TYPE</th>
-                            <th>ACTION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($revenue_lines as  $key=>$item)
+                <div class="table-responsive">
+                    <table class="table table-stripe">
+                        <thead>
                             <tr>
-                                <td>{{ $item->economic_code }}</td>
-                                <td>{{ $item->description }}</td>
-                                <td>{{ $item->note }}</td>
-                                <td>
-                                    {{
-                                        ($item->type == 1 ? 'REVENUE' :
-                                        ($item->type == 2 ? 'EXPENDITURE':
-                                        ($item->type == 3 ? 'ASSET': 'LIABILITY')))
-                                    }}
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                      <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                      </button>
-                                      <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="{{ route('ncoa.codes', ['note'=> $item->note])}}"><i class="bx bx-folder me-1"></i>View items in note</a>
-                                        <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter" onclick="update(
-                                            '{{ $item->economic_code }}',
-                                            '{{ $item->description }}',
-                                            '{{ $item->type }}',
-                                            '{{ $item->id }}',
-                                            '{{ $item->note }}'
-                                        )">
-                                            <i class="bx bx-edit-alt me-1"></i> Edit
-                                        </a>
-                                        <a class="dropdown-item"  href="{{ route('delete.revenue_line1',  $item->id) }}" onclick="return confirm('Are you sure you want to delete?')"><i class="bx bx-trash me-1"></i> Delete</a>
-                                      </div>
-                                    </div>
-                                </td>
+                                <th>Expenditure Code</th>
+                                <th>Expenditure Line </th>
+                                <th>NOTE </th>
+                                <th>TYPE</th>
+                                <th>ACTION</th>
                             </tr>
-                        @endforeach
-                    </tbody>
+                        </thead>
+                        <tbody>
+                            @foreach ($revenue_lines as  $key=>$item)
+                                <tr>
+                                    <td>{{ $item->economic_code }}</td>
+                                    <td>{{ $item->description }}</td>
+                                    <td>{{ $item->note }}</td>
+                                    <td>
+                                        {{
+                                            ($item->type == 1 ? 'REVENUE' :
+                                            ($item->type == 2 ? 'EXPENDITURE':
+                                            ($item->type == 3 ? 'ASSET': 'LIABILITY')))
+                                        }}
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="{{ route('ncoa.codes', ['note'=> $item->note])}}"><i class="bx bx-folder me-1"></i>View items in note</a>
+                                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"data-bs-target="#modalCenter" onclick="update(
+                                                '{{ $item->economic_code }}',
+                                                '{{ $item->description }}',
+                                                '{{ $item->type }}',
+                                                '{{ $item->id }}',
+                                                '{{ $item->note }}'
+                                            )">
+                                                <i class="bx bx-edit-alt me-1"></i> Edit
+                                            </a>
+                                            <a class="dropdown-item"  href="{{ route('delete.revenue_line1',  $item->id) }}" onclick="return confirm('Are you sure you want to delete?')"><i class="bx bx-trash me-1"></i> Delete</a>
+                                        </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
 
 
 
-                </table>
+                    </table>
+                </div>
                 {{ $revenue_lines->links() }}
           </div>
         </div>
