@@ -517,7 +517,7 @@ class ReportController extends Controller
          ])
          ->join('revenue_line', 'revenue_line.economic_code', '=', 'expenditure_payregister.expenditure_code')
          ->where('expenditure_payregister.approved', 2)
-         ->whereIn('revenue_line.note', [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23])
+         ->whereIn('revenue_line.note', [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24])
          ->when(!empty($from), function ($query) use ($from) {
              return $query->whereDate('expenditure_payregister.created_at', '>=', $from);
          })
@@ -527,6 +527,8 @@ class ReportController extends Controller
          ->groupBy('expenditure_payregister.expenditure_code') // Group by the newly created note group
         //  ->orderBy('revenue_line.note', 'ASC')
          ->get();
+
+        //  dd()
 
         return view('Report.note_closure_financial_statement_report',
         compact('intangibles_rec', 'inventories', 'from', 'to', 'payable', 'revenue_records', 'assets', 'note_9', 'administrative', 'expenditures'));
