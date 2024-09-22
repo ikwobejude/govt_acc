@@ -181,8 +181,8 @@
                                 <th>Economic Line/Code</th>
                                 <th>Name</th>
                                 <th>Asset Type</th>
-                                <th>Asset Category</th>
-                                <th>Asset Size</th>
+                                <th>Asset Categories</th>
+                                <th></th>
                                 <th>Opening Value</th>
                                 <th>Date </th>
                                 <th>Status </th>
@@ -236,8 +236,8 @@
                                     $item->asset_rev }}</td>
                                 <td>{{ $item->assest_name }}</td>
                                 <td>{{ $item->assest_type }}</td>
-                                <td>{{ $item->assest_category }}</td>
-                                <td>{{ $item->assest_size }}</td>
+                                <td>{{ $item->assest_sub_type }}</td>
+                                <td>{{ $item->action_type ? $item->action_type.'/'.$item->asset_input_category: "" }}</td>
                                 <td>{{ number_format($item->opening_value, 2) }}</td>
                                 <td>{{ date("Y-m-d", strtotime($item->date_purchased)) }}</td>
                                 <td>

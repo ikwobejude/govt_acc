@@ -34,10 +34,9 @@ class AssetApprovalController extends Controller
         $date_purchased = $request->query('date_purchased');
         if(groupId() == 111111) {
             $assets = Assets::latest()
-            ->select('acct_assests.*', 'acct_assest_categories.assest_category', 'acct_assest_types.assest_type', 'acct_assest_sizes.assest_size', 'users.name' )
-            ->leftJoin('acct_assest_categories', 'acct_assest_categories.assest_category_id', 'acct_assests.assest_category_id')
+            ->select('acct_assests.*', 'acct_assest_sub_types.assest_sub_type', 'acct_assest_types.assest_type', 'users.name' )
             ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
-            ->leftJoin('acct_assest_sizes', 'acct_assest_sizes.id', 'acct_assests.assest_size_id')
+            ->leftJoin('acct_assest_sub_types', 'acct_assest_sub_types.id', 'acct_assests.assest_sub_type_id')
             ->leftJoin('users', 'users.username', 'acct_assests.created_by')
             ->where('acct_assests.service_id', 37483)
             ->whereIn('acct_assests.approved', [1,2,3,4])
@@ -68,10 +67,10 @@ class AssetApprovalController extends Controller
 
         if(groupId() == 3000) {
             $assets = Assets::latest()
-            ->select('acct_assests.*', 'acct_assest_categories.assest_category', 'acct_assest_types.assest_type', 'acct_assest_sizes.assest_size', 'users.name' )
-            ->leftJoin('acct_assest_categories', 'acct_assest_categories.assest_category_id', 'acct_assests.assest_category_id')
+            ->select('acct_assests.*', 'acct_assest_sub_types.assest_sub_type', 'acct_assest_types.assest_type', 'users.name' )
             ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
-            ->leftJoin('acct_assest_sizes', 'acct_assest_sizes.id', 'acct_assests.assest_size_id')
+            ->leftJoin('acct_assest_sub_types', 'acct_assest_sub_types.id', 'acct_assests.assest_sub_type_id')
+            ->leftJoin('users', 'users.username', 'acct_assests.created_by')
             ->leftJoin('users', 'users.username', 'acct_assests.created_by')
             ->where('acct_assests.service_id', 37483)
             ->where('acct_assests.approved', 4)
@@ -102,10 +101,9 @@ class AssetApprovalController extends Controller
 
         if(groupId() == 1500) {
             $assets = Assets::latest()
-            ->select('acct_assests.*', 'acct_assest_categories.assest_category', 'acct_assest_types.assest_type', 'acct_assest_sizes.assest_size', 'users.name' )
-            ->leftJoin('acct_assest_categories', 'acct_assest_categories.assest_category_id', 'acct_assests.assest_category_id')
+            ->select('acct_assests.*', 'acct_assest_sub_types.assest_sub_type', 'acct_assest_types.assest_type', 'users.name' )
             ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
-            ->leftJoin('acct_assest_sizes', 'acct_assest_sizes.id', 'acct_assests.assest_size_id')
+            ->leftJoin('acct_assest_sub_types', 'acct_assest_sub_types.id', 'acct_assests.assest_sub_type_id')
             ->leftJoin('users', 'users.username', 'acct_assests.created_by')
             ->where('acct_assests.service_id', 37483)
             ->where('acct_assests.approved', 1)

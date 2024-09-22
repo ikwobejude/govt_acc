@@ -247,12 +247,13 @@
                                             '{{ $item->asset_rev }}',
                                             '{{ $item->assest_name }}',
                                             '{{ $item->assest_type_id }}',
-                                            '{{ $item->assest_category_id }}',
-                                            '{{ $item->assest_size_id }}',
+                                            '{{ $item->assest_sub_type }}',
+                                            '{{ $item->action_type }}',
+                                            '{{ $item->asset_input_category }}',
                                             '{{ $item->opening_value }}',
                                             '{{ date('Y-m-d', strtotime($item->date_purchased)) }}',
                                             '{{ $item->assest_decription }}',
-                                            '{{ $item->opening_value }}'
+                                            '{{ $item->assest_sub_type_id }}'
                                         )">
                                             <i class="bx bx-edit-alt me-1"></i> Edit
                                         </a>
@@ -296,6 +297,7 @@
             aria-label="Close"></button>
         </div>
         <form action="{{ route('put.asset') }}" method="post">
+            @method('PUT')
             <div class="modal-body">
                     @csrf
                     <div class="fieldset">
@@ -303,7 +305,7 @@
                         <div class="row">
                             <div class="col-md-4 col-sm-6">
                                 <div class="form-floating mb-2">
-                                    <input type="hidden" name="id" id="is">
+                                    <input type="hidden" name="id" id="id">
                                     <select name="revenue_code" id="erevenue_code" class="form-control selectu" style="width: 100%">
                                         <option value="">Select option</option>
                                         @foreach ($revenue_lines as $item)
@@ -321,7 +323,7 @@
                             </div>
                             <div class="col-md-4 col-sm-6">
                                 <div class="form-floating mb-3">
-                                    <select name="asset_type" id="easset_type" class="form-control selectu @error('asset_type') is-invalid @enderror"  style="width: 100%">
+                                    <select name="asset_type" id="easset_type" class="form-control @error('asset_type') is-invalid @enderror"  style="width: 100%" onchange="getAssetSubType('eassest_sub_type_id')">
                                         <option value="">-- SELECT ASSET TYPE  --</option>
                                         @foreach ($types as $item)
                                             <option value="{{ $item->id}}" {{ old('asset_type') == $item->id ? 'selected': ''}}>
@@ -329,7 +331,7 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    {{-- <label for="floatingInput">ASSET TYPE</label> --}}
+                                    <label for="floatingInput">ASSET TYPE</label>
                                     <div id="floatingInputHelp" class="form-text"></div>
                                     @error('asset_type')
                                         <span class="text-danger"> {{ $message }} </span>
@@ -338,52 +340,42 @@
                             </div>
                             <div class="col-md-4 col-sm-6">
                                 <div class="form-floating mb-3">
-                                    <select name="asset_category" id="easset_category" class="form-control selectu @error('expenditure_category') is-invalid @enderror" style="width: 100%">
-                                        <option value="">-- SELECT ASSET CATEGORIES  --</option>
-                                        @foreach ($categories as $item)
-                                            <option value="{{ $item->assest_category_id}}" {{ old('asset_category') == $item->assest_category_id ? 'selected': ''}}>
-                                                {{ $item->assest_category}}
-                                            </option>
-                                        @endforeach
+                                    <select name="assest_sub_type_id" id="eassest_sub_type_id" class="form-control " style="width: 100%">
+
                                     </select>
-                                    {{-- <label for="floatingInput">ASSET CATEGORIES</label> --}}
+                                    <label for="floatingInput">ASSET CATEGORIES</label>
                                     <div id="floatingInputHelp" class="form-text"></div>
                                     @error('expenditure_category')
                                         <span class="text-danger"> {{ $message }} </span>
                                     @enderror
                                 </div>
                             </div>
-                            {{-- <div class="col-md-3 col-sm-6">
-                                <div class="form-floating mb-3">
-                                    <select name="expenditure_type" id="expenditure_type" class="form-control @error('batch_type') is-invalid @enderror">
-                                        <option value="">-- Select Option --</option>
-                                        @foreach ($asset_values as $item)
-                                            <option value="{{ $item->id}}" {{ old('revenue_code') == $item->id ? 'selected': ''}}>
-                                                {{ $item->assest_value}}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <label for="floatingInput">ASSET VALUATION METHODS</label>
-                                    <div id="floatingInputHelp" class="form-text"></div>
-                                </div>
-                            </div> --}}
+
                             <div class="col-md-4 col-sm-6">
                                 <div class="form-floating mb-3">
-                                    <select name="asset_size" id="easset_size" class="form-control selectu @error('asset_size') is-invalid @enderror" style="width: 100%">
-                                        <option value="">-- SELECT ASSET SIZE --</option>
-                                        @foreach ($sizes as $item)
-                                            <option value="{{ $item->id}}" {{ old('asset_size') == $item->id ? 'selected': ''}}>
-                                                {{ $item->assest_size}}
-                                            </option>
-                                        @endforeach
+                                    <select name="action_type" id="eaction_type" class="form-control" style="width: 100%">
+                                        <option value="">-- SELECT ACTION TYPE --</option>
+                                        <option value="Addition">Addition</option>
+                                        <option value="Disposal/Transfer">Disposal/Transfer</option>
                                     </select>
-                                    {{-- <label for="floatingInput">ASSET SIZE</label> --}}
-                                    <div id="floatingInputHelp" class="form-text"></div>
-                                    @error('asset_size')
-                                        <span class="text-danger"> {{ $message }} </span>
-                                    @enderror
+                                    <label for="floatingInput">Action Type</label>
+
                                 </div>
                             </div>
+
+                            <div class="col-md-4 col-sm-6">
+                                <div class="form-floating mb-3">
+                                    <select name="asset_input_category" id="easset_input_category" class="form-control" style="width: 100%">
+                                        <option value="">-- TO --</option>
+                                        <option value="ASSET">ASSET</option>
+                                        <option value="AMORTISATION">AMORTISATION</option>
+                                        <option value="IMPAIRMENT">IMPAIRMENT</option>
+                                    </select>
+                                    <label for="floatingInput">Action Category</label>
+
+                                </div>
+                            </div>
+
 
                             <div class="col-md-4 col-sm-6">
                                 <div class="form-floating mb-3">
@@ -501,12 +493,7 @@
                         <div class="col-md-4 col-sm-6">
                             <div class="form-floating mb-3">
                                 <select name="assest_sub_type_id" id="select3" class="form-control @error('expenditure_category') is-invalid @enderror" style="width: 100%">
-                                    {{-- <option value="">-- SELECT ASSET CATEGORIES --</option>
-                                    @foreach ($categories as $item)
-                                        <option value="{{ $item->assest_category_id}}" {{ old('asset_category') == $item->assest_category_id ? 'selected': ''}}>
-                                            {{ $item->assest_category}}
-                                        </option>
-                                    @endforeach --}}
+
                                 </select>
                                 {{-- <label for="floatingInput">ASSET CATEGORIES</label> --}}
                                 <div id="floatingInputHelp" class="form-text"></div>
@@ -522,19 +509,8 @@
                                     <option value="">-- SELECT ACTION TYPE --</option>
                                     <option value="Addition">Addition</option>
                                     <option value="Disposal/Transfer">Disposal/Transfer</option>
-
-                                    {{-- @foreach ($sizes as $item)
-                                        <option value="{{ $item->id}}" {{ old('asset_size') == $item->id ? 'selected': ''}}>
-                                            {{ $item->assest_size}}
-                                        </option>
-                                    @endforeach --}}
-
                                 </select>
-                                {{-- <label for="floatingInput">ACTION TYPE</label> --}}
-                                {{-- <div id="floatingInputHelp" class="form-text"></div> --}}
-                                {{-- @error('asset_size')
-                                    <span class="text-danger"> {{ $message }} </span>
-                                @enderror --}}
+
                             </div>
                         </div>
 
@@ -542,15 +518,11 @@
                             <div class="form-floating mb-3">
                                 <select name="asset_input_category" id="asset_input_category" class="form-control select @error('asset_size') is-invalid @enderror " style="width: 100%">
                                     <option value="">-- TO --</option>
-                                    <option value="ASSET TYPE">ASSET TYPE</option>
+                                    <option value="ASSET">ASSET</option>
                                     <option value="AMORTISATION">AMORTISATION</option>
                                     <option value="IMPAIRMENT">IMPAIRMENT</option>
                                 </select>
-                                {{-- <label for="floatingInput">TO</label> --}}
-                                {{-- <div id="floatingInputHelp" class="form-text"></div> --}}
-                                {{-- @error('asset_size')
-                                    <span class="text-danger"> {{ $message }} </span>
-                                @enderror --}}
+
                             </div>
                         </div>
 
@@ -669,18 +641,25 @@
     }
 
 
-    function update(assest_id, asset_rev_name, asset_rev, assest_name, assest_type, assest_category, assest_size, opening_value, date_purchased, assest_decription) {
-        // console.log({assest_id, asset_rev_name, asset_rev, assest_name, assest_type, assest_category, assest_size, opening_value, date_purchased, assest_decription})
+    function update(assest_id, asset_rev_name, asset_rev, assest_name, assest_type, assest_sub_type, action_type, asset_input_category, opening_value, date_purchased, assest_decription, assest_sub_type_id) {
+        console.log({assest_sub_type_id})
         $('#id').val(assest_id)
         $('#erevenue_code').val(asset_rev_name)
         $('#easset_type').val(assest_type)
-        $('#easset_category').val(assest_category)
-        $('#easset_size').val(assest_size)
+        // $('#eassest_sub_type_id').val(assest_sub_type)
+        $('#eaction_type').val(action_type)
+        $('#easset_input_category').val(asset_input_category)
         $('#eassest_name').val(assest_name)
         $('#eauthority_document_ref_no').val()
         $('#edate_purchased').val(date_purchased)
         $('#eopening_value').val(opening_value)
         $('#eassest_decription').val(assest_decription)
+
+        const selection = document.getElementById("eassest_sub_type_id");
+        const option = document.createElement("option");
+        option.value = assest_sub_type_id;
+        option.textContent = assest_sub_type;
+        selection.appendChild(option);
 
     }
 
@@ -726,7 +705,8 @@
 
         // document.getElementById("select1").addEventListener("change", getAssetSubType);
         function getAssetSubType(id) {
-            const select1 = document.getElementById("select1").value;
+            const select1 = id ==  "eassest_sub_type_id" ? document.getElementById("easset_type").value : document.getElementById("select1").value;
+            // eassest_sub_type_id
             fetch('/settings/fetch-asset-sub-type?id='+select1)
             .then(response => response.json())
             .then(data => {

@@ -182,8 +182,8 @@ class AssetController extends Controller
             // 'authority_document_ref_no' => ['required', 'string'],
             'date_purchased' => ['required', 'string'],
             'opening_value' => ['required', 'regex:/^(\d+|\d+(\.\d{1,2})?|(\.\d{1,2}))$/'],
-            'asset_category'  => ['required', 'string'],
-            'asset_size'  => ['required', 'string'],
+            // 'asset_category'  => ['required', 'string'],
+            'assest_sub_type_id'  => ['required', 'string'],
         ]);
 
         if($validateUser->fails()) {
@@ -202,8 +202,9 @@ class AssetController extends Controller
 
         Assets::where('assest_id', $request->id)->update([
             'assest_type_id' => $request->asset_type,
-            'assest_category_id' => $request->asset_category,
-            'assest_size_id' => $request->asset_size,
+            'assest_sub_type_id' => $request->assest_sub_type_id,
+            'action_type' => $request->action_type,
+            'asset_input_category' => $request->asset_input_category,
             // 'assest_location_id' => $request->
             'assest_name' => $request->assest_name,
             'assest_decription' => $request->assest_decription,

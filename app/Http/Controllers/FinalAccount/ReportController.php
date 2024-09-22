@@ -336,6 +336,43 @@ class ReportController extends Controller
         $from = $request->query("from") ? $request->query("from") :  Carbon::now()->startOfYear();
         $to = $request->query('to') ? $request->query('to') : lastDay();
         $currentT = $request->query("from") ? 1 : 2;
+        $intangibles = DB::table('acct_assests')
+        ->select([
+            'acct_assests.assest_name AS line',
+            'acct_assests.asset_rev AS code',
+            DB::raw('SUM(acct_assests.opening_value) as total'),
+            'revenue_line.note',
+            'acct_assests.asset_rev_type',
+            'acct_assest_types.assest_type',
+            'acct_assests.action_type',
+            'acct_assests.asset_input_category'
+        ])
+        ->join('revenue_line', 'revenue_line.economic_code', '=', 'acct_assests.asset_rev')
+        ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
+        ->where('approved', 2)
+        ->whereIn('revenue_line.note', [2])
+        ->when(!empty($from), function ($query) use ($from) {
+            return $query->whereDate('acct_assests.created_at', '>=', $from);
+        })
+        ->when(!empty($to), function ($query) use ($to) {
+           return $query->whereDate('acct_assests.created_at', '<=', $to);
+        })
+        ->groupBy('acct_assests.asset_input_category')
+        ->groupBy('acct_assests.action_type')
+
+        ->get();
+        $previous_year_asset = $this->getLastYearAsset();
+        $previous_year_amortization = $this->getLastYearAmortization();
+        $previous_year_impairment = $this->getLastYearImpairment();
+
+        $previous_year_asset = $previous_year_asset->toArray();
+        $previous_year_amortization = $previous_year_amortization->toArray();
+        $previous_year_impairment = $previous_year_impairment->toArray();
+        $intangibles = $intangibles->toArray();
+
+        $intangibles_rec = collect(array_merge($previous_year_asset, $previous_year_amortization,  $previous_year_impairment, $intangibles));
+        // dd($intangibles_rec);
+
 
         $inventories = DB::table('acct_assests')
         ->select([
@@ -344,7 +381,9 @@ class ReportController extends Controller
             DB::raw('SUM(acct_assests.opening_value) as total'),
             'revenue_line.note',
             'acct_assests.asset_rev_type',
-            'acct_assest_types.assest_type'
+            'acct_assest_types.assest_type',
+            'acct_assests.action_type',
+            'acct_assests.asset_input_category'
         ])
         ->join('revenue_line', 'revenue_line.economic_code', '=', 'acct_assests.asset_rev')
         ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
@@ -489,18 +528,82 @@ class ReportController extends Controller
         //  ->orderBy('revenue_line.note', 'ASC')
          ->get();
 
+        return view('Report.note_closure_financial_statement_report',
+        compact('intangibles_rec', 'inventories', 'from', 'to', 'payable', 'revenue_records', 'assets', 'note_9', 'administrative', 'expenditures'));
+    }
 
+    public function getLastYearAsset() {
+        $lastYearAsset = DB::table('acct_assests')
+        ->select([
+            'acct_assests.assest_name AS line',
+            'acct_assests.asset_rev AS code',
+            DB::raw('SUM(acct_assests.opening_value) as total'),
+            'revenue_line.note',
+            'acct_assests.asset_rev_type',
+            'acct_assest_types.assest_type',
+            DB::raw('"As @ 1 January, ' . date("Y") . '" AS action_type'),
+            'acct_assests.asset_input_category'
+        ])
+        ->join('revenue_line', 'revenue_line.economic_code', '=', 'acct_assests.asset_rev')
+        ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
+        ->where('acct_assests.approved', 2)
+        ->whereIn('revenue_line.note', [2])
+        ->where('acct_assests.asset_input_category', "ASSET")
+        ->where('acct_assests.year', date("Y"))
+        ->groupBy('acct_assests.asset_input_category')
+        ->get();
 
+        return $lastYearAsset;
 
+        // dd($lastYearAsset);
+    }
 
+    public function getLastYearAmortization() {
+        $lastYear = DB::table('acct_assests')
+        ->select([
+            'acct_assests.assest_name AS line',
+            'acct_assests.asset_rev AS code',
+            DB::raw('SUM(acct_assests.opening_value) as total'),
+            'revenue_line.note',
+            'acct_assests.asset_rev_type',
+            'acct_assest_types.assest_type',
+            DB::raw('"As @ 1 January, ' . date("Y") . '" AS action_type'),
+            'acct_assests.asset_input_category'
+        ])
+        ->join('revenue_line', 'revenue_line.economic_code', '=', 'acct_assests.asset_rev')
+        ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
+        ->where('acct_assests.approved', 2)
+        ->whereIn('revenue_line.note', [2])
+        ->where('acct_assests.asset_input_category', "AMORTISATION")
+        ->where('acct_assests.year', date("Y"))
+        ->groupBy('acct_assests.asset_input_category')
+        ->get();
 
-        return view('Report.note_closure_financail_statement_report',
-        compact('inventories', 'from', 'to', 'payable', 'revenue_records', 'assets', 'note_9', 'administrative', 'expenditures'));
+        return $lastYear;
+    }
 
+    public function getLastYearImpairment() {
+        $lastYear = DB::table('acct_assests')
+        ->select([
+            'acct_assests.assest_name AS line',
+            'acct_assests.asset_rev AS code',
+            DB::raw('SUM(acct_assests.opening_value) as total'),
+            'revenue_line.note',
+            'acct_assests.asset_rev_type',
+            'acct_assest_types.assest_type',
+            DB::raw('"As @ 1 January, ' . date("Y") . '" AS action_type'),
+            'acct_assests.asset_input_category'
+        ])
+        ->join('revenue_line', 'revenue_line.economic_code', '=', 'acct_assests.asset_rev')
+        ->leftJoin('acct_assest_types', 'acct_assest_types.id', 'acct_assests.assest_type_id')
+        ->where('acct_assests.approved', 2)
+        ->whereIn('revenue_line.note', [2])
+        ->where('acct_assests.asset_input_category', "IMPAIRMENT")
+        ->where('acct_assests.year', date("Y"))
+        ->groupBy('acct_assests.asset_input_category')
+        ->get();
 
-
-
-
+        return $lastYear;
     }
 }
 

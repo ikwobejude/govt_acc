@@ -81,7 +81,7 @@
                         HEALTH RECORDS OFFICERS REGISTRATION BOARD OF NIGERIA <br>
                         Note (Disclosure) to the Financial Statements for  {{ strtoupper(explode(" ", $from)[0]) ." - ".strtoupper(explode(" ", $to)[0]) }}. <br>
                     </h5>
-                        
+
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12 pb-3" style="text-align: right">
@@ -103,6 +103,42 @@
                                 </thead>
 
                                 <tbody>
+                                    <tr>
+                                        <td><b>2</b></td>
+                                        <td><b>INTANGIBLE ASSEST COST</b></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <?php $intagi = 0; ?>
+                                    @foreach ($intangibles_rec->groupBy('asset_input_category') as $grb => $noncurrents)
+                                    {{-- @foreach ($inventories as $invent) --}}
+
+                                        <tr>
+
+                                            <td></td>
+                                            <td style="text-align: left"><b>{{ $grb }}</b></td>
+                                            <td></td>
+                                        </tr>
+
+                                            @foreach ($noncurrents as $key => $current)
+                                            @if($current->note == 2)
+                                            <?php $intagi += $current->total; ?>
+                                                <tr>
+                                                    <td></td>
+                                                    <td>{{ $current->action_type}}</td>
+                                                    <td>{{ number_format($current->total, 2) }}</td>
+                                                </tr>
+                                                @endif
+                                            @endforeach
+
+                                    @endforeach
+
+                                    <tr >
+                                        <td></td>
+                                        <td></td>
+                                        <td class="underline">{{ number_format($intagi, 2) }}</td>
+                                    </tr>
+
                                     {{-- Note 3 Inventories --}}
                                     <tr>
                                         <td><b>3</b></td>
@@ -112,12 +148,14 @@
 
                                     <?php $inventory = 0; ?>
                                     @foreach ($inventories as $invent)
+                                    @if($invent->note == 3)
                                     <?php $inventory += $invent->total; ?>
                                     <tr>
                                         <td></td>
                                         <td>{{ $invent->line}}</td>
                                         <td>{{ number_format($invent->total, 2) }}</td>
                                     </tr>
+                                    @endif
                                     @endforeach
                                     <tr >
                                         <td></td>
