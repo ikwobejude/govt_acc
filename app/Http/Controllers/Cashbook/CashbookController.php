@@ -109,7 +109,7 @@ class CashbookController extends Controller
         // dd($collection);
 
         // Sort the collection by the 'date' key
-        $sorted = $collection->sortBy('date');
+        $sorted = $collection->sortBy('date')->values();
         dd($sorted);
 
 
