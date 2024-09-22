@@ -29,15 +29,14 @@ class CashbookController extends Controller
         // dd($from, $to);
 
         $revenue = DB::table('acc_revenue')
-        ->select(
+        ->select([
             "settlement_date as date",
-            "settlement_date as date1",
             "description as narration",
             "revenue_code as code",
             "revenue_line as line",
             "authority_document_ref_no as ref",
             "revenue_amount as amount"
-        )
+        ])
         ->where('acc_revenue.service_id', 37483)
         ->where('acc_revenue.deleted', '0')
         ->where('acc_revenue.approved', 2)
@@ -66,15 +65,14 @@ class CashbookController extends Controller
         ->get();
 
         $expenses = db::table('expenditure_payregister')
-        ->select(
+        ->select([
             'drafted_on as date',
-            'drafted_on as date1',
             'narration',
             'expenditure_code as code',
             'expenditure_name as line',
             'payment_ref as ref',
             'amount'
-        )
+        ])
         ->where('expenditure_payregister.service_id', 37483)
         ->where('expenditure_payregister.deleted', 0)
         ->where('expenditure_payregister.approved', 2)
