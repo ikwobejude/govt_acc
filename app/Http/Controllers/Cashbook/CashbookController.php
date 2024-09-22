@@ -109,7 +109,9 @@ class CashbookController extends Controller
         // dd($collection);
 
         // Sort the collection by the 'date' key
-        $sorted = $collection->sortBy('date')->values();
+        $sorted = $collection->sortBy(function ($item) {
+            return $item['date'] ?? PHP_INT_MAX; // Push null dates to the end
+        });
         dd($sorted);
 
 
