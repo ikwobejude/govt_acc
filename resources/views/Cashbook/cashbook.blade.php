@@ -157,9 +157,9 @@
                                     ?>
                                     @foreach ($sorted as $item)
                                     <?php
-                                        $rev = $item->code[0] == 1 ? (float) $item->amount : 0;
-                                        $exp = $item->code[0] == 2 ? (float) $item->amount : 0;
-                                        $ba = $rev - $exp;
+                                        $rev = $item->code[0] == 2 || $item->code[0] == 4  ? (float) $item->amount : 0;
+                                        $exp = $item->code[0] == 1 || $item->code[0] == 3 ? (float) $item->amount : 0;
+                                        $ba =  $exp - $rev;
                                         $cr = $cr + $rev;
                                         $db = $db + $exp;
                                         $balance = $balance + $ba;
@@ -170,8 +170,8 @@
                                         <td>{{ $item->line }}</td>
                                         <td>{{ $item->narration }}</td>
                                         <td>{{ $item->code }}</td>
-                                        <td>{{ $item->code[0] == 2 ? number_format($item->amount, 2) : "0.00" }}</td>
-                                        <td>{{ $item->code[0] == 1 ? number_format($item->amount, 2) : "0.00" }}</td>
+                                        <td>{{ $item->code[0] == 1 || $item->code[0] == 3 ? number_format($item->amount, 2) : "0.00" }}</td>
+                                        <td>{{ $item->code[0] == 2 || $item->code[0] == 4 ? number_format($item->amount, 2) : "0.00" }}</td>
                                         <td>{{ $balance < 0 ? "(".number_format(abs($balance), 2).")" : number_format($balance, 2) }}</td>
                                     </tr>
                                     @endforeach
