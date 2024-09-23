@@ -144,8 +144,8 @@
                                         <th>Line </th>
                                         <th>Description </th>
                                         <th>NCOA (ECONOMIC CODE)</th>
-                                        <th>Expenditure (DR)</th>
-                                        <th>Revenue (CR)</th>
+                                        <th>(DR)</th>
+                                        <th>(CR)</th>
                                         <th>Balance</th>
                                     </tr>
                                 </thead>
