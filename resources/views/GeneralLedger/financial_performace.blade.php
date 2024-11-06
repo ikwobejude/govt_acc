@@ -133,13 +133,22 @@
                                         <td colspan="2"><strong>OPERATING EXPENSES </strong></td>
                                     </tr>
 
-                                    @foreach ($ExpenditureRegister as $item)
+                                    {{-- @foreach ($ExpenditureRegister as $item)
                                     <?php $totalExpenditure += (float)$item->total; ?>
                                     <tr>
                                         <td>{{ $item->note == 9 ? "Personnel Cost":  "Administrative Expenses" }}</td>
                                         <td>{{ $item->note }}</td>
                                         <td>{{ number_format($item->total, 2) }}</td>
                                     </tr>
+                                    @endforeach --}}
+
+                                    @foreach ($ExpenditureRegister as $item)
+                                        <?php $totalExpenditure += (float)$item->total; ?>
+                                        <tr>
+                                            <td>{{ $item->note_group }}</td> <!-- Display 'Personnel Cost' or 'Administrative Expenses' directly -->
+                                            <td>{{ $item->note }}</td>
+                                            <td>{{ number_format($item->total, 2) }}</td>
+                                        </tr>
                                     @endforeach
 
                                     <tr>
