@@ -44,26 +44,57 @@ class ReportController extends Controller
 
         // dd($revenue);
 
+        // $ExpenditureRegister = DB::table('expenditure_payregister')
+        // ->select([
+        //     'expenditure_payregister.expenditure_type as uniId',
+        //     'expenditure_payregister.expenditure_code as CODE',
+        //     'expenditure_payregister.expenditure_name as line',
+        //     DB::raw('SUM(expenditure_payregister.amount) as total'),
+        //     'revenue_line.note as note',
+        // ])
+        // ->join('revenue_line', 'revenue_line.economic_code', '=', 'expenditure_payregister.expenditure_code')
+        // ->where('expenditure_payregister.approved', 2)
+        // ->whereIn('revenue_line.note', [9, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23])
+        // ->when(!empty($from), function ($query) use ($from) {
+        //     return $query->whereDate('expenditure_payregister.created_at', '>=', $from);
+        // })
+        // ->when(!empty($to), function ($query) use ($to) {
+        //    return $query->whereDate('expenditure_payregister.created_at', '<=', $to);
+        // })
+        // ->groupBy('revenue_line.note')
+        // ->orderBy('revenue_line.note', 'ASC')
+        // ->get();
+
         $ExpenditureRegister = DB::table('expenditure_payregister')
-        ->select([
-            'expenditure_payregister.expenditure_type as uniId',
-            'expenditure_payregister.expenditure_code as CODE',
-            'expenditure_payregister.expenditure_name as line',
-            DB::raw('SUM(expenditure_payregister.amount) as total'),
-            'revenue_line.note as note',
-        ])
-        ->join('revenue_line', 'revenue_line.economic_code', '=', 'expenditure_payregister.expenditure_code')
-        ->where('expenditure_payregister.approved', 2)
-        ->whereIn('revenue_line.note', [9, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23])
-        ->when(!empty($from), function ($query) use ($from) {
-            return $query->whereDate('expenditure_payregister.created_at', '>=', $from);
-        })
-        ->when(!empty($to), function ($query) use ($to) {
-           return $query->whereDate('expenditure_payregister.created_at', '<=', $to);
-        })
-        ->groupBy('revenue_line.note')
-        ->orderBy('revenue_line.note', 'ASC')
-        ->get();
+            ->select([
+                'expenditure_payregister.expenditure_type as uniId',
+                'expenditure_payregister.expenditure_code as CODE',
+                'expenditure_payregister.expenditure_name as line',
+                DB::raw('SUM(expenditure_payregister.amount) as total'),
+                'revenue_line.note as note',
+                // Virtual grouping field: "Group 9" for note = 9 and "Group 10-23" for notes 10-23
+                DB::raw("
+                    CASE
+                        WHEN revenue_line.note = 9 THEN 'Group 9'
+                        WHEN revenue_line.note BETWEEN 10 AND 23 THEN 'Group 10-23'
+                        ELSE 'Other'
+                    END as group_category
+                ")
+            ])
+            ->join('revenue_line', 'revenue_line.economic_code', '=', 'expenditure_payregister.expenditure_code')
+            ->where('expenditure_payregister.approved', 2)
+            ->whereIn('revenue_line.note', [9, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23])
+            ->when(!empty($from), function ($query) use ($from) {
+                return $query->whereDate('expenditure_payregister.created_at', '>=', $from);
+            })
+            ->when(!empty($to), function ($query) use ($to) {
+                return $query->whereDate('expenditure_payregister.created_at', '<=', $to);
+            })
+            ->groupBy('group_category', 'revenue_line.note')
+            ->orderBy('group_category', 'ASC')
+            ->orderBy('revenue_line.note', 'ASC')
+            ->get();
+
 
 
         return view('GeneralLedger.financial_performace', compact('revenue', 'ExpenditureRegister', 'currentT', 'from', 'to'));
