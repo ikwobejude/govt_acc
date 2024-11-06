@@ -522,7 +522,7 @@
         <ul class="menu-sub">
             <li class="menu-item {{ url()->current() == route('financial_performance') ? 'active' : ''}}">
                 <a href="{{ route('financial_performance') }}" class="menu-link">
-                    <div data-i18n="Horizontal Form">Statement of Financial Perfomace</div>
+                    <div data-i18n="Horizontal Form">Statement of Financial PerformancePerformance</div>
                 </a>
               </li>
           <li class="menu-item {{ url()->current() == route('financial_position') ? 'active' : ''}}">

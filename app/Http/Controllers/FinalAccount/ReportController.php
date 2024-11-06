@@ -31,7 +31,7 @@ class ReportController extends Controller
         ])
         ->join('revenue_line', 'revenue_line.economic_code', '=', 'acc_revenue.revenue_code')
         ->where('acc_revenue.approved', 2)
-        ->whereIn('revenue_line.note', [6, 7])
+        ->whereIn('revenue_line.note', [6, 7, 26])
         ->when(!empty($from), function ($query) use ($from) {
             return $query->whereDate('acc_revenue.created_at', '>=', $from);
         })
