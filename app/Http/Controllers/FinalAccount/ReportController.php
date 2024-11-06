@@ -54,7 +54,7 @@ class ReportController extends Controller
         ])
         ->join('revenue_line', 'revenue_line.economic_code', '=', 'expenditure_payregister.expenditure_code')
         ->where('expenditure_payregister.approved', 2)
-        ->whereIn('revenue_line.note', [9, 10])
+        ->whereIn('revenue_line.note', [9, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23])
         ->when(!empty($from), function ($query) use ($from) {
             return $query->whereDate('expenditure_payregister.created_at', '>=', $from);
         })
