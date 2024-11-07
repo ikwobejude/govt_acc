@@ -46,7 +46,7 @@ class TransactionControllers extends Controller
             return $query->where('acc_revenue.received_from', 'LIKE', "%{$received_from}%");
          })
          ->when(!empty($created_by), function ($query) use ($created_by) {
-            return $query->where('user.username', 'LIKE', "%{$created_by}%");
+            return $query->where('users.username', 'LIKE', "%{$created_by}%");
          })
         ->orderBy('acc_revenue.revenue_id', 'ASC')
         ->get();
