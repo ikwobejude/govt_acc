@@ -14,47 +14,40 @@ class TransactionControllers extends Controller
     public function revenueTransaction(Request $request) {
         $revenue_code = $request->query('revenue_code');
         $created_by = $request->query('created_by');
+        // dd($created_by);
         $rrr = $request->query('rrr');
         $authority_ref = $request->query('authority_ref');
         $received_from = $request->query('received_from');
-        $from = $request->query("from") ? $request->query("from") : Carbon::now()->format('Y-m-01');
-        $to = $request->query("from")  ? $request->query("to") : Carbon::now()->format('Y-m-t') ;
+        $from = $request->has("from")
+        ? ($request->query("from") ?: null)  // Use the provided date or leave it empty if it's an empty string
+        : Carbon::now()->format('Y-m-01');   // Default to first day of the month if "from" is not in the query
+
+        $to = $request->has("to")
+            ? ($request->query("to") ?: null)    // Use the provided date or leave it empty if it's an empty string
+            : Carbon::now()->format('Y-m-t');    // Default to last day of the month if "to" is not in the query
 
 
-        $revenue = DB::table('acc_revenue')
-        ->select('acc_revenue.*', 'users.name')
-        ->leftJoin('users', 'users.username', 'acc_revenue.created_by')
-        ->where('acc_revenue.service_id', 37483)
-        ->where('acc_revenue.deleted', '0')
-        ->where('acc_revenue.approved', 2)
-        ->when(!empty($revenue_code) , function ($query) use ($revenue_code) {
-            return $query->where('revenue_code', $revenue_code);
-        })
-        ->when(!empty($from), function ($query) use ($from) {
-            return $query->whereDate('acc_revenue.settlement_date', '>=', $from);
-        })
-        ->when(!empty($to), function ($query) use ($to) {
-           return $query->whereDate('acc_revenue.settlement_date', '<=', $to);
-        })
-        ->when(!empty($authority_ref), function ($query) use ($authority_ref) {
-            return $query->where('acc_revenue.authority_document_ref_no', '=', $authority_ref);
-         })
-         ->when(!empty($rrr), function ($query) use ($rrr) {
-            return $query->where('acc_revenue.rrr', '=', $rrr);
-         })
-         ->when(!empty($received_from), function ($query) use ($received_from) {
-            return $query->where('acc_revenue.received_from', 'LIKE', "%{$received_from}%");
-         })
-         ->when(!empty($created_by), function ($query) use ($created_by) {
-            return $query->where('users.username', 'LIKE', "%{$created_by}%");
-         })
-        ->orderBy('acc_revenue.revenue_id', 'ASC')
-        ->get();
+          // Fetch revenues with conditional filters
+            $revenue = DB::table('acc_revenue')
+            ->select('acc_revenue.*', 'users.name')
+            ->leftJoin('users', 'users.username', '=', 'acc_revenue.created_by')
+            ->where([
+                ['acc_revenue.service_id', '=', 37483],
+                ['acc_revenue.deleted', '=', '0'],
+                ['acc_revenue.approved', '=', 2]
+            ])
+            ->when($request->query('revenue_code'), fn($query, $revenue_code) => $query->where('revenue_code', $revenue_code))
+            ->when($from, fn($query) => $query->whereDate('acc_revenue.settlement_date', '>=', $from))
+            ->when($to, fn($query) => $query->whereDate('acc_revenue.settlement_date', '<=', $to))
+            ->when($request->query('authority_ref'), fn($query, $authority_ref) => $query->where('acc_revenue.authority_document_ref_no', $authority_ref))
+            ->when($request->query('rrr'), fn($query, $rrr) => $query->where('acc_revenue.rrr', $rrr))
+            ->when($request->query('received_from'), fn($query, $received_from) => $query->where('acc_revenue.received_from', 'LIKE', "%{$received_from}%"))
+            ->when($request->query('created_by'), fn($query, $created_by) => $query->where('acc_revenue.created_by', 'LIKE', "%{$created_by}%"))
+            ->orderBy('acc_revenue.revenue_id', 'ASC')
+            ->get();
 
-        // dd($revenues);
-        $initiators = DB::table('users')
-        ->select('username', 'name')->get();
-        // dd($initiators);
+        // Fetch other data for the view
+        $initiators = DB::table('users')->select('username', 'name')->get();
         $revenue_lines = DB::table('revenue_line')->where('type', 1)->get();
         return view('transaction.revenue_transactions', compact('revenue','revenue_lines', 'initiators'));
     }
@@ -67,8 +60,13 @@ class TransactionControllers extends Controller
         $expenditure = $request->query("expenditure");
         $authority_document_ref_no = $request->query("authority_document_ref_no");
         $pait_to = $request->query("pait_to");
-        $from = $request->query("from") ? $request->query("from") : Carbon::now()->format('Y-m-01');
-        $to = $request->query("from")  ? $request->query("to") : Carbon::now()->format('Y-m-t') ;
+        $from = $request->has("from")
+        ? ($request->query("from") ?: null)  // Use the provided date or leave it empty if it's an empty string
+        : Carbon::now()->format('Y-m-01');   // Default to first day of the month if "from" is not in the query
+
+    $to = $request->has("to")
+        ? ($request->query("to") ?: null)    // Use the provided date or leave it empty if it's an empty string
+        : Carbon::now()->format('Y-m-t');    // Default to last day of the month if "to" is not in the query
         $created_by = $request->query('created_by');
 
         // dd($from,$to );
