@@ -106,6 +106,7 @@
                                     <?php
                                         $totalRevenue = 0;
                                         $totalExpenditure = 0;
+                                        $remita = 0
                                     ?>
 
                                     @foreach ($revenue as $item)
@@ -127,6 +128,26 @@
                                     </tr>
 
                                     {{-- TODO: TOTAL --}}
+
+                                    @foreach ($Remittance as $Remitt)
+                                    <?php $remita += (float)$Remitt->total;  ?>
+                                    <tr>
+                                        {{-- <td></td> --}}
+                                        <td>{{ $Remitt->note == 24 ? "Remittance to CRF and sub-treasury": "" }}</td>
+                                        {{-- <td>{{ $item->code }}</td> --}}
+                                        <td></td>
+                                        <td>({{ number_format($Remitt->total, 2) }})</td>
+                                    </tr>
+                                    @endforeach
+
+                                    <tr>
+                                        <td></td>
+                                        <td style="text-align: right"><strong></strong></td>
+                                        {{-- <td></td>
+                                        <td></td> --}}
+                                        <td><strong>{{ number_format($totalRevenue - $remita, 2) }}</strong></td>
+                                    </tr>
+                                 
 
 
                                     <tr>

@@ -31,7 +31,7 @@ class ReportController extends Controller
         ])
         ->join('revenue_line', 'revenue_line.economic_code', '=', 'acc_revenue.revenue_code')
         ->where('acc_revenue.approved', 2)
-        ->whereIn('revenue_line.note', [6, 7, 24])
+        ->whereIn('revenue_line.note', [6, 7])
         ->when(!empty($from), function ($query) use ($from) {
             return $query->whereDate('acc_revenue.created_at', '>=', $from);
         })
@@ -44,26 +44,27 @@ class ReportController extends Controller
 
         // dd($revenue);
 
-        // $ExpenditureRegister = DB::table('expenditure_payregister')
-        // ->select([
-        //     'expenditure_payregister.expenditure_type as uniId',
-        //     'expenditure_payregister.expenditure_code as CODE',
-        //     'expenditure_payregister.expenditure_name as line',
-        //     DB::raw('SUM(expenditure_payregister.amount) as total'),
-        //     'revenue_line.note as note',
-        // ])
-        // ->join('revenue_line', 'revenue_line.economic_code', '=', 'expenditure_payregister.expenditure_code')
-        // ->where('expenditure_payregister.approved', 2)
-        // ->whereIn('revenue_line.note', [9, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23])
-        // ->when(!empty($from), function ($query) use ($from) {
-        //     return $query->whereDate('expenditure_payregister.created_at', '>=', $from);
-        // })
-        // ->when(!empty($to), function ($query) use ($to) {
-        //    return $query->whereDate('expenditure_payregister.created_at', '<=', $to);
-        // })
-        // ->groupBy('revenue_line.note')
-        // ->orderBy('revenue_line.note', 'ASC')
-        // ->get();
+        $Remittance = DB::table('expenditure_payregister')
+        ->select([
+            'expenditure_payregister.expenditure_type as uniId',
+            'expenditure_payregister.expenditure_code as CODE',
+            'expenditure_payregister.expenditure_name as line',
+            DB::raw('SUM(expenditure_payregister.amount) as total'),
+            'revenue_line.note as note',
+        ])
+        ->join('revenue_line', 'revenue_line.economic_code', '=', 'expenditure_payregister.expenditure_code')
+        ->where('expenditure_payregister.approved', 2)
+        ->whereIn('revenue_line.note', [24])
+        ->when(!empty($from), function ($query) use ($from) {
+            return $query->whereDate('expenditure_payregister.created_at', '>=', $from);
+        })
+        ->when(!empty($to), function ($query) use ($to) {
+           return $query->whereDate('expenditure_payregister.created_at', '<=', $to);
+        })
+        ->groupBy('revenue_line.note')
+        ->orderBy('revenue_line.note', 'ASC')
+        ->get();
+
 
 
         $ExpenditureRegister = DB::table('expenditure_payregister')
@@ -97,7 +98,7 @@ class ReportController extends Controller
 
 
 
-        return view('GeneralLedger.financial_performace', compact('revenue', 'ExpenditureRegister', 'currentT', 'from', 'to'));
+        return view('GeneralLedger.financial_performace', compact('revenue', 'ExpenditureRegister', 'currentT', 'from', 'to', 'Remittance'));
     }
 
     public function downloadFinancialPerformance(Request $request) {
