@@ -53,8 +53,7 @@ class TransactionControllers extends Controller
 
         // dd($revenues);
         $initiators = DB::table('users')
-        ->select('username', 'name')
-        ->where('group_id', 3500)->get();
+        ->select('username', 'name')->get();
         // dd($initiators);
         $revenue_lines = DB::table('revenue_line')->where('type', 1)->get();
         return view('transaction.revenue_transactions', compact('revenue','revenue_lines', 'initiators'));
@@ -113,8 +112,7 @@ class TransactionControllers extends Controller
         // dd($ExpenditureRegister);
 
         $initiators = DB::table('users')
-        ->select('username', 'name')
-        ->where('group_id', 3500)->get();
+        ->select('username', 'name')->get();
         // dd($ExpenditureRegister);
         return view('transaction.expenditure_transactions', compact('ExpenditureRegister', 'months', 'expenditureType', 'batchName', 'initiators'));
     }
