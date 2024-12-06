@@ -139,15 +139,15 @@
                                         <td>({{ number_format($Remitt->total, 2) }})</td>
                                     </tr>
                                     @endforeach
-
+                                    <?php $revTotal = $totalRevenue - $remita ?>
                                     <tr>
                                         <td></td>
                                         <td style="text-align: right"><strong></strong></td>
                                         {{-- <td></td>
                                         <td></td> --}}
-                                        <td><strong>{{ number_format($totalRevenue - $remita, 2) }}</strong></td>
+                                        <td><strong>{{ number_format($revTotal, 2) }}</strong></td>
                                     </tr>
-                                 
+
 
 
                                     <tr>
@@ -177,7 +177,7 @@
                                     <tr>
                                         <td><strong>Surplus/(Deficit)</strong></td>
                                         <td style="text-align: right"></td>
-                                        <td><strong>{{ number_format($dta, 2) }}</strong></td>
+                                        <td><strong>{{ number_format($dta - $revTotal, 2) }}</strong></td>
                                     </tr>
 
 
@@ -212,7 +212,7 @@
                                     <tr>
                                         <td><strong>Total Other Comprehensive Income</strong></td>
                                         <td style="text-align: right"></td>
-                                        <td><strong>{{ number_format($dta, 2) }}</strong></td>
+                                        <td><strong>{{ number_format($dta - $revTotal, 2) }}</strong></td>
                                     </tr>
 
 

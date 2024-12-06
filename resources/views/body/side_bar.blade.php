@@ -124,26 +124,26 @@
               <div data-i18n="Depreciation Rate">Asset Type</div>
             </a>
           </li>
-          <li class="menu-item {{url()->current() == route('asset.sub_type') ? 'active' : ''}}">
+          {{-- <li class="menu-item {{url()->current() == route('asset.sub_type') ? 'active' : ''}}">
             <a href="{{ route('asset.sub_type') }}" class="menu-link">
               <div data-i18n="Depreciation Rate">Asset Sub Type</div>
             </a>
-          </li>
-          <li class="menu-item {{url()->current() == route('asset.size') ? 'active' : ''}}">
+          </li> --}}
+          {{-- <li class="menu-item {{url()->current() == route('asset.size') ? 'active' : ''}}">
             <a href="{{ route('asset.size') }}" class="menu-link">
               <div data-i18n="Asset Register">Asset Size</div>
             </a>
-          </li>
+          </li> --}}
           <li class="menu-item {{url()->current() == route('asset.categories') ? 'active' : ''}}">
             <a href="{{ route('asset.categories') }}" class="menu-link">
               <div data-i18n="Asset Register">Asset Class</div>
             </a>
           </li>
-          <li class="menu-item {{url()->current() == route('asset.location.post') ? 'active' : ''}}">
+          {{-- <li class="menu-item {{url()->current() == route('asset.location.post') ? 'active' : ''}}">
             <a href="{{ route('asset.location.post') }}" class="menu-link">
               <div data-i18n="Asset Register">Asset Location</div>
             </a>
-          </li>
+          </li> --}}
         </ul>
       </li>
 
