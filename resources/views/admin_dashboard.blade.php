@@ -507,6 +507,7 @@
             buttons: [
                 'csv', 'excel', 'pdf', 'print'
             ],
+            ordering: false // Disable sorting globally
         });
     // } );
   </script>

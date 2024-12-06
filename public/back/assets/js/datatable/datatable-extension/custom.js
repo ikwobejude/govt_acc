@@ -263,6 +263,7 @@ $(document).ready(function(){
             [ 10, 25, 50, -1 ],
             [ '10 rows', '25 rows', '50 rows', 'Show all' ]
         ],
+        ordering: false, // Disable sorting globally
 
         buttons: [
             'pageLength',

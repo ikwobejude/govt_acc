@@ -27,6 +27,23 @@ class CashbookController extends Controller
 
 
         // dd($from, $to);
+        $assets = DB::table('acct_assests')
+        ->selectRaw("
+        date_purchased as date,
+        assest_decription as narration,
+        asset_rev as code,
+        asset_rev_name  as line,
+        asset_rev_type as ref,
+        SUM(opening_value) as amount")
+        ->whereYear('created_at', Carbon::now()->year)
+        ->where('service_id',37483)
+        ->where('approved', 2)
+        ->where('asset_rev', 31020104)
+
+        ->groupBy('asset_rev')
+        ->groupBy('asset_rev_type')
+        ->groupBy('asset_rev_name')
+        ->get();
 
         $revenue = DB::table('acc_revenue')
         ->select([
@@ -119,10 +136,10 @@ class CashbookController extends Controller
         ->select('username', 'name')
         ->where('group_id', 3500)->get();
         // dd($initiators);
-        $line = array(1, 2);
+        $line = array(1, 2,3);
         $revenue_lines = DB::table('revenue_line')->whereIn('type', $line)->get();
         // dd($revenue_lines);
-        return view('Cashbook.cashbook', compact('sorted', 'revenue_lines', 'initiators'));
+        return view('Cashbook.cashbook', compact('sorted', 'revenue_lines', 'initiators', 'assets'));
     }
 
 
